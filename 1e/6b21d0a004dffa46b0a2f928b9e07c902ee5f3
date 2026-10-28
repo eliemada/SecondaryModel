@@ -1,0 +1,75 @@
+report/build_snapshot.json
+  s_e368e684670d01::t_339973511322e3 1-38
+report/intro/theme.typ
+  s_e368e684670d01::t_71886437e5ad1a 1-18
+report/triple_barrier/README.md
+  s_e368e684670d01::t_a52ebd277826ee 1-38
+report/triple_barrier/analysis/out/benchmark_periods.json
+  s_e368e684670d01::t_07bdc2a5d3611f 1-18
+report/triple_barrier/analysis/out/brief_fit20_summary.json
+  s_e368e684670d01::t_a94bacf622c4b2 1-134
+report/triple_barrier/diagrams.typ
+  s_e368e684670d01::t_1aabc318859cbc 1-62
+report/triple_barrier/earlier_target_trial.pdf
+  s_e368e684670d01::t_879a483206822b 1-1526
+report/triple_barrier/earlier_target_trial.typ
+  s_e368e684670d01::t_618deced001024 1-20
+report/triple_barrier/experiment_dates.typ
+  s_e368e684670d01::t_a1baba48e806b8 1-159
+report/triple_barrier/figures/brief_fit20_candles.svg
+  s_e368e684670d01::t_91d9381fdb7dc6 1-2112
+report/triple_barrier/figures/brief_fit20_direction.svg
+  s_e368e684670d01::t_c895d0b7b6a767 1-1686
+report/triple_barrier/figures/brief_fit20_k.svg
+  s_e368e684670d01::t_5942cde4731153 1-1499
+report/triple_barrier/figures/brief_fit20_volatility.svg
+  s_e368e684670d01::t_6c52c244b82bea 1-1425
+report/triple_barrier/figures/target_trial_sharpe_matrix.svg
+  s_e368e684670d01::t_ff2d9978ef2463 1-594
+report/triple_barrier/figures/teaching_outcomes.svg
+  s_e368e684670d01::t_f794a4ecb8ca61 1-1252
+report/triple_barrier/figures/teaching_path.svg
+  s_e368e684670d01::t_b18872a641ea3d 1-1277
+report/triple_barrier/main.pdf
+  s_e368e684670d01::t_b712e6e530eb2e 1-5760
+report/triple_barrier/main.typ
+  s_e368e684670d01::t_5048a4a38b132c 1-435
+report/triple_barrier/pilot_results/gpu8_reference_5b61d08/verified_spread_results.json
+  s_e368e684670d01::t_4048a489e53182 1-659
+report/triple_barrier/pilot_results/gpu8_target_trial/gpu8-targets-20261028-104504/cash_reference_diagnostics.json
+  s_e368e684670d01::t_f20d2ff6985000 1-69
+report/triple_barrier/pilot_results/gpu8_target_trial/gpu8-targets-20261028-104504/local_daily_baselines.json
+  s_e368e684670d01::t_c3258b6c940474 1-498
+report/triple_barrier/pilot_results/original_test/gpu8_config_observed.yaml
+  s_e368e684670d01::t_8d1c3cfb8fb869 1-104
+report/triple_barrier/pilot_results/original_test/slide_data.json
+  s_e368e684670d01::t_87a76d715f4dce 1-673
+report/triple_barrier/prendinger_brief.pdf
+  s_e368e684670d01::t_bbd44282703603 1-3221
+report/triple_barrier/prendinger_brief.typ
+  s_e368e684670d01::t_9127c6022f2fbb 1-111
+report/triple_barrier/prendinger_notes.md
+  s_e368e684670d01::t_2627447fc87282 1-225
+report/triple_barrier/slides.typ
+  s_e368e684670d01::t_284ffd4b5aed0f 1-156
+report/triple_barrier/speaker_notes.md
+  s_e368e684670d01::t_f9eae4d23f7cac 1-315
+report/triple_barrier/target_trial_slides.typ
+  s_e368e684670d01::t_d8beda89cac78a 1-62
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "1e6b21d0a004dffa46b0a2f928b9e07c902ee5f3",
+  "prompts": {},
+  "sessions": {
+    "s_e368e684670d01": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a17c26-8b0b-7660-bd0b-9008a1a25843",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Elie BRUNO <contact@eliebruno.com>"
+    }
+  }
+}
