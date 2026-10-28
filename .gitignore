@@ -6,6 +6,8 @@ __pycache__/
 # Ignore generated analysis/output artifacts in the active src layout
 src/Analysis/**
 src/Output/**
+src/Output_gpu8match/**
+slurm/logs/**
 
 # Deep Learning isolates
 src/Bi_FAST/

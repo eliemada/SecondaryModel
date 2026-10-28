@@ -1,0 +1,43 @@
+{
+  "stats": {
+    "m1_total_return": -54.247780137754276,
+    "m1_max_drawdown": -57.99115988710957,
+    "m1_sharpe": -2.574428744248147,
+    "n_total_trades": 1045
+  },
+  "first_test_entry": "2026-01-08 00:00:00",
+  "last_test_entry": "2026-07-18 00:00:00",
+  "dropped_nan_test_returns": 32,
+  "n_calendar_bars": 192,
+  "n_horizon_returns": 27,
+  "test_pairs_sha256": "6d03111685462a962405d193edcaf86e4d834fce5cbc89f18d9278a3b9d80294",
+  "splits": {
+    "idx_train": {
+      "n": 2213,
+      "first": "2024-06-30 00:00:00",
+      "last": "2025-08-31 00:00:00"
+    },
+    "idx_cal": {
+      "n": 255,
+      "first": "2025-09-08 00:00:00",
+      "last": "2025-10-18 00:00:00"
+    },
+    "idx_opt": {
+      "n": 385,
+      "first": "2025-10-26 00:00:00",
+      "last": "2025-12-31 00:00:00"
+    },
+    "idx_test": {
+      "n": 1077,
+      "first": "2026-01-08 00:00:00",
+      "last": "2026-07-25 00:00:00"
+    }
+  },
+  "cash_m1": {
+    "return_pct": -43.660913380440626,
+    "max_drawdown_pct": -48.75302021147574
+  },
+  "source_cache": "Output_gpu8match/gpu8-targets-20261027-153632/tp/Kronos/cache/multi_kronos_7_fee_up_d77d6ac723.pt",
+  "source_run": "gpu8-targets-20261027-153632",
+  "purpose": "Independent check on the existing TP-UP cache; does not replace the new preparation gate."
+}

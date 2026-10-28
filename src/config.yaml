@@ -7,9 +7,9 @@
 
 # ┏━━━━━━━━━━ Paths ━━━━━━━━━━┓
 paths:
-  csv_dir: "/home/pablo/M2_DS/SecondaryModel/src/Data_MLA/Kronos/Crypto/TP/horizon_7"
-  raw_data_dir:  "/home/pablo/M2_DS/SecondaryModel/src/Data_MLA/Raw"   # raw OHLCV(A) root for regime/JM features
-  output_root: "/home/pablo/M2_DS/SecondaryModel/src/Output"
+  csv_dir: "Data_MLA/Kronos/Crypto/TP/horizon_7"
+  raw_data_dir: "Data_MLA/Raw"   # raw OHLCV(A) root for regime/JM features
+  output_root: "Output"
 
 # ┏━━━━━━━━━━ Data Configuration ━━━━━━━━━━┓
 data:

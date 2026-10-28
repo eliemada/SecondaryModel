@@ -1,0 +1,8 @@
+{
+  "autogluon_task_hours": 3,
+  "kumo_task_minutes": 20,
+  "note": "Scheduler reservations only; original model recipes and budgets unchanged.",
+  "prepare_memory_gib": 16,
+  "prepare_minutes": 30,
+  "basis": "Previous prepare peak RSS 6035544 KiB; dataset caches built sequentially."
+}

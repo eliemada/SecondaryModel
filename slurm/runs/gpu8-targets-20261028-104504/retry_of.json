@@ -1,0 +1,4 @@
+{
+  "run_id": "gpu8-targets-20261027-153632",
+  "reason": "Preparation checker missed the production NaN-return drop. No model fits ran. Fixed checker; 77 tests pass, including UP/DOWN comparisons against run_feature_backtest."
+}

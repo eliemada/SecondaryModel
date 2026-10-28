@@ -1,0 +1,104 @@
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# Secondary-Model — Unified Configuration
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# Single source of truth for the M2 pipeline. Switch M1 backbone by editing
+# BOTH `experiment.m1` and `data.load.m1`, then update `paths.csv_dir`
+# to the matching dataset root (e.g. .../Data_MLA/Fincast/Crypto/TP/horizon_7).
+
+# ┏━━━━━━━━━━ Paths ━━━━━━━━━━┓
+paths:
+  csv_dir: "/home/pablo/M2_DS/SecondaryModel/src/Data_MLA/Kronos/Crypto/TP/horizon_7"
+  raw_data_dir:  "/home/pablo/M2_DS/SecondaryModel/src/Data_MLA/Raw"   # raw OHLCV(A) root for regime/JM features
+  output_root: "/home/pablo/M2_DS/SecondaryModel/src/Output"
+
+# ┏━━━━━━━━━━ Data Configuration ━━━━━━━━━━┓
+data:
+  load:
+    symbol: null              # or null for multi-asset or ["BTC", "ETH", "XRP", ...]
+    m1: "kronos"              # MUST match experiment.m1 above
+    target_col: "meta_label"  # "meta_label" or "close" or "ground_truth"
+    meta_label_mode: "tp"     # "fp" or "tp" or "og"
+    direction: "up"           # "up" or "down"
+    granularity: "all"        # "1d", "4h", etc. or "all" for multi-granularity
+    forecast_horizon: 7
+
+    # ┏━━━━━━━━━━ Regime (global Sparse Jump Model) ━━━━━━━━━━┓
+    # Defaults for Utils/regime. K is pinned to 2 (bull/bear) by design — the
+    # fold-composition analysis needs a two-regime split, so BIC searches only
+    # lambda and kappa, never K. jump_penalty is the fallback when BIC is off;
+    # a --select-bic fit overrides it with the selected lambda per granularity.
+    regime_variant: "sparse"
+    regime_k: 2
+    regime_jump_penalty: 20.0
+    regime_scope: "global"      # "asset" | "global"; global -> Output/Jump_Models/_global/<gran>/
+
+  # ┏━━━━━━━━━━ Data Splits ━━━━━━━━━━┓
+  split:
+    start_date: "2024-07-01"
+    train_end:  "2025-08-31"
+    val_end:    "2025-12-31"
+    end_date:   "2026-08-01"
+
+  # ┏━━━━━━━━━━ Features ━━━━━━━━━━┓
+  features:
+    input: [ "open", "high", "low", "close", "volume" ]
+
+    # ┏━━━━━━━━━━ Feature Selection (MDA / SHAP / LIME) ━━━━━━━━━━┓
+    feature_selection:
+      enabled: false                     # Set to false to skip MDA/SHAP/LIME
+      methods: [ "mda", "shap", "lime" ] # Any subset of: mda, shap, lime
+      top_k: null                        # null = rank only (no pruning), int = keep top-k
+
+# ┏━━━━━━━━━━ Evaluation ━━━━━━━━━━┓
+evaluation:
+  fee_per_trade: 0.002
+
+# ┏━━━━━━━━━━ Experiment Configuration ━━━━━━━━━━┓
+experiment:
+  m1: "kronos"                                                       # choice:  ["chronos2", "fincast", "tirex", "kronos"]
+  m2: ["autogluon", "ctts", "tabpfn", "tabicl"]
+  direction: [ "up", "down" ]                                       # choices: ["up", "down"]
+  granularity: [ "1d", "12h", "8h", "6h", "4h", "2h", "1h" ]
+
+
+# ┏━━━━━━━━━━ Runtime / Experiment Configuration ━━━━━━━━━━┓
+runtime:
+  skip:
+    hpo: false                # choice: ["true" or "false"] — Phase 0: hyperparameter search (rf / tabpfn / tabicl / tabm only)
+    training: false           # choice: ["true" or "false"]
+    edge: false               # choice: ["true" or "false"]
+    combined: false           # choice: ["true" or "false"]
+    feature_selection: true   # choice: ["true" or "false"]
+    regime: false             # choice: ["true" or "false"] — Phase 5: 4-scenario regime analysis
+                              # (needs the SJM fits + Phase 2 per-sample CSVs; cheap, read-only)
+
+  hpo:
+    n_trials: 100  # Optuna trials per (m2, direction, granularity)
+    seed:     42   # TPE sampler seed
+
+  training:
+    paradigm_comparison: null  # Cross-paradigm comparison: pass 2+ result dirs to compare
+    combined_backtest: null    # [str, str]; Combined UP+DOWN backtest from two existing result dirs
+    comparison: null           # [str, str]; Build comparison table from existing per-gran and unified result dirs
+    all_grans: false           # Unified model trained on all granularities, evaluated per-gran
+    thres: "utility_nocal"     # Threshold selection: "utility" (Isotonic calibration on Val-Cal + utility-opt τ on Val-Opt) | "utility_nocal" (no calibration; merged Val-Cal+Val-Opt)
+
+  edge:
+    strategy: "cpcv"    # "cpcv" (combinatorial, all C(n_blocks,k_test) splits + verdict gate) |
+                        # "cvexpand" (walk-forward only, no combinatorics, no verdict — set via --mode on the CLI)
+    n_trials: 1
+    n_blocks: 6
+    k_test: 2           # unused by cvexpand (expanding scheme fixes k_test structurally)
+
+  combined:
+    combined_backtest: [ "place_holder_up", "place_holder_down" ]
+
+  feature_selection:
+    cv_strategy: "cpcv"           # choices: ["cpcv", "tscv", "pecv"]
+    n_blocks: 6                   # Number of blocks for CPCV
+    k_test: 2                     # Number of blocks for testing
+    method: "sfs+"                # choices: ["sfs+"]
+    scoring: "accuracy"           # choices: ["accuracy", "precision", "roc_auc"]
+    min_features: 1               # Minimum number of features to select
+    max_features: 33              # Maximum number of features to select
+    take_n_best_combinations: 10  # maybe set to 10
