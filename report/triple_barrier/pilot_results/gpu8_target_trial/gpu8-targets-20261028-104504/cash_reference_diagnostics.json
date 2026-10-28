@@ -1,0 +1,69 @@
+{
+  "note": "Replay of saved GPU8 TP trade CSVs under parameter variants; no model refit and no deployed code changes.",
+  "rows": [
+    {
+      "direction": "up",
+      "exposure": 0.1,
+      "mark_to_market": false,
+      "return_pct": -43.60452137409241,
+      "mdd_pct": -45.35230835660136,
+      "sharpe": -2.794522731373753
+    },
+    {
+      "direction": "up",
+      "exposure": 0.1,
+      "mark_to_market": true,
+      "return_pct": -43.660916852718316,
+      "mdd_pct": -48.753022326140304,
+      "sharpe": -2.1420220485574957
+    },
+    {
+      "direction": "up",
+      "exposure": 1.0,
+      "mark_to_market": false,
+      "return_pct": -60.897041444044554,
+      "mdd_pct": -62.55791289974118,
+      "sharpe": -2.6261807117094853
+    },
+    {
+      "direction": "up",
+      "exposure": 1.0,
+      "mark_to_market": true,
+      "return_pct": -60.97524736115646,
+      "mdd_pct": -65.06488877836517,
+      "sharpe": -2.7012513634723563
+    },
+    {
+      "direction": "down",
+      "exposure": 0.1,
+      "mark_to_market": false,
+      "return_pct": 12.571140725601126,
+      "mdd_pct": -22.885685031375054,
+      "sharpe": 0.7877633244496713
+    },
+    {
+      "direction": "down",
+      "exposure": 0.1,
+      "mark_to_market": true,
+      "return_pct": 12.34599844414992,
+      "mdd_pct": -27.84082944044444,
+      "sharpe": 0.8075577210072233
+    },
+    {
+      "direction": "down",
+      "exposure": 1.0,
+      "mark_to_market": false,
+      "return_pct": 24.523523823529956,
+      "mdd_pct": -27.240166077531775,
+      "sharpe": 1.063403429757853
+    },
+    {
+      "direction": "down",
+      "exposure": 1.0,
+      "mark_to_market": true,
+      "return_pct": 24.274476775882945,
+      "mdd_pct": -30.016333541736817,
+      "sharpe": 1.0634034297578525
+    }
+  ]
+}

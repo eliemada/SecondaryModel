@@ -1,0 +1,498 @@
+{
+  "scope": "Independent CPU replay with the original daily loader and features, omitting other granularities and annotating daily rows as 1d. No M2 fit; cluster preparation must still check full multigran caches.",
+  "tb_labels_source_run": "gpu8-targets-20261027-153632",
+  "checks": {
+    "tp": {
+      "up": {
+        "stats": {
+          "m1_total_return": -54.247780137754276,
+          "m1_max_drawdown": -57.99115988710957,
+          "m1_sharpe": -2.574428744248147,
+          "n_total_trades": 1045
+        },
+        "first_test_entry": "2026-01-08 00:00:00",
+        "last_test_entry": "2026-07-18 00:00:00",
+        "dropped_nan_test_returns": 32,
+        "n_calendar_bars": 192,
+        "n_horizon_returns": 27,
+        "test_pairs_sha256": "6d03111685462a962405d193edcaf86e4d834fce5cbc89f18d9278a3b9d80294",
+        "splits": {
+          "idx_train": {
+            "n": 2213,
+            "first": "2024-06-30 00:00:00",
+            "last": "2025-08-31 00:00:00"
+          },
+          "idx_cal": {
+            "n": 255,
+            "first": "2025-09-08 00:00:00",
+            "last": "2025-10-18 00:00:00"
+          },
+          "idx_opt": {
+            "n": 385,
+            "first": "2025-10-26 00:00:00",
+            "last": "2025-12-31 00:00:00"
+          },
+          "idx_test": {
+            "n": 1077,
+            "first": "2026-01-08 00:00:00",
+            "last": "2026-07-25 00:00:00"
+          }
+        },
+        "cash_m1": {
+          "return_pct": -43.660913380440526,
+          "max_drawdown_pct": -48.7530202114757
+        }
+      },
+      "down": {
+        "stats": {
+          "m1_total_return": 30.440865374062586,
+          "m1_max_drawdown": -17.03619320880477,
+          "m1_sharpe": 1.742318764013446,
+          "n_total_trades": 2580
+        },
+        "first_test_entry": "2026-01-08 00:00:00",
+        "last_test_entry": "2026-07-18 00:00:00",
+        "dropped_nan_test_returns": 90,
+        "n_calendar_bars": 192,
+        "n_horizon_returns": 27,
+        "test_pairs_sha256": "8cc39195b5c493540eea3ee74bdf8af1b06ec0c4bcbcf5465ad6e79727ed7dbc",
+        "splits": {
+          "idx_train": {
+            "n": 5866,
+            "first": "2024-06-30 00:00:00",
+            "last": "2025-08-31 00:00:00"
+          },
+          "idx_cal": {
+            "n": 510,
+            "first": "2025-09-08 00:00:00",
+            "last": "2025-10-18 00:00:00"
+          },
+          "idx_opt": {
+            "n": 900,
+            "first": "2025-10-26 00:00:00",
+            "last": "2025-12-31 00:00:00"
+          },
+          "idx_test": {
+            "n": 2670,
+            "first": "2026-01-08 00:00:00",
+            "last": "2026-07-25 00:00:00"
+          }
+        },
+        "cash_m1": {
+          "return_pct": 12.346022446430172,
+          "max_drawdown_pct": -27.84081996445974
+        }
+      }
+    },
+    "tb_ref": {
+      "up": {
+        "stats": {
+          "m1_total_return": -54.247780137754276,
+          "m1_max_drawdown": -57.99115988710957,
+          "m1_sharpe": -2.574428744248147,
+          "n_total_trades": 1045
+        },
+        "first_test_entry": "2026-01-08 00:00:00",
+        "last_test_entry": "2026-07-18 00:00:00",
+        "dropped_nan_test_returns": 0,
+        "n_calendar_bars": 192,
+        "n_horizon_returns": 27,
+        "test_pairs_sha256": "6d03111685462a962405d193edcaf86e4d834fce5cbc89f18d9278a3b9d80294",
+        "splits": {
+          "idx_train": {
+            "n": 2200,
+            "first": "2024-06-30 00:00:00",
+            "last": "2025-08-31 00:00:00"
+          },
+          "idx_cal": {
+            "n": 255,
+            "first": "2025-09-08 00:00:00",
+            "last": "2025-10-18 00:00:00"
+          },
+          "idx_opt": {
+            "n": 385,
+            "first": "2025-10-26 00:00:00",
+            "last": "2025-12-31 00:00:00"
+          },
+          "idx_test": {
+            "n": 1045,
+            "first": "2026-01-08 00:00:00",
+            "last": "2026-07-18 00:00:00"
+          }
+        },
+        "cash_m1": {
+          "return_pct": -43.660913380440526,
+          "max_drawdown_pct": -48.7530202114757
+        }
+      },
+      "down": {
+        "stats": {
+          "m1_total_return": 30.440865374062586,
+          "m1_max_drawdown": -17.03619320880477,
+          "m1_sharpe": 1.742318764013446,
+          "n_total_trades": 2580
+        },
+        "first_test_entry": "2026-01-08 00:00:00",
+        "last_test_entry": "2026-07-18 00:00:00",
+        "dropped_nan_test_returns": 0,
+        "n_calendar_bars": 192,
+        "n_horizon_returns": 27,
+        "test_pairs_sha256": "8cc39195b5c493540eea3ee74bdf8af1b06ec0c4bcbcf5465ad6e79727ed7dbc",
+        "splits": {
+          "idx_train": {
+            "n": 5802,
+            "first": "2024-06-30 00:00:00",
+            "last": "2025-08-31 00:00:00"
+          },
+          "idx_cal": {
+            "n": 510,
+            "first": "2025-09-08 00:00:00",
+            "last": "2025-10-18 00:00:00"
+          },
+          "idx_opt": {
+            "n": 900,
+            "first": "2025-10-26 00:00:00",
+            "last": "2025-12-31 00:00:00"
+          },
+          "idx_test": {
+            "n": 2580,
+            "first": "2026-01-08 00:00:00",
+            "last": "2026-07-18 00:00:00"
+          }
+        },
+        "cash_m1": {
+          "return_pct": 12.346022446430172,
+          "max_drawdown_pct": -27.84081996445974
+        }
+      }
+    },
+    "tb_k050": {
+      "up": {
+        "stats": {
+          "m1_total_return": -54.247780137754276,
+          "m1_max_drawdown": -57.99115988710957,
+          "m1_sharpe": -2.574428744248147,
+          "n_total_trades": 1045
+        },
+        "first_test_entry": "2026-01-08 00:00:00",
+        "last_test_entry": "2026-07-18 00:00:00",
+        "dropped_nan_test_returns": 0,
+        "n_calendar_bars": 192,
+        "n_horizon_returns": 27,
+        "test_pairs_sha256": "6d03111685462a962405d193edcaf86e4d834fce5cbc89f18d9278a3b9d80294",
+        "splits": {
+          "idx_train": {
+            "n": 2200,
+            "first": "2024-06-30 00:00:00",
+            "last": "2025-08-31 00:00:00"
+          },
+          "idx_cal": {
+            "n": 255,
+            "first": "2025-09-08 00:00:00",
+            "last": "2025-10-18 00:00:00"
+          },
+          "idx_opt": {
+            "n": 385,
+            "first": "2025-10-26 00:00:00",
+            "last": "2025-12-31 00:00:00"
+          },
+          "idx_test": {
+            "n": 1045,
+            "first": "2026-01-08 00:00:00",
+            "last": "2026-07-18 00:00:00"
+          }
+        },
+        "cash_m1": {
+          "return_pct": -43.660913380440526,
+          "max_drawdown_pct": -48.7530202114757
+        }
+      },
+      "down": {
+        "stats": {
+          "m1_total_return": 30.440865374062586,
+          "m1_max_drawdown": -17.03619320880477,
+          "m1_sharpe": 1.742318764013446,
+          "n_total_trades": 2580
+        },
+        "first_test_entry": "2026-01-08 00:00:00",
+        "last_test_entry": "2026-07-18 00:00:00",
+        "dropped_nan_test_returns": 0,
+        "n_calendar_bars": 192,
+        "n_horizon_returns": 27,
+        "test_pairs_sha256": "8cc39195b5c493540eea3ee74bdf8af1b06ec0c4bcbcf5465ad6e79727ed7dbc",
+        "splits": {
+          "idx_train": {
+            "n": 5802,
+            "first": "2024-06-30 00:00:00",
+            "last": "2025-08-31 00:00:00"
+          },
+          "idx_cal": {
+            "n": 510,
+            "first": "2025-09-08 00:00:00",
+            "last": "2025-10-18 00:00:00"
+          },
+          "idx_opt": {
+            "n": 900,
+            "first": "2025-10-26 00:00:00",
+            "last": "2025-12-31 00:00:00"
+          },
+          "idx_test": {
+            "n": 2580,
+            "first": "2026-01-08 00:00:00",
+            "last": "2026-07-18 00:00:00"
+          }
+        },
+        "cash_m1": {
+          "return_pct": 12.346022446430172,
+          "max_drawdown_pct": -27.84081996445974
+        }
+      }
+    },
+    "tb_k100": {
+      "up": {
+        "stats": {
+          "m1_total_return": -54.247780137754276,
+          "m1_max_drawdown": -57.99115988710957,
+          "m1_sharpe": -2.574428744248147,
+          "n_total_trades": 1045
+        },
+        "first_test_entry": "2026-01-08 00:00:00",
+        "last_test_entry": "2026-07-18 00:00:00",
+        "dropped_nan_test_returns": 0,
+        "n_calendar_bars": 192,
+        "n_horizon_returns": 27,
+        "test_pairs_sha256": "6d03111685462a962405d193edcaf86e4d834fce5cbc89f18d9278a3b9d80294",
+        "splits": {
+          "idx_train": {
+            "n": 2200,
+            "first": "2024-06-30 00:00:00",
+            "last": "2025-08-31 00:00:00"
+          },
+          "idx_cal": {
+            "n": 255,
+            "first": "2025-09-08 00:00:00",
+            "last": "2025-10-18 00:00:00"
+          },
+          "idx_opt": {
+            "n": 385,
+            "first": "2025-10-26 00:00:00",
+            "last": "2025-12-31 00:00:00"
+          },
+          "idx_test": {
+            "n": 1045,
+            "first": "2026-01-08 00:00:00",
+            "last": "2026-07-18 00:00:00"
+          }
+        },
+        "cash_m1": {
+          "return_pct": -43.660913380440526,
+          "max_drawdown_pct": -48.7530202114757
+        }
+      },
+      "down": {
+        "stats": {
+          "m1_total_return": 30.440865374062586,
+          "m1_max_drawdown": -17.03619320880477,
+          "m1_sharpe": 1.742318764013446,
+          "n_total_trades": 2580
+        },
+        "first_test_entry": "2026-01-08 00:00:00",
+        "last_test_entry": "2026-07-18 00:00:00",
+        "dropped_nan_test_returns": 0,
+        "n_calendar_bars": 192,
+        "n_horizon_returns": 27,
+        "test_pairs_sha256": "8cc39195b5c493540eea3ee74bdf8af1b06ec0c4bcbcf5465ad6e79727ed7dbc",
+        "splits": {
+          "idx_train": {
+            "n": 5802,
+            "first": "2024-06-30 00:00:00",
+            "last": "2025-08-31 00:00:00"
+          },
+          "idx_cal": {
+            "n": 510,
+            "first": "2025-09-08 00:00:00",
+            "last": "2025-10-18 00:00:00"
+          },
+          "idx_opt": {
+            "n": 900,
+            "first": "2025-10-26 00:00:00",
+            "last": "2025-12-31 00:00:00"
+          },
+          "idx_test": {
+            "n": 2580,
+            "first": "2026-01-08 00:00:00",
+            "last": "2026-07-18 00:00:00"
+          }
+        },
+        "cash_m1": {
+          "return_pct": 12.346022446430172,
+          "max_drawdown_pct": -27.84081996445974
+        }
+      }
+    },
+    "tb_k150": {
+      "up": {
+        "stats": {
+          "m1_total_return": -54.247780137754276,
+          "m1_max_drawdown": -57.99115988710957,
+          "m1_sharpe": -2.574428744248147,
+          "n_total_trades": 1045
+        },
+        "first_test_entry": "2026-01-08 00:00:00",
+        "last_test_entry": "2026-07-18 00:00:00",
+        "dropped_nan_test_returns": 0,
+        "n_calendar_bars": 192,
+        "n_horizon_returns": 27,
+        "test_pairs_sha256": "6d03111685462a962405d193edcaf86e4d834fce5cbc89f18d9278a3b9d80294",
+        "splits": {
+          "idx_train": {
+            "n": 2200,
+            "first": "2024-06-30 00:00:00",
+            "last": "2025-08-31 00:00:00"
+          },
+          "idx_cal": {
+            "n": 255,
+            "first": "2025-09-08 00:00:00",
+            "last": "2025-10-18 00:00:00"
+          },
+          "idx_opt": {
+            "n": 385,
+            "first": "2025-10-26 00:00:00",
+            "last": "2025-12-31 00:00:00"
+          },
+          "idx_test": {
+            "n": 1045,
+            "first": "2026-01-08 00:00:00",
+            "last": "2026-07-18 00:00:00"
+          }
+        },
+        "cash_m1": {
+          "return_pct": -43.660913380440526,
+          "max_drawdown_pct": -48.7530202114757
+        }
+      },
+      "down": {
+        "stats": {
+          "m1_total_return": 30.440865374062586,
+          "m1_max_drawdown": -17.03619320880477,
+          "m1_sharpe": 1.742318764013446,
+          "n_total_trades": 2580
+        },
+        "first_test_entry": "2026-01-08 00:00:00",
+        "last_test_entry": "2026-07-18 00:00:00",
+        "dropped_nan_test_returns": 0,
+        "n_calendar_bars": 192,
+        "n_horizon_returns": 27,
+        "test_pairs_sha256": "8cc39195b5c493540eea3ee74bdf8af1b06ec0c4bcbcf5465ad6e79727ed7dbc",
+        "splits": {
+          "idx_train": {
+            "n": 5802,
+            "first": "2024-06-30 00:00:00",
+            "last": "2025-08-31 00:00:00"
+          },
+          "idx_cal": {
+            "n": 510,
+            "first": "2025-09-08 00:00:00",
+            "last": "2025-10-18 00:00:00"
+          },
+          "idx_opt": {
+            "n": 900,
+            "first": "2025-10-26 00:00:00",
+            "last": "2025-12-31 00:00:00"
+          },
+          "idx_test": {
+            "n": 2580,
+            "first": "2026-01-08 00:00:00",
+            "last": "2026-07-18 00:00:00"
+          }
+        },
+        "cash_m1": {
+          "return_pct": 12.346022446430172,
+          "max_drawdown_pct": -27.84081996445974
+        }
+      }
+    },
+    "tb_k200": {
+      "up": {
+        "stats": {
+          "m1_total_return": -54.247780137754276,
+          "m1_max_drawdown": -57.99115988710957,
+          "m1_sharpe": -2.574428744248147,
+          "n_total_trades": 1045
+        },
+        "first_test_entry": "2026-01-08 00:00:00",
+        "last_test_entry": "2026-07-18 00:00:00",
+        "dropped_nan_test_returns": 0,
+        "n_calendar_bars": 192,
+        "n_horizon_returns": 27,
+        "test_pairs_sha256": "6d03111685462a962405d193edcaf86e4d834fce5cbc89f18d9278a3b9d80294",
+        "splits": {
+          "idx_train": {
+            "n": 2200,
+            "first": "2024-06-30 00:00:00",
+            "last": "2025-08-31 00:00:00"
+          },
+          "idx_cal": {
+            "n": 255,
+            "first": "2025-09-08 00:00:00",
+            "last": "2025-10-18 00:00:00"
+          },
+          "idx_opt": {
+            "n": 385,
+            "first": "2025-10-26 00:00:00",
+            "last": "2025-12-31 00:00:00"
+          },
+          "idx_test": {
+            "n": 1045,
+            "first": "2026-01-08 00:00:00",
+            "last": "2026-07-18 00:00:00"
+          }
+        },
+        "cash_m1": {
+          "return_pct": -43.660913380440526,
+          "max_drawdown_pct": -48.7530202114757
+        }
+      },
+      "down": {
+        "stats": {
+          "m1_total_return": 30.440865374062586,
+          "m1_max_drawdown": -17.03619320880477,
+          "m1_sharpe": 1.742318764013446,
+          "n_total_trades": 2580
+        },
+        "first_test_entry": "2026-01-08 00:00:00",
+        "last_test_entry": "2026-07-18 00:00:00",
+        "dropped_nan_test_returns": 0,
+        "n_calendar_bars": 192,
+        "n_horizon_returns": 27,
+        "test_pairs_sha256": "8cc39195b5c493540eea3ee74bdf8af1b06ec0c4bcbcf5465ad6e79727ed7dbc",
+        "splits": {
+          "idx_train": {
+            "n": 5802,
+            "first": "2024-06-30 00:00:00",
+            "last": "2025-08-31 00:00:00"
+          },
+          "idx_cal": {
+            "n": 510,
+            "first": "2025-09-08 00:00:00",
+            "last": "2025-10-18 00:00:00"
+          },
+          "idx_opt": {
+            "n": 900,
+            "first": "2025-10-26 00:00:00",
+            "last": "2025-12-31 00:00:00"
+          },
+          "idx_test": {
+            "n": 2580,
+            "first": "2026-01-08 00:00:00",
+            "last": "2026-07-18 00:00:00"
+          }
+        },
+        "cash_m1": {
+          "return_pct": 12.346022446430172,
+          "max_drawdown_pct": -27.84081996445974
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,134 @@
+{
+  "scope": "SecondaryModel's own 20-asset Kronos-forecast universe (19 usable here, TON absent from this parquet), training period only; eligible Kronos UP/DOWN proposals",
+  "rows_before_warmup": 7593,
+  "rows": 7593,
+  "excluded": 0,
+  "assets": [
+    "AAVEUSDT",
+    "ADAUSDT",
+    "AVAXUSDT",
+    "BCHUSDT",
+    "BNBUSDT",
+    "BTCUSDT",
+    "DOGEUSDT",
+    "DOTUSDT",
+    "ETHUSDT",
+    "HBARUSDT",
+    "LINKUSDT",
+    "LTCUSDT",
+    "NEARUSDT",
+    "SHIBUSDT",
+    "SOLUSDT",
+    "SUIUSDT",
+    "TRXUSDT",
+    "XLMUSDT",
+    "XRPUSDT"
+  ],
+  "first_entry": "2024-07-01 00:00:00",
+  "last_entry": "2025-08-24 00:00:00",
+  "h": 7,
+  "fee": 0.002,
+  "ks": [
+    0.5,
+    1.0,
+    1.5,
+    2.0
+  ],
+  "sigma": "daily-return EWMA span 100 at entry",
+  "touches": "daily highs/lows; same-bar double touch counted as stop; barrier fills",
+  "trained_m2": false,
+  "used_validation_or_test_outcomes": false,
+  "directions": [
+    {
+      "direction": "UP",
+      "n": 1921,
+      "positive_fixed": 0.5070275897969807,
+      "positive_tb": 0.49557522123893805,
+      "changed": 0.059344091618948464,
+      "profit": 0.2696512233211869,
+      "stop": 0.2795419052576783,
+      "expiry": 0.45080687142113485,
+      "ambiguous": 0.0
+    },
+    {
+      "direction": "DOWN",
+      "n": 5672,
+      "positive_fixed": 0.4915373765867419,
+      "positive_tb": 0.4892454160789845,
+      "changed": 0.0442524682651622,
+      "profit": 0.2468265162200282,
+      "stop": 0.3150564174894217,
+      "expiry": 0.4381170662905501,
+      "ambiguous": 0.0001763046544428773
+    }
+  ],
+  "scan": [
+    {
+      "k": 0.5,
+      "n": 7593,
+      "positive_tb_pooled": 0.4818912155933096,
+      "changed_pooled": 0.22981693665217964,
+      "changed_macro": 0.22950232457365816,
+      "changed_p10_asset": 0.2062754686226569,
+      "changed_p90_asset": 0.26376578645235366,
+      "horizontal_macro": 0.9320578926877494,
+      "expiry_macro": 0.06794210731225052,
+      "ambiguous_pooled": 0.011062821019359936
+    },
+    {
+      "k": 1.0,
+      "n": 7593,
+      "positive_tb_pooled": 0.49084683260898193,
+      "changed_pooled": 0.04807059133412354,
+      "changed_macro": 0.04801871937896956,
+      "changed_p10_asset": 0.03464887602818637,
+      "changed_p90_asset": 0.06209665247970056,
+      "horizontal_macro": 0.5579442409238925,
+      "expiry_macro": 0.44205575907610745,
+      "ambiguous_pooled": 0.00013170025023047545
+    },
+    {
+      "k": 1.5,
+      "n": 7593,
+      "positive_tb_pooled": 0.4966416436191229,
+      "changed_pooled": 0.008560516264980904,
+      "changed_macro": 0.008610026039047427,
+      "changed_p10_asset": 0.0019559902200489,
+      "changed_p90_asset": 0.015865779982257678,
+      "horizontal_macro": 0.2676118845404701,
+      "expiry_macro": 0.7323881154595299,
+      "ambiguous_pooled": 0.0
+    },
+    {
+      "k": 2.0,
+      "n": 7593,
+      "positive_tb_pooled": 0.4954563413670486,
+      "changed_pooled": 0.002107204003687607,
+      "changed_macro": 0.0021149349902419593,
+      "changed_p10_asset": 0.0,
+      "changed_p90_asset": 0.005613110539845756,
+      "horizontal_macro": 0.1359168943470904,
+      "expiry_macro": 0.8640831056529097,
+      "ambiguous_pooled": 0.0
+    }
+  ],
+  "candle_example": {
+    "symbol": "BTCUSDT",
+    "date": "2024-07-03",
+    "width_k1": 0.06441712592463754,
+    "directions": [
+      {
+        "side": 1,
+        "exit_day": 2,
+        "net": -0.06641712592463754,
+        "label": 0
+      },
+      {
+        "side": -1,
+        "exit_day": 2,
+        "net": 0.06241712592463754,
+        "label": 1
+      }
+    ]
+  }
+}
