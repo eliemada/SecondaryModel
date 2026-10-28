@@ -1,0 +1,80 @@
+src/Utils/classifier/factory.py
+  s_e368e684670d01::t_72a9f28b9b328c 14,18,121-129,214
+.gitignore
+  s_e368e684670d01::t_5efb30e01a4064 9-10
+tests/test_gpu8_trial.py
+  s_e368e684670d01::t_4beb01267dbbc4 1-8,10-46,48-61
+  s_e368e684670d01::t_f682d26c400f07 9,47
+slurm/GPU8_TRIAL.md
+  s_e368e684670d01::t_dfe13bcf1188b2 1-88
+slurm/gpu8_trial.py
+  s_e368e684670d01::t_de6982c84c1d29 229-230
+  s_e368e684670d01::t_0d193eadc3575f 1-122,130-140,143-228,231-293
+  s_e368e684670d01::t_ea635a455426e8 123-129,141-142
+pyproject.toml
+  s_e368e684670d01::t_72a9f28b9b328c 1-141
+slurm/gpu8_config_reference.yaml
+  s_e368e684670d01::t_13bd90966258af 1-104
+slurm/gpu8_environment_reference.json
+  s_e368e684670d01::t_50258f6ecfcab1 1-223
+slurm/gpu8_reference.json
+  s_e368e684670d01::t_fbbdb7c1e51a59 1-1570
+slurm/runs/gpu8-targets-20261028-104504/config.yaml
+  s_e368e684670d01::t_e61d61128f5448 1-104
+slurm/runs/gpu8-targets-20261028-104504/existing_tp_up_cache_check.json
+  s_e368e684670d01::t_6a43810fef5667 1-43
+slurm/runs/gpu8-targets-20261028-104504/jobs.json
+  s_e368e684670d01::t_347a443017d044 1-5
+slurm/runs/gpu8-targets-20261028-104504/manifest.json
+  s_e368e684670d01::t_35f90fa0a08848 1-574
+slurm/runs/gpu8-targets-20261028-104504/retry_of.json
+  s_e368e684670d01::t_0a24b396be5525 1-4
+slurm/runs/gpu8-targets-20261028-104504/scheduler_limits.json
+  s_e368e684670d01::t_b54c31f49c9be1 1-8
+src/Data_MLA/meta_label_tb.py
+  s_e368e684670d01::t_f4bccf2e1b44bf 1-386
+src/Data_MLA/triple_barrier.py
+  s_e368e684670d01::t_8c3d3536d123a7 1-118
+src/Utils/classifier/kumo_tabular_classifier.py
+  s_e368e684670d01::t_5fc5129f0540a5 1-210
+src/config.yaml
+  s_e368e684670d01::t_0637eeff74e62c 10-12
+src/tb_pilot/build_caches.py
+  s_e368e684670d01::t_cf02cdee66ea7d 1-66
+src/tb_pilot/compare.py
+  s_e368e684670d01::t_9ccaddbf624d9f 1-560
+src/tb_pilot/held_out_split.py
+  s_e368e684670d01::t_1f663bebb15e63 1-86
+src/tb_pilot/make_configs.py
+  s_e368e684670d01::t_3a535c4e4050e2 1-188
+src/tb_pilot/schemas.py
+  s_e368e684670d01::t_91b8d8d3b3e496 1-169
+tests/test_build_caches.py
+  s_e368e684670d01::t_2a6852bed3a775 1-83
+tests/test_make_configs.py
+  s_e368e684670d01::t_cc7b0502c0282d 1-181
+tests/test_meta_label_tb.py
+  s_e368e684670d01::t_0db9ab59587ed1 1-189
+tests/test_tb_pilot_compare.py
+  s_e368e684670d01::t_a4fb5812097479 1-435
+tests/test_tb_pilot_schemas.py
+  s_e368e684670d01::t_ca5dd613c96131 1-94
+uv.lock
+  s_e368e684670d01::t_94cb51ab7473c1 1-2021
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "089bfba96513ba8ee15f50d24b8923605d1b11f1",
+  "prompts": {},
+  "sessions": {
+    "s_e368e684670d01": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a17c26-8b0b-7660-bd0b-9008a1a25843",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Elie BRUNO <contact@eliebruno.com>"
+    }
+  }
+}
