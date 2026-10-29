@@ -25,47 +25,47 @@
 #let benchmark-test-dates = [Test entries: #benchmark.test.first_entry – #benchmark.test.last_entry.]
 
 #let experiment-dates-slide() = {
-  slide(kicker: "Dates and provenance", title: [Which dates belong to which results?])[
+  slide(kicker: "Study setup", title: [Experiment Dates])[
     #set par(leading: 0.35em, spacing: 0.5em)
-    #text(size: 16pt)[Configured cutoffs · daily horizon = 7 bars · all dates below use YYYY-MM-DD.]
+    #text(size: 16pt)[Daily candles · 7-day horizon · dates in YYYY-MM-DD.]
     #v(10pt)
     #set text(size: 14.5pt)
     #set table(inset: (x: 7pt, y: 7pt))
     #table(columns: (1.5fr, 1fr, 1fr, 1fr, 1fr), align: left,
       [Configuration], [Data start], [Train ends], [Validation ends], [Data ends],
-      [Earlier trial · separate PDF],
+      [Earlier trial],
       [#completed.splits.start_date], [#completed.splits.train_end], [#completed.splits.val_end], [#completed.splits.end_date],
-      [Pablo GPU8 · now copied],
+      [Current · Pablo GPU8],
       [#gpu8.data.split.start_date], [#gpu8.data.split.train_end], [#gpu8.data.split.val_end], [#gpu8.data.split.end_date],
     )
     #v(12pt)
-    #text(size: 15pt, weight: "bold")[Actual sample dates · after context and split rules]
+    #text(size: 15pt, weight: "bold")[Actual sample dates]
     #v(6pt)
     #grid(columns: (1fr, 1.05fr), gutter: 18pt,
       text(size: 14pt)[
-        *New daily inputs · Pablo's configuration*\
+        *Current experiment*\
         Train: #day(current-up.splits.idx_train.first) – #day(current-up.splits.idx_train.last)\
         Val-Cal: #day(current-up.splits.idx_cal.first) – #day(current-up.splits.idx_cal.last)\
         Val-Opt: #day(current-up.splits.idx_opt.first) – #day(current-up.splits.idx_opt.last)\
         Test: #day(current-up.first_test_entry) – #day(current-up.last_test_entry)
       ],
       text(size: 14pt)[
-        *Other evidence and historical context*\
+        *Other evidence*\
         Label diagnostics: #diagnostics.first_entry.slice(0, 10) – #diagnostics.last_entry.slice(0, 10)\
-        Historical AG / Kumo Test · separate PDF:\
+        Earlier AG / Kumo Test:\
         #completed.baseline.up.period_start – #completed.baseline.up.period_end\
         Separate LightGBM Test:\
         #benchmark.test.first_entry – #benchmark.test.last_entry
       ],
     )
     #v(12pt)
-    #note[#text(size: 14pt)[The original loader creates a first training window on *2024-06-30*, one day before the configured start. Its context and embargo conventions are preserved. The realised Test dates match Pablo's saved reports.]]
-    #src[GPU8 config observed 2026-10-27; daily input checks 2026-10-28; saved earlier trial, diagnostics and benchmark dates. Full LightGBM train/validation ranges accompany its result slides.]
+    #note[#text(size: 14pt)[*Test dates match Pablo's reports.* The original loader starts training one day before the configured start.]]
+    #src[GPU8 config checked 2026-10-27; daily inputs checked 2026-10-28. Original context and embargo rules preserved. Earlier results have a separate PDF.]
   ]
 }
 
 #let gpu8-baseline-slide() = {
-  slide(kicker: "Verified on 28 October 2026 · M1 baseline", title: [The reproduced UP baseline has Sharpe #metric(current-up.stats.m1_sharpe, digits: 4)])[
+  slide(kicker: "Verified against GPU8", title: [M1 Baseline])[
     #text(size: 15.5pt)[Test: #day(current-up.first_test_entry) – #day(current-up.last_test_entry) · spread equity · 7-day horizon · fee 0.2%.]
     #v(12pt)
     #set text(size: 17pt)
@@ -77,21 +77,21 @@
     )
     #v(10pt)
     #grid(columns: (1fr, 1fr, 1fr), gutter: 20pt,
-      stat([12 / 12], [Target / direction baseline checks passed]),
-      stat(str(current-up.n_horizon_returns), [Weekly return observations\ from #current-up.n_calendar_bars daily bars]),
-      stat(percentage(reference-period.bh_total_return), [Buy-and-hold return\ on the same Test period]),
+      stat([12 / 12], [Baseline checks passed]),
+      stat(str(current-up.n_horizon_returns), [Weekly returns\ #current-up.n_calendar_bars daily bars]),
+      stat(percentage(reference-period.bh_total_return), [Buy-and-hold return]),
     )
     #v(8pt)
-    #note[#text(size: 15pt)[Buy-and-hold also lost money in this period. All six targets share M1's Test trades. *Four-backend comparison: #comparison-status.* AutoGluon, Kumo, TabPFN and Random Forest are all complete.]]
-    #src[Independent daily data preparation reproduces saved GPU8 M1 metrics within 0.0001; existing UP multigranularity cache also checked. Spread equity smooths trade returns; Sharpe uses ×√(365.25/7). The inspected Test is exploratory.]
+    #note[#text(size: 15pt)[*UP loses money; DOWN gains.* All six targets share the same M1 Test trades.]]
+    #src[Saved GPU8 M1 metrics reproduced within 0.0001. Spread equity smooths returns; Sharpe annualization ×√(365.25/7). Exploratory Test.]
   ]
 }
 
 #let gpu8-cash-slide() = {
   let cost = cash-replay.rows.find(r => r.direction == "up" and r.exposure == 0.1 and not r.mark_to_market)
   let marked = cash-replay.rows.find(r => r.direction == "up" and r.exposure == 0.1 and r.mark_to_market)
-  slide(kicker: "Interpreting the loss · same UP trade set", title: [Return and drawdown explain the “−45%” figure])[
-    #text(size: 15.5pt)[Same #current-up.stats.n_total_trades UP trades · #day(current-up.first_test_entry) – #day(current-up.last_test_entry) · different equity calculations.]
+  slide(kicker: "The “−45%” figure", title: [Loss and Drawdown])[
+    #text(size: 15.5pt)[#current-up.stats.n_total_trades UP trades · #day(current-up.first_test_entry) – #day(current-up.last_test_entry).]
     #v(15pt)
     #set text(size: 16pt)
     #set table(inset: (x: 9pt, y: 12pt))
@@ -103,15 +103,15 @@
     )
     #v(18pt)
     #grid(columns: (1fr, 1fr), gutter: 20pt,
-      flow-node([Saved cash report], [*−43.60%* is the endpoint loss.\ *−45.35%* is the worst fall from a prior peak.\ Open positions remain at entry value.]),
-      flow-node([Current cash code], [Open positions follow current closing prices.\ Interim losses become visible: *−48.75% drawdown*.\ Use the same valuation rule for comparisons.]),
+      flow-node([Return vs drawdown], [*−43.60%*: total loss at the endpoint.\ *−45.35%*: largest fall from a prior peak.]),
+      flow-node([Valuation matters], [Marking open positions to market reveals\ a larger drawdown: *−48.75%*.]),
     )
-    #src[Replay of Pablo's saved UP trade CSV on 2026-10-28; cash exposure 0.10 in both rows. Saved cash metrics match positions held at cost. Final-day entries can remain open: cash figures are endpoint equity, including the current marking fee.]
+    #src[Saved UP trades replayed 2026-10-28. Cash exposure: 10%; endpoint equity can include open positions. Compare results using the same valuation rule.]
   ]
 }
 
 #let gpu8-reference-slide() = {
-  slide(kicker: "Pablo GPU8 · saved M2 reference", title: [Pablo's saved UP M2 Sharpes are also negative])[
+  slide(kicker: "GPU8 reference", title: [Pablo's Saved Results])[
     #text(size: 15.5pt)[Test entries: #reference-period.first_entry – #reference-period.last_entry · 1d · TP labels · spread-equity engine.]
     #v(10pt)
     #set text(size: 15pt)
@@ -131,8 +131,8 @@
       [Strategy], [UP return], [UP Sharpe], [DOWN return], [DOWN Sharpe], ..cells,
     )
     #v(12pt)
-    #note[#text(size: 15pt)[These are *Pablo's saved TP results*. The completed 48-fit matrix uses *fresh TP controls for each backend*. M1, dates and the backtest match; the new M2 scores differ from these saved classifiers.]]
-    #src[Saved GPU8 outputs fetched 2026-10-27; 48 replayed metrics agree within 0.0001. New models are separate fits on Izar, with pinned principal packages; hardware, Python patch release and fitted ensembles can differ. Exact M2 reproduction is not established.]
+    #note[#text(size: 15pt)[*Saved UP scores are negative.* Our new comparison uses a fresh TP fit for each backend.]]
+    #src[48 saved metrics replayed within 0.0001. M1, dates and engine match; new M2 fits on Izar differ from Pablo's saved classifiers.]
   ]
 }
 
@@ -146,31 +146,31 @@
   let delta-cell(x) = text(fill: if x < 0 { accent } else { blue }, weight: "bold", signed(x))
   let pending = text(fill: muted, "Pending")
 
-  slide(kicker: "Reading the comparison", title: [TP means true-positive meta-labeling])[
+  slide(kicker: "Training targets", title: [TP and TB Labels])[
     #set par(leading: 0.35em, spacing: 0.5em)
-    #text(size: 16pt)[Original TP asks whether a Kronos proposal made money at day 7, *after the 0.2% fee*.]
+    #text(size: 16pt)[*TP = true-positive meta-labeling.* Did the proposal profit at day 7 after the 0.2% fee?]
     #v(8pt)
     #grid(columns: (1fr, 1fr), gutter: 20pt,
-      flow-node([Label 1 · true positive], [The proposed UP or DOWN trade was profitable after the fee at day 7.]),
-      flow-node([Label 0 · unsuccessful proposal], [Its signed day-7 return was zero or negative after the fee.]),
+      flow-node([Label 1], [Positive net return at day 7.]),
+      flow-node([Label 0], [Zero or negative net return at day 7.]),
     )
     #v(8pt)
     #set text(size: 15pt)
     #set table(inset: (x: 8pt, y: 5pt))
     #table(columns: (0.7fr, 2.5fr, 2.2fr), align: left,
       [Column], [M2 training target], [Purpose],
-      [*TP*], [Original seven-day true-positive label], [Original target baseline for each backend],
-      [*TB ref*], [Same TP label; TB eligibility filter], [Control with matched training eligibility],
-      [*TB k*], [Profit / stop / time-barrier outcome], [Test the effect of a different target],
+      [*TP*], [Original day-7 label], [Baseline],
+      [*TB ref*], [TP label on TB-eligible samples], [Control for the sample filter],
+      [*TB k*], [Net outcome at profit / stop / expiry], [Test a different label],
     )
     #v(8pt)
-    #note[#text(size: 15pt)[*TP is not a take-profit order.* M2 predicts success from the available features; it does not know the future label. All reported backtests still execute at day 7, including models trained on TB targets.]]
-    #src[Original conversion: pred=1 and lab=1 → meta_label=1; pred=1 and lab=0 → 0. The signed day-7 rule agrees with all 18,230 complete-horizon proposals in the 40 daily CSVs. RF = Random Forest; TabPFN is the original GPU8 backend.]
+    #note[#text(size: 15pt)[*TP does not mean take profit.* All backtests keep day-7 exits.]]
+    #src[TP rule verified on 18,230 complete proposals. Labels use future outcomes; M2 inputs use only information available at entry.]
   ]
 
-  slide(kicker: "Four-backend target experiment · 29 October 2026", title: [Four backends, six targets: #comparison-status])[
+  slide(kicker: "Four backends · " + comparison-status, title: [Test Sharpe])[
     #set par(leading: 0.35em, spacing: 0.5em)
-    #text(size: 14pt)[Test: #day(current-up.first_test_entry) – #day(current-up.last_test_entry) · TP = true positive · fixed day-7 execution.]
+    #text(size: 14pt)[Test: #day(current-up.first_test_entry) – #day(current-up.last_test_entry) · day-7 exits.]
     #linebreak()
     #text(size: 14pt)[M1 Sharpe: *UP #metric(current-up.stats.m1_sharpe, digits: 4)* · DOWN #metric(current-down.stats.m1_sharpe, digits: 4). RF = Random Forest.]
     #v(7pt)
@@ -193,13 +193,13 @@
       [M2 fit], [TP], [TB ref], [k = 0.5], [k = 1], [k = 1.5], [k = 2], ..cells,
     )
     #v(8pt)
-    #note[#text(size: 14pt)[*All UP scores remain negative.* RF at k = 1.5 has the least-negative UP Sharpe, *−1.388*. The highest observed DOWN score is *Kumo TB ref: 2.001*, retaining TP labels.]]
-    #src[48 fits; 288 return/drawdown/Sharpe metrics replayed within 0.0001. Annualized spread equity, 27 horizon returns. #text("*") = utility constraint failed, fallback threshold 0.5. TabPFN/RF use frozen GPU8 tuning parameters. Exploratory Test.]
+    #note[#text(size: 14pt)[*All UP scores are negative.* Highest DOWN Sharpe: *Kumo TB ref, 2.001*.]]
+    #src[Annualized spread-equity Sharpe; 27 weekly returns. #text("*") = utility constraint failed; threshold defaults to 0.5. One fit per cell; exploratory results.]
   ]
 
-  slide(kicker: "Delta 1 · same backend and direction", title: [How much does Sharpe change versus the fresh TP fit?])[
+  slide(kicker: "Same backend and direction", title: [Change vs TP])[
     #set par(leading: 0.4em, spacing: 0.6em)
-    #text(size: 15.5pt)[Δ Sharpe = target Sharpe − TP Sharpe · Test 2026-01-08 – 2026-07-18.]
+    #text(size: 15.5pt)[Δ Sharpe = target − TP · positive values mean improvement.]
     #v(6pt)
     #set text(size: 14pt)
     #set table(inset: (x: 8pt, y: 4pt))
@@ -215,15 +215,15 @@
       [M2 fit], [TB ref], [k = 0.5], [k = 1], [k = 1.5], [k = 2], ..cells,
     )
     #v(8pt)
-    #note[#text(size: 14pt)[At k = 0.5, DOWN gains are *AutoGluon +1.483* and *TabPFN +0.687* versus TP. RF UP at k = 1.5 improves by *+0.412*, but its Sharpe remains negative.]]
+    #note[#text(size: 14pt)[DOWN at k = 0.5: *AutoGluon +1.483* and *TabPFN +0.687* versus TP.]]
     #v(6pt)
-    #text(size: 13.5pt)[This contrast includes the eligibility change: TB ref and TB-k remove *13 UP / 64 DOWN* early TON training proposals. The matched comparison follows.]
-    #src[Same realized Test trades, fees, features and fixed day-7 execution. Fresh TP fits differ from Pablo's saved M2 fits. Deltas are descriptive; this inspected Test does not select an optimal k.]
+    #text(size: 13.5pt)[Includes the sample filter: TB removes *13 UP / 64 DOWN* early TON training proposals.]
+    #src[Test 2026-01-08–2026-07-18. Fresh TP controls; same Test trades, fees, features and day-7 exits. Descriptive deltas; no optimal-k claim.]
   ]
 
-  slide(kicker: "Delta 2 · matched training eligibility", title: [TB label effects depend on backend and direction])[
+  slide(kicker: "Same eligible training samples", title: [Change vs TB Reference])[
     #set par(leading: 0.35em, spacing: 0.5em)
-    #text(size: 15.5pt)[Δ Sharpe = TB-k Sharpe − TB-ref Sharpe · TB ref keeps TP labels on the TB-eligible samples.]
+    #text(size: 15.5pt)[Δ Sharpe = TB-k − TB ref · compare labels on the same samples.]
     #v(6pt)
     #set text(size: 14pt)
     #set table(inset: (x: 9pt, y: 4pt))
@@ -240,9 +240,9 @@
     )
     #v(8pt)
     #grid(columns: (1fr, 1fr), gutter: 18pt,
-      flow-node([TabPFN · DOWN · k = 0.5], [Sharpe *1.569*: *+0.580* versus TB ref.\ Return *+34.78%*; max drawdown *−17.51%*.\ Still below M1's DOWN Sharpe of 1.742.]),
-      flow-node([Random Forest · UP · k = 1.5], [Sharpe *−1.388*: *+0.130* versus TB ref.\ Return *−34.61%*: improvement still loses money.\ RF DOWN k = 1.5 trails TB ref by 0.024.]),
+      flow-node([TabPFN DOWN · k = 0.5], [Sharpe *1.569* · gain *+0.580*.\ Still below M1 DOWN: *1.742*.]),
+      flow-node([RF UP · k = 1.5], [Sharpe *−1.388* · gain *+0.130*.\ Return *−34.61%*: still loses money.]),
     )
-    #src[All TB variants share training eligibility and Test trades. This is a label comparison with day-7 execution, not early barrier-exit trading. One fit per cell; 27 horizon returns; no significance or optimal-k claim.]
+    #src[Test 2026-01-08–2026-07-18. Day-7 exits; 27 weekly returns; one fit per cell. Gains vary by backend and direction; no significance or optimal-k claim.]
   ]
 }

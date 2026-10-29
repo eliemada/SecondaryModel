@@ -42,6 +42,13 @@
 }
 
 // One slide = one page. `kicker` is the small accent line above the title.
+// Keep each H1 descriptive and brief (2–5 words); put the takeaway in the body.
+#let slide-heading(body, size: 24pt) = {
+  set block(above: 0pt, below: 0pt)
+  show heading.where(level: 1): it => text(size: size, weight: "bold", tracking: -0.3pt, it.body)
+  heading(level: 1, numbering: none, body)
+}
+
 #let slide(title: none, kicker: none, body) = {
   pagebreak(weak: true)
   [#metadata((kind: "slide", title: title)) <deck-slide>]
@@ -49,7 +56,7 @@
     text(size: 10pt, weight: "semibold", fill: accent, tracking: 0.2pt, upper(kicker))
     v(-4pt)
   }
-  text(size: 24pt, weight: "bold", tracking: -0.3pt, title)
+  slide-heading(title)
   v(6pt)
   body
 }
@@ -69,7 +76,7 @@
   v(1.6cm)
   text(size: 10pt, weight: "semibold", fill: accent, tracking: 0.2pt, kicker)
   v(0.15cm)
-  text(size: 34pt, weight: "bold", tracking: -0.6pt, title)
+  slide-heading(title, size: 34pt)
   v(0.1cm)
   block(width: 80%, text(size: 15pt, fill: muted, subtitle))
   v(1fr)
@@ -88,7 +95,7 @@
   v(1fr)
   text(size: 64pt, weight: "bold", fill: accent, str(number))
   v(-0.4cm)
-  block(width: 85%, text(size: 28pt, weight: "bold", tracking: -0.4pt, question))
+  block(width: 85%, slide-heading(question, size: 28pt))
   if answer != none {
     v(0.2cm)
     block(width: 80%, text(size: 15pt, fill: muted, answer))

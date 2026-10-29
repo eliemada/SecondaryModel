@@ -13,13 +13,13 @@
 
 #title-slide(
   kicker: "THESIS DISCUSSION · PROF. PRENDINGER",
-  title: [What should M2 learn\ to call a good trade?],
-  subtitle: [Triple-barrier labels across 20 assets:\ volatility, direction, and a controlled target experiment.],
+  title: [M2 Target Comparison],
+  subtitle: [Triple-barrier labels · four backends · 20 crypto assets],
   meta: (
-    ("Scope", [SecondaryModel's own 20 assets · daily candles · 7-day maximum holding period]),
-    ("Evidence", [Training diagnostics · verified M1 baseline · Pablo's saved M2 reference]),
-    ("Prepared", [22 October 2026 · short discussion for next week]),
-    ("Update", [29 October 2026 · UP M1 Sharpe #metric(current-up.stats.m1_sharpe, digits: 4) · #comparison-status]),
+    ("Author", [Elie Bruno · NII Tokyo]),
+    ("Setup", [Daily candles · frozen Kronos · day-7 backtests]),
+    ("Baseline", [M1 UP Sharpe: #metric(current-up.stats.m1_sharpe, digits: 4)]),
+    ("Updated", [29 October 2026 · #comparison-status]),
   ),
 )
 
@@ -28,84 +28,78 @@
 #gpu8-cash-slide()
 #gpu8-reference-slide()
 
-#slide(kicker: "1 · M2 and ground truth", title: [Inspecting the labels does not require retraining M2])[
+#slide(kicker: "1 · Ground truth", title: [From Prices to Labels])[
   #v(13pt)
   #grid(columns: (1fr, auto, 1fr, auto, 1fr), gutter: 12pt, align: horizon,
-    flow-node([Past candles], [Market features + frozen M1\ M1 proposes UP or DOWN.]),
+    flow-node([Past prices], [Frozen M1 proposes UP or DOWN.]),
     arrow,
-    flow-node([Observed future candles], [Apply the chosen exit rule.\ Compute the net outcome.], tone: accent, fill: soft),
+    flow-node([Future prices], [Apply exits and fees.], tone: accent, fill: soft),
     arrow,
-    flow-node([Meta-label z], [1 if the proposal paid;\ 0 otherwise.], tone: accent, fill: soft),
+    flow-node([Meta-label z], [1 if profitable; 0 otherwise.], tone: accent, fill: soft),
   )
   #v(23pt)
   #grid(columns: (1fr, 1fr), gutter: 20pt,
-    card([No retraining], [
-      Compare volatility, barrier touches and label changes using the same historical M1 calls.
-    ], kicker: "What we can show now", tone: blue, fill: blue-soft),
-    card([Retrain the secondary model], [
-      To test whether M2 learns the new target better, fit it on the new labels. Reuse M1's forecasts.
-    ], kicker: "What a performance claim needs"),
+    card([Inspect labels], [
+      Compare exits and label changes on historical M1 calls. No retraining needed.
+    ], tone: blue, fill: blue-soft),
+    card([Test performance], [
+      Retrain M2 on each target, then compare. Keep M1 frozen.
+    ]),
   )
-  #src[AFML §§3.4–3.7. #diagnostic-dates 7,593 eligible UP/DOWN proposals from 19 of SecondaryModel's 20 assets; TON unavailable in this parquet.]
+  #src[AFML §§3.4–3.7. #diagnostic-dates 7,593 proposals; 19/20 assets (TON unavailable).]
 ]
 
-#slide(kicker: "2 · Candles and direction", title: [The same price move can stop a long and profit a short])[
+#slide(kicker: "2 · Trade direction", title: [Long and Short Barriers])[
   #text(size: 17pt)[BTC · #evidence.candle_example.date · entry at day-0 close · symmetric k = 1 barriers.]
   #v(6pt)
   #align(center, image("figures/brief_fit20_candles.svg", width: 100%, height: 7.8cm, fit: "contain"))
   #v(8pt)
-  #note[#text(size: 16pt)[UP / long: profit above entry, stop below. DOWN / short: profit below, stop above.\
-  The same entry-time volatility is used for both directions.]]
-  #src[Actual training-period candles; explanatory episode selected for a stop. SHORT is a counterfactual, not a second Kronos call. Cost 0.2%; assumed barrier fills.]
+  #note[#text(size: 16pt)[*Long*: profit above entry. *Short*: profit below entry. Stops are on the opposite side.]]
+  #src[Training example selected for a stop; SHORT is counterfactual. Same volatility for both sides; 0.2% cost; assumed barrier fills.]
 ]
 
-#slide(kicker: "3 · Volatility across the 20 assets", title: [One common k still gives a different width at each entry])[
+#slide(kicker: "3 · Volatility", title: [Barrier Width by Asset])[
   #align(center)[$ w_(a,t) = k sigma_(a,t) sqrt(7) $]
   #align(center, image("figures/brief_fit20_volatility.svg", width: 96%, height: 7.6cm, fit: "contain"))
   #v(4pt)
-  #note[#text(size: 16pt)[At k = 1, median widths are *6.7% for BTC*, *9.6% for ETH*, and *16.3% for SUI*.\
-  σ changes with the asset and date; the chosen barrier is then fixed for that event.]]
-  #src[#diagnostic-dates EWMA(100), known at entry; dots = median, lines = entry-date 10th–90th percentiles; √7 scaling.]
+  #note[#text(size: 16pt)[Same k, different widths: *BTC 6.7% · ETH 9.6% · SUI 16.3%* at k = 1.]]
+  #src[#diagnostic-dates EWMA(100) at entry; width stays fixed per trade. Dots: median; lines: 10th–90th percentiles.]
 ]
 
-#slide(kicker: "4 · UP and DOWN proposals", title: [Apply TBM to both sides; report the outcomes separately])[
-  #text(size: 17pt)[1,921 UP proposals · 5,672 DOWN proposals · same k = 1 and same volatility estimator.]
+#slide(kicker: "4 · Label diagnostics", title: [UP and DOWN Outcomes])[
+  #text(size: 17pt)[1,921 UP proposals · 5,672 DOWN proposals · k = 1.]
   #v(9pt)
   #align(center, image("figures/brief_fit20_direction.svg", width: 100%, height: 7.5cm, fit: "contain"))
   #v(9pt)
-  #note[#text(size: 16pt)[Meta-labels change for *5.9% of UP calls* and *4.4% of DOWN calls*.\
-  These groups contain different dates and market conditions; this is a descriptive comparison.]]
-  #src[#diagnostic-dates 19 of 20 assets; high/low touches, same-bar double touch = stop; cost 0.2%. Positive-label share is not M2's predictive accuracy.]
+  #note[#text(size: 16pt)[Labels change for *5.9% of UP* and *4.4% of DOWN* proposals.]]
+  #src[#diagnostic-dates Different dates per side; descriptive comparison. High/low touches; same-candle ties = stop; cost 0.2%.]
 ]
 
-#slide(kicker: "5 · Sensitivity to k", title: [A similar binary label can hide a different trade])[
+#slide(kicker: "5 · Barrier distance", title: [Sensitivity to k])[
   #text(size: 17pt)[Small k: closer exits. Large k: more trades remain open until day 7.]
   #v(9pt)
   #align(center, image("figures/brief_fit20_k.svg", width: 100%, height: 7.4cm, fit: "contain"))
   #v(10pt)
-  #note[#text(size: 16pt)[At k = 1: *55.8% horizontal exits*, but only *4.8% changed labels*, averaged across assets.\
-  The exit, return and holding time can change while “profitable / unprofitable” stays the same.]]
-  #src[#diagnostic-dates Equal asset weights. Shading: 10th–90th percentiles across assets. Training diagnostics; these charts do not select an optimal k.]
+  #note[#text(size: 16pt)[At k = 1: *55.8% profit/stop exits*, yet only *4.8% of labels change*.]]
+  #src[#diagnostic-dates Equal asset weights; shading: 10th–90th percentiles. Training diagnostics do not select an optimal k.]
 ]
 
-#slide(kicker: "6 · Choosing k", title: [Start with a global k; select it for the intended trade])[
+#slide(kicker: "6 · Research protocol", title: [Choosing k])[
   #grid(columns: (1fr, 1fr), gutter: 22pt,
-    card([Start with one shared parameter], [
-      - Same k for all 20 assets and both sides.
-      - Volatility already adapts the width.
-      - Small grid: 0.5, 1, 1.5, 2.
-      - Keep the horizon, features and cost model fixed.
+    card([One shared k], [
+      - All assets and both directions.
+      - Test 0.5, 1, 1.5, 2.
+      - Fix features, horizon and fees.
     ], tone: blue, fill: blue-soft),
-    card([Choose on validation data], [
-      - Specify the intended exit policy first.
-      - Rank candidates by a predefined net portfolio objective.
-      - Check drawdown, coverage and stability across assets and time.
-      - Confirm the choice on fresh data.
+    card([Validate the choice], [
+      - Define exits and the objective first.
+      - Check return, drawdown and stability.
+      - Confirm on fresh data.
     ]),
   )
   #v(18pt)
-  #note[#text(size: 16pt)[There is no universal “ideal k”. Add separate direction or asset parameters only if they bring a stable validation benefit. A 50/50 label balance is not an optimization objective.]]
-  #src[Proposed research protocol. AFML ch. 7 and ch. 11; López de Prado's backtest-overfitting work. Existing 2026 test results have already been inspected.]
+  #note[#text(size: 16pt)[*Volatility already adapts the width.* Add more parameters only with a stable validation gain.]]
+  #src[Proposed protocol: AFML ch. 7 and 11. The 2026 Test has already been inspected; label balance alone is not an objective.]
 ]
 
 #gpu8-target-matrix-slide()

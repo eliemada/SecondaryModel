@@ -8,8 +8,8 @@
 #let status = str(trial.completed) + " / " + str(trial.expected) + " fits received"
 
 #let target-trial-slides() = {
-  slide(kicker: "Completed earlier-date trial · design", title: [Two backends, six targets, one execution policy])[
-    #text(size: 16pt)[AutoGluon and Kumo · separate UP / DOWN fits in every cell · 24 fits in total.]
+  slide(kicker: "Earlier trial · design", title: [Experiment Setup])[
+    #text(size: 16pt)[AutoGluon and Kumo · six targets · UP / DOWN · 24 fits.]
     #v(12pt)
     #set text(size: 15pt)
     #set table(inset: (x: 8pt, y: 12pt))
@@ -20,15 +20,15 @@
     )
     #v(14pt)
     #grid(columns: (1fr, 1fr), gutter: 20pt,
-      flow-node([Use the saved run's dates], [Frozen Kronos calls · 20 source assets · 1d\ Train: #trial.splits.start_date – #trial.splits.train_end\ Validation ends #trial.splits.val_end · cost 0.2%]),
-      flow-node([Keep a matched control], [TP = original fixed-horizon baseline\ TB ref = TP labels with TB's history filter\ k changes labels; trades still exit at day 7.]),
+      flow-node([Earlier configuration], [Frozen Kronos · 20 assets · 1d\ Train: #trial.splits.start_date – #trial.splits.train_end\ Validation ends #trial.splits.val_end · cost 0.2%]),
+      flow-node([Matched control], [TP: original day-7 labels\ TB ref: TP labels with TB's sample filter\ All backtests exit at day 7.]),
     )
     #v(13pt)
-    #note[#text(size: 14.5pt)[The TB history filter removes *77 early TON training calls* (13 UP, 64 DOWN). Compare k with the *same backend's TB reference* to isolate label effects; retain original TP as the reproduction anchor.]]
-    #src[Saved run config; data ends #trial.splits.end_date · utility_nocal · #status. These are the earlier cutoffs, before matching the current GPU8 config.]
+    #note[#text(size: 14.5pt)[TB removes *77 early TON calls* (13 UP, 64 DOWN). Compare labels against the matched *TB reference*.]]
+    #src[Saved earlier config; data ends #trial.splits.end_date · utility_nocal. These dates precede the current GPU8 setup.]
   ]
 
-  slide(kicker: "Completed earlier-date trial · baseline", title: [The earlier UP M1 baseline is reproduced])[
+  slide(kicker: "Earlier trial · TP labels", title: [Earlier Baseline])[
     #text(size: 16pt)[Test entries: #trial.baseline.up.period_start – #trial.baseline.up.period_end · fixed-horizon TP labels · net returns.]
     #v(12pt)
     #set text(size: 15pt)
@@ -46,17 +46,16 @@
       [Side], [Strategy], [Return], [Sharpe], [Max drawdown], [Coverage], ..rows,
     )
     #v(14pt)
-    #note[#text(size: 15pt)[UP M1: *Sharpe 0.5625*, *return +1.80%* — the earlier repo baseline. DOWN is a different set of proposals in a favourable short-selling window; compare targets within each direction.]]
-    #src[Saved Test summaries; original spread-equity engine. #trial.baseline.up.n_horizon_returns non-overlapping 7-day returns; annualization ×√(365.25/7). Short-window, exploratory estimates.]
+    #note[#text(size: 15pt)[Earlier UP M1: *Sharpe 0.5625 · return +1.80%*. Compare targets within each direction.]]
+    #src[Original spread-equity engine; #trial.baseline.up.n_horizon_returns weekly returns; annualization ×√(365.25/7). Exploratory estimates on the earlier Test.]
   ]
 
-  slide(kicker: "Completed earlier-date trial · target comparison", title: [Does TB help the same backend?])[
+  slide(kicker: "Earlier trial · target comparison", title: [Earlier Test Sharpe])[
     #text(size: 15pt)[Test entries: #trial.baseline.up.period_start – #trial.baseline.up.period_end · #status.]
     #v(7pt)
     #align(center, image("figures/target_trial_sharpe_matrix.svg", width: 100%, height: 6.5cm, fit: "contain"))
     #v(7pt)
-    #note[#text(size: 14.5pt)[Cell: *Test Sharpe*. Δ and colour: change versus the same backend's *matched TB reference*.\
-    A positive difference is descriptive evidence on this window; it is not a confidence interval or confirmation of a selected k.]]
-    #src[Original Test path; M1 trades, fees, metrics and features checked across received fits. Updated #trial.updated_at. The earlier training-tail validation chart is withdrawn: its cutoff was selected on later dates.]
+    #note[#text(size: 14.5pt)[Cells: *Test Sharpe*. Δ and colour: change versus the backend's *TB reference*.]]
+    #src[Saved earlier Test; checked trades, fees and features. Descriptive results, no optimal-k claim. Invalid training-tail validation chart withdrawn.]
   ]
 }

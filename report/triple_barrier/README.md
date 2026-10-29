@@ -107,6 +107,9 @@ separate steps; the downloader alone does not publish scores.
 
 ## Rebuild the PDFs
 
+Keep slide H1 titles descriptive and short (2–5 words). Use one takeaway per slide;
+keep detailed methods and audit explanations in the speaker notes and evidence files.
+
 From the repository root, with Typst installed:
 
 ```sh
