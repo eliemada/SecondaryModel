@@ -25,42 +25,16 @@
 #let benchmark-test-dates = [Test entries: #benchmark.test.first_entry – #benchmark.test.last_entry.]
 
 #let experiment-dates-slide() = {
-  slide(kicker: "Study setup", title: [Experiment Dates])[
-    #set par(leading: 0.35em, spacing: 0.5em)
-    #text(size: 16pt)[Daily candles · 7-day horizon · dates in YYYY-MM-DD.]
-    #v(10pt)
-    #set text(size: 14.5pt)
-    #set table(inset: (x: 7pt, y: 7pt))
-    #table(columns: (1.5fr, 1fr, 1fr, 1fr, 1fr), align: left,
-      [Configuration], [Data start], [Train ends], [Validation ends], [Data ends],
-      [Earlier trial],
-      [#completed.splits.start_date], [#completed.splits.train_end], [#completed.splits.val_end], [#completed.splits.end_date],
-      [Current · Pablo GPU8],
-      [#gpu8.data.split.start_date], [#gpu8.data.split.train_end], [#gpu8.data.split.val_end], [#gpu8.data.split.end_date],
+  slide(kicker: "Pablo GPU8 · actual sample dates", title: [Data Splits])[
+    #v(30pt)
+    #set text(size: 22pt)
+    #set table(inset: (x: 14pt, y: 18pt))
+    #table(columns: (1fr, 1fr, 1fr), align: left,
+      [Split], [Start], [End],
+      [*Train*], [#day(current-up.splits.idx_train.first)], [#day(current-up.splits.idx_train.last)],
+      [*Validation*], [#day(current-up.splits.idx_cal.first)], [#day(current-up.splits.idx_opt.last)],
+      [*Test*], [#day(current-up.first_test_entry)], [#day(current-up.last_test_entry)],
     )
-    #v(12pt)
-    #text(size: 15pt, weight: "bold")[Actual sample dates]
-    #v(6pt)
-    #grid(columns: (1fr, 1.05fr), gutter: 18pt,
-      text(size: 14pt)[
-        *Current experiment*\
-        Train: #day(current-up.splits.idx_train.first) – #day(current-up.splits.idx_train.last)\
-        Val-Cal: #day(current-up.splits.idx_cal.first) – #day(current-up.splits.idx_cal.last)\
-        Val-Opt: #day(current-up.splits.idx_opt.first) – #day(current-up.splits.idx_opt.last)\
-        Test: #day(current-up.first_test_entry) – #day(current-up.last_test_entry)
-      ],
-      text(size: 14pt)[
-        *Other evidence*\
-        Label diagnostics: #diagnostics.first_entry.slice(0, 10) – #diagnostics.last_entry.slice(0, 10)\
-        Earlier AG / Kumo Test:\
-        #completed.baseline.up.period_start – #completed.baseline.up.period_end\
-        Separate LightGBM Test:\
-        #benchmark.test.first_entry – #benchmark.test.last_entry
-      ],
-    )
-    #v(12pt)
-    #note[#text(size: 14pt)[*Test dates match Pablo's reports.* The original loader starts training one day before the configured start.]]
-    #src[GPU8 config checked 2026-10-27; daily inputs checked 2026-10-28. Original context and embargo rules preserved. Earlier results have a separate PDF.]
   ]
 }
 
