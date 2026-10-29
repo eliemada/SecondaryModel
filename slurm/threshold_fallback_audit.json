@@ -1,0 +1,188 @@
+{
+  "method": "Saved validation predictions; unchanged production loader and threshold function. Counterfactuals align the precision floor's sample window and target. No model refits, Test-return selection, or replacement of published scores.",
+  "cases": [
+    {
+      "run": "gpu8-targets-20261028-104504",
+      "mode": "tb_ref",
+      "model": "autogluon",
+      "direction": "up",
+      "validation_n": 640,
+      "raw_m1_proposals": 722,
+      "raw_m1_precision": 0.554016620498615,
+      "effective_precision_floor": 0.554016620498615,
+      "merged_target_positive_rate": 0.5171875,
+      "threshold_05_precision": 0.5262237762237763,
+      "max_eligible_precision": 0.551219512195122,
+      "eligible_thresholds": 650,
+      "passes_precision": 0,
+      "passes_all": 0,
+      "original": {
+        "threshold": 0.5,
+        "utility": 0.0,
+        "coverage": 0.89375,
+        "selected_count": 572,
+        "constraint_satisfied": false,
+        "threshold_source": "Baseline",
+        "mean_ret": 0.00728223325723224,
+        "t_stat": 0.0,
+        "precision": 0.5262237762237763
+      },
+      "counterfactuals": {
+        "same_window_and_target": {
+          "m1_precision": 0.5171875,
+          "selection": {
+            "threshold": 0.549748743718593,
+            "utility": 2.144087002414329,
+            "coverage": 0.8640625,
+            "selected_count": 553,
+            "constraint_satisfied": true,
+            "threshold_source": "Utility-Opt",
+            "mean_ret": 0.008069561999508116,
+            "t_stat": 2.144087002414329,
+            "precision": 0.5316455696202531
+          }
+        },
+        "same_window_m1_columns": {
+          "m1_precision": 0.5171875,
+          "selection": {
+            "threshold": 0.549748743718593,
+            "utility": 2.144087002414329,
+            "coverage": 0.8640625,
+            "selected_count": 553,
+            "constraint_satisfied": true,
+            "threshold_source": "Utility-Opt",
+            "mean_ret": 0.008069561999508116,
+            "t_stat": 2.144087002414329,
+            "precision": 0.5316455696202531
+          }
+        }
+      },
+      "source_sha256": {
+        "Output_gpu8match/gpu8-targets-20261028-104504/tb_ref/Kronos/autogluon/UP/Utility_Score_NoCal/1d_tb_ref/best_probs.npz": "ecf30378a436328e7fbf4a71c6bfbcfcb9b72e330e6cde3e1275ba545d99aab0",
+        "Output_gpu8match/gpu8-targets-20261028-104504/tb_ref/Kronos/autogluon/UP/Utility_Score_NoCal/1d_tb_ref/analysis_summary.json": "0fef77dfa28da0022bc90bc72e4a6d0bec9164cf8b1358765e2f25688139d308"
+      }
+    },
+    {
+      "run": "gpu8-targets-20261028-104504",
+      "mode": "tb_k100",
+      "model": "autogluon",
+      "direction": "up",
+      "validation_n": 640,
+      "raw_m1_proposals": 722,
+      "raw_m1_precision": 0.5692520775623269,
+      "effective_precision_floor": 0.5692520775623269,
+      "merged_target_positive_rate": 0.5359375,
+      "threshold_05_precision": 0.5398886827458256,
+      "max_eligible_precision": 0.5740740740740741,
+      "eligible_thresholds": 595,
+      "passes_precision": 15,
+      "passes_all": 0,
+      "original": {
+        "threshold": 0.5,
+        "utility": 0.0,
+        "coverage": 0.8421875,
+        "selected_count": 539,
+        "constraint_satisfied": false,
+        "threshold_source": "Baseline",
+        "mean_ret": 0.006329458788836114,
+        "t_stat": 0.0,
+        "precision": 0.5398886827458256
+      },
+      "counterfactuals": {
+        "same_window_and_target": {
+          "m1_precision": 0.5359375,
+          "selection": {
+            "threshold": 0.6099135875701904,
+            "utility": 2.527992684860931,
+            "coverage": 0.603125,
+            "selected_count": 386,
+            "constraint_satisfied": true,
+            "threshold_source": "Utility-Opt",
+            "mean_ret": 0.011132374389284836,
+            "t_stat": 2.527992684860931,
+            "precision": 0.5518134715025906
+          }
+        },
+        "same_window_m1_columns": {
+          "m1_precision": 0.5359375,
+          "selection": {
+            "threshold": 0.6099135875701904,
+            "utility": 2.527992684860931,
+            "coverage": 0.603125,
+            "selected_count": 386,
+            "constraint_satisfied": true,
+            "threshold_source": "Utility-Opt",
+            "mean_ret": 0.011132374389284836,
+            "t_stat": 2.527992684860931,
+            "precision": 0.5518134715025906
+          }
+        }
+      },
+      "source_sha256": {
+        "Output_gpu8match/gpu8-targets-20261028-104504/tb_k100/Kronos/autogluon/UP/Utility_Score_NoCal/1d_tb_k100/best_probs.npz": "983354c044f22c1967cfa65e581dfdc236582739c849a3f1a0552ac6102e24bd",
+        "Output_gpu8match/gpu8-targets-20261028-104504/tb_k100/Kronos/autogluon/UP/Utility_Score_NoCal/1d_tb_k100/analysis_summary.json": "c9cb7bc03b692749ec3b686dc04f687a21ee29f81c8d13058b72857d078e7ce8"
+      }
+    },
+    {
+      "run": "gpu8-targets-20261029-030611",
+      "mode": "tb_k050",
+      "model": "tabpfn",
+      "direction": "up",
+      "validation_n": 640,
+      "raw_m1_proposals": 722,
+      "raw_m1_precision": 0.5470914127423823,
+      "effective_precision_floor": 0.5470914127423823,
+      "merged_target_positive_rate": 0.5078125,
+      "threshold_05_precision": 0.51010101010101,
+      "max_eligible_precision": 0.5308641975308642,
+      "eligible_thresholds": 352,
+      "passes_precision": 0,
+      "passes_all": 0,
+      "original": {
+        "threshold": 0.5,
+        "utility": 0.0,
+        "coverage": 0.61875,
+        "selected_count": 396,
+        "constraint_satisfied": false,
+        "threshold_source": "Baseline",
+        "mean_ret": 0.01752070295045254,
+        "t_stat": 0.0,
+        "precision": 0.51010101010101
+      },
+      "counterfactuals": {
+        "same_window_and_target": {
+          "m1_precision": 0.5078125,
+          "selection": {
+            "threshold": 0.509765625,
+            "utility": 4.895427394679651,
+            "coverage": 0.584375,
+            "selected_count": 374,
+            "constraint_satisfied": true,
+            "threshold_source": "Utility-Opt",
+            "mean_ret": 0.021951291505554426,
+            "t_stat": 4.895427394679651,
+            "precision": 0.5133689839572193
+          }
+        },
+        "same_window_m1_columns": {
+          "m1_precision": 0.5078125,
+          "selection": {
+            "threshold": 0.509765625,
+            "utility": 4.895427394679651,
+            "coverage": 0.584375,
+            "selected_count": 374,
+            "constraint_satisfied": true,
+            "threshold_source": "Utility-Opt",
+            "mean_ret": 0.021951291505554426,
+            "t_stat": 4.895427394679651,
+            "precision": 0.5133689839572193
+          }
+        }
+      },
+      "source_sha256": {
+        "Output_gpu8match/gpu8-targets-20261029-030611/tb_k050/Kronos/tabpfn/UP/Utility_Score_NoCal/1d_tb_k050/best_probs.npz": "04bf6dcb0e5321d1f03ab4747b45ef9c6541e490222a74e6ff06b63e540ffa51",
+        "Output_gpu8match/gpu8-targets-20261029-030611/tb_k050/Kronos/tabpfn/UP/Utility_Score_NoCal/1d_tb_k050/analysis_summary.json": "eb5da3f235f8eadbe3b2b56ccac35ba5819b0978b657c1041372962ffa26ad4c"
+      }
+    }
+  ]
+}

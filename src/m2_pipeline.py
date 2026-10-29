@@ -181,7 +181,6 @@ def temporal_eval(dataset: dict,
                     return accuracy_score(t[v_idx], p[v_idx]), precision_score(t[v_idx], p[v_idx], zero_division=0)
                 return None, None
 
-            m1_acc_val, m1_prec_val = _calc_m1(idx_val_raw)
             m1_acc_test, m1_prec_test = _calc_m1(idx_test_raw)
 
     
@@ -228,6 +227,15 @@ def temporal_eval(dataset: dict,
         y_test = y_test[_test_valid]
         test_returns = test_returns[_test_valid]
         idx_test = idx_test[_test_valid]
+
+    # Compare the threshold candidates with M1 on the same validation rows.
+    # Raw date splits include embargoed proposals, whose success rate can differ
+    # enough to reject every threshold. Val-Opt may also have lost NaN-return rows.
+    # NoCal searches Cal + Opt; calibrated mode searches only Opt.
+    if m1_pred_all is not None and m1_true_all is not None:
+        threshold_indices = (np.concatenate([idx_cal, idx_opt])
+                             if thres_mode == "utility_nocal" else idx_opt)
+        m1_acc_val, m1_prec_val = _calc_m1(threshold_indices)
     
     # ┏━━━━━━━━━━ Standardize Features ━━━━━━━━━━┓
     scaler = StandardScaler()
@@ -291,8 +299,7 @@ def temporal_eval(dataset: dict,
         _merged_returns = np.concatenate([_cal_returns, opt_returns])
 
         # ┏━━━━━━━━━━ Sweeps threshold on raw probabilities over the merged Val-Cal + Val-Opt window ━━━━━━━━━━┓
-        # M1 precision floor: m1_prec_val is computed on idx_val_raw (full val =
-        # Val-Cal + Val-Opt), which exactly matches the optimizer window in nocal mode.
+        # M1 precision floor uses these exact Cal + Opt rows, after embargo.
         op = _find_best_utility_threshold(_merged_probs, _merged_returns, fee=fee,
                                           labels=_merged_y, m1_precision=m1_prec_val)
         val_op = op
@@ -320,9 +327,7 @@ def temporal_eval(dataset: dict,
         # ┏━━━━━━━━━━ Sweep threshold on calibrated Val-Opt ━━━━━━━━━━┓
         _raw_opt_probs = model.predict_proba(X_opt)[:, 1]
         _cal_opt_probs = _calibrator.predict(_raw_opt_probs)
-        # M1 precision floor: m1_prec_val is computed on the full val window
-        # (Val-Cal + Val-Opt). Optimizer here runs on Val-Opt only — using the
-        # full-val M1 precision is a close, well-defined proxy.
+        # M1 precision floor uses this exact Opt window, after return filtering.
         op = _find_best_utility_threshold(_cal_opt_probs, opt_returns, fee=fee,
                                           labels=y_opt, m1_precision=m1_prec_val)
         val_op = op
