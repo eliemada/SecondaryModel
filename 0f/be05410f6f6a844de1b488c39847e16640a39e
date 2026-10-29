@@ -1,0 +1,26 @@
+tests/test_temporal_threshold_window.py
+  s_e368e684670d01::t_b498fd8e9bce2f 1-90
+src/m2_pipeline.py
+  s_e368e684670d01::t_fb2878c16a03d2 230-238,302,330
+slurm/THRESHOLD_WINDOW_FIX.md
+  s_e368e684670d01::t_6eda2336a932a1 36-37,43
+  s_e368e684670d01::t_7a4043883fa4b7 1-35,38-42,44
+slurm/threshold_fallback_audit.json
+  s_e368e684670d01::t_d56640e945936c 1-188
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "0fbe05410f6f6a844de1b488c39847e16640a39e",
+  "prompts": {},
+  "sessions": {
+    "s_e368e684670d01": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a17c26-8b0b-7660-bd0b-9008a1a25843",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Elie BRUNO <contact@eliebruno.com>"
+    }
+  }
+}
