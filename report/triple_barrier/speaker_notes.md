@@ -50,6 +50,14 @@ an exploratory comparison with 27 horizon returns and one fit per cell, not a
 significance test or an optimal-k selection. Trade execution remains fixed at
 day 7. See README.md and the linked CSV for all scores and both delta definitions.
 
+Threshold audit (29 October): the original validation precision floor includes
+722 UP proposals, while the optimizer uses only 640 after embargo. Aligning the
+reference to those same rows removes all three flagged validation fallbacks:
+AutoGluon TB ref → 0.549748744, AutoGluon TB k=1 → 0.609913588, and TabPFN TB k=0.5
+→ 0.509765625. These are revised validation thresholds, not revised Test scores.
+The original matrix remains the Pablo-matched result; the code correction is
+isolated on `fix/threshold-validation-cohort`. See `threshold_fallback_audit.json`.
+
 Reviewed source: the supplied López de Prado (2018), *Advances in Financial Machine Learning*, especially §§3.2–3.7, with §7.4 for validation and §10.3 for sizing. Page numbers refer to the printed book.
 
 ## The explanation in one minute

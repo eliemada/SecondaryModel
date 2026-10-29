@@ -105,6 +105,21 @@ Mesures à k = 1 sur les propositions réelles, pondérées par événement à l
 
 Les sorties sont proches ici : environ 25–27 % de profits, 28–32 % de stops et 44–45 % d'expirations.
 
+Le graphique compare désormais **sans TB** (toutes les propositions sortent à J+7)
+et **TB à k=1**, en séparant les expirations positives et négatives après 0,2 %
+de frais. Chaque pourcentage porte sur toutes les propositions de la direction,
+pas uniquement sur celles qui expirent. Les deux panneaux utilisent les mêmes entrées.
+
+| Direction | Sans TB : positif / négatif | TB : profit / stop | TB : expiration positive / négative |
+|---|---|---|---|
+| UP | 50,7 % / 49,3 % (974 / 947) | 27,0 % / 28,0 % (518 / 537) | 22,6 % / 22,5 % (434 / 432) |
+| DOWN | 49,2 % / 50,8 % (2 788 / 2 884) | 24,7 % / 31,5 % (1 400 / 1 787) | 24,2 % / 19,6 % (1 375 / 1 110) |
+
+Au sein des seules expirations TB, 50,1 % sont positives en UP et 55,3 % en DOWN.
+Aucun rendement net n'est exactement nul dans ces groupes. Les calculs vérifient
+que les rendements TB à expiration égalent ceux à J+7 sans TB pour les mêmes entrées,
+et que chaque répartition contient exactement toutes les propositions.
+
 Les proportions de labels positifs ne sont pas l'accuracy de M2 : M2 n'intervient pas dans cette mesure. Les groupes UP et DOWN ne contiennent pas les mêmes dates ni les mêmes conditions de marché ; cette comparaison ne prouve pas qu'un côté exige une autre estimation de σ ou un autre k.
 
 Le fichier brief_fit20_asset_direction.csv fournit aussi la ventilation par actif, direction et k. Examiner les effectifs avant d'interpréter une petite sous-population. On ne compte qu'une double touche à k = 1 dans ce périmètre.

@@ -67,12 +67,12 @@
 ]
 
 #slide(kicker: "4 · Label diagnostics", title: [UP and DOWN Outcomes])[
-  #text(size: 17pt)[1,921 UP proposals · 5,672 DOWN proposals · k = 1.]
+  #text(size: 17pt)[1,921 UP proposals · 5,672 DOWN proposals · positive/negative after 0.2% fees.]
   #v(9pt)
   #align(center, image("figures/brief_fit20_direction.svg", width: 100%, height: 7.5cm, fit: "contain"))
   #v(9pt)
   #note[#text(size: 16pt)[Labels change for *5.9% of UP* and *4.4% of DOWN* proposals.]]
-  #src[#diagnostic-dates Different dates per side; descriptive comparison. High/low touches; same-candle ties = stop; cost 0.2%.]
+  #src[#diagnostic-dates Each bar = 100% of that side's proposals. Expiry +/−: positive/negative net return. High/low touches; same-candle ties = stop.]
 ]
 
 #slide(kicker: "5 · Barrier distance", title: [Sensitivity to k])[

@@ -85,6 +85,14 @@ There are three fallback-threshold cells: AutoGluon UP TB ref, AutoGluon UP k=1,
 and TabPFN UP k=0.5. Their 0.5 threshold was used because the utility constraint
 was not satisfied; the asterisks make those cases explicit.
 
+A [validation replay](pilot_results/gpu8_four_backends/threshold_fallback_audit.json)
+identified a mismatch in the original pipeline: those searches use 640 proposals,
+but their M1 precision reference uses 722 before embargo. Using the same 640 rows
+for the reference makes all three selections feasible, without retraining or using
+Test outcomes. The correction is on branch `fix/threshold-validation-cohort`;
+the matrix above still records Pablo's original rule. The 27 weekly observations
+and one fit per cell are separate limitations, unaffected by this correction.
+
 The TB eligibility rule removes 13 UP and 64 DOWN early TON training proposals.
 It also excludes 32 UP / 90 DOWN tail rows whose returns are unavailable; the
 production TP backtest drops those same rows. Realized Test trades, fees and

@@ -48,7 +48,18 @@
       "profit": 0.2696512233211869,
       "stop": 0.2795419052576783,
       "expiry": 0.45080687142113485,
-      "ambiguous": 0.0
+      "ambiguous": 0.0,
+      "nonpositive_fixed": 0.49297241020301924,
+      "expiry_positive": 0.22592399791775117,
+      "expiry_nonpositive": 0.22488287350338365,
+      "n_fixed_positive": 974,
+      "n_fixed_nonpositive": 947,
+      "n_profit": 518,
+      "n_stop": 537,
+      "n_expiry_positive": 434,
+      "n_expiry_nonpositive": 432,
+      "n_fixed_zero": 0,
+      "n_expiry_zero": 0
     },
     {
       "direction": "DOWN",
@@ -59,7 +70,18 @@
       "profit": 0.2468265162200282,
       "stop": 0.3150564174894217,
       "expiry": 0.4381170662905501,
-      "ambiguous": 0.0001763046544428773
+      "ambiguous": 0.0001763046544428773,
+      "nonpositive_fixed": 0.5084626234132581,
+      "expiry_positive": 0.2424188998589563,
+      "expiry_nonpositive": 0.1956981664315938,
+      "n_fixed_positive": 2788,
+      "n_fixed_nonpositive": 2884,
+      "n_profit": 1400,
+      "n_stop": 1787,
+      "n_expiry_positive": 1375,
+      "n_expiry_nonpositive": 1110,
+      "n_fixed_zero": 0,
+      "n_expiry_zero": 0
     }
   ],
   "scan": [
@@ -112,6 +134,13 @@
       "ambiguous_pooled": 0.0
     }
   ],
+  "direction_exit_semantics": {
+    "denominator": "All eligible proposals within each direction, in both panels",
+    "positive": "Side-adjusted net return > 0 after the 0.002 fee",
+    "nonpositive": "Side-adjusted net return <= 0 after the fee; includes exact zero",
+    "without_tb": "All proposals close at day 7, with no profit/stop barriers",
+    "with_tb": "k=1; expiry means neither profit nor stop barrier was touched"
+  },
   "candle_example": {
     "symbol": "BTCUSDT",
     "date": "2024-07-03",
