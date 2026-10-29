@@ -4,7 +4,7 @@
 // rtk proxy typst compile --root report report/triple_barrier/prendinger_brief.typ report/triple_barrier/prendinger_brief.pdf
 #import "../intro/theme.typ": *
 #import "slides.typ": *
-#import "experiment_dates.typ": experiment-dates-slide, gpu8-baseline-slide, gpu8-cash-slide, gpu8-reference-slide, gpu8-target-matrix-slide, current-up, metric, diagnostic-dates
+#import "experiment_dates.typ": experiment-dates-slide, gpu8-baseline-slide, gpu8-cash-slide, gpu8-reference-slide, gpu8-target-matrix-slide, current-up, metric, comparison-status, diagnostic-dates
 
 #show: setup
 #set document(title: "M2 targets across 20 assets — Prendinger discussion", author: "Elie Bruno")
@@ -19,7 +19,7 @@
     ("Scope", [SecondaryModel's own 20 assets · daily candles · 7-day maximum holding period]),
     ("Evidence", [Training diagnostics · verified M1 baseline · Pablo's saved M2 reference]),
     ("Prepared", [22 October 2026 · short discussion for next week]),
-    ("Update", [29 October 2026 · UP M1 Sharpe #metric(current-up.stats.m1_sharpe, digits: 4) · 24 / 24 M2 fits complete]),
+    ("Update", [29 October 2026 · UP M1 Sharpe #metric(current-up.stats.m1_sharpe, digits: 4) · #comparison-status]),
   ),
 )
 

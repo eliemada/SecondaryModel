@@ -1,0 +1,25 @@
+{
+  "model": "rf",
+  "direction": "down",
+  "granularity": "1d",
+  "best_trial": 58,
+  "best_utility": 18.57004506537149,
+  "best_params": {
+    "n_estimators": 900,
+    "max_depth": 12,
+    "min_samples_leaf": 34,
+    "min_samples_split": 42,
+    "max_features": "sqrt",
+    "class_weight": "balanced_subsample"
+  },
+  "best_metrics": {
+    "coverage": 0.4375886524822695,
+    "n_opt_total": 1410,
+    "n_selected": 617,
+    "sel_mean_return": 0.07243933443821413,
+    "sel_precision": 0.7909238249594813,
+    "threshold": 0.50629581593357,
+    "threshold_source": "Utility-Opt"
+  },
+  "n_trials": 100
+}

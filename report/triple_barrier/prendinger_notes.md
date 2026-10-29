@@ -4,7 +4,11 @@ Préparation : 22 octobre 2026 ; résultats mis à jour le 29 octobre. Présenta
 
 ## La proposition
 
-Présenter le diagnostic des labels, le baseline GPU8 reproduit, puis les **24 résultats M2 terminés**. Les slides 12–14 montrent les Sharpes, les deltas contre TP et les deltas contre TB ref. Le baseline UP reste négatif : −2,5744. L'ancienne matrice positive en UP est conservée dans `earlier_target_trial.pdf`, sur son Test 2025-10-09–2026-01-18.
+Présenter le diagnostic des labels, le baseline GPU8 reproduit, puis les **24 résultats M2 terminés**, avec l'extension TabPFN / Random Forest soumise : **48 fits au total**. La slide 12 définit TP ; les slides 13–15 montrent les Sharpes et les deux deltas, avec les nouvelles cellules en attente. Le baseline UP reste négatif : −2,5744. L'ancienne matrice positive en UP est conservée dans `earlier_target_trial.pdf`, sur son Test 2025-10-09–2026-01-18.
+
+**TP signifie true positive, pas take profit.** Parmi les propositions Kronos, label 1 signifie que le rendement signé au jour 7 dépasse les frais de 0,2 % ; sinon label 0. Le signe est inversé pour DOWN. La colonne TP correspond à un M2 entraîné sur ce label initial. TB ref garde ce label avec le filtre d'éligibilité TB ; TB-k change la cible selon l'issue des barrières. L'exécution du backtest reste à J+7 pour toutes les colonnes.
+
+TabPFN et RF utilisent les paramètres HPO_NoCal sauvegardés chez Pablo, figés par direction et conservés entre targets. RF : 100 arbres / profondeur 3 UP, 900 / profondeur 12 DOWN. TabPFN : 4 estimateurs UP et 32 DOWN. Jobs : préparation 3234260, entraînement 3234261, rapport 3234262. Il s'agit de 24 fits supplémentaires, sans relancer les 24 AG/Kumo déjà terminés.
 
 Résultat principal sur le Test **2026-01-08–2026-07-18** : AutoGluon DOWN à k=0,5 atteint 1,8216 de Sharpe, soit +1,4831 contre son nouveau TP, mais seulement +0,3695 contre TB ref à éligibilité identique. Le drawdown est plus profond : −26,55 %, contre −13,95 % pour TB ref. Aucun TB-k ne dépasse le TP en UP ; les quatre TB-k de Kumo sont également sous son TP en DOWN. Kumo DOWN TB ref obtient 2,0008 ; ce contrôle conserve les labels TP.
 
@@ -143,7 +147,7 @@ Références : AFML §§3.3–3.7, ch. 7 et ch. 11 ; [travaux de López de Prado
 
 ## Quatre slides d'ouverture — Dates, baseline vérifié, valorisation et référence GPU8
 
-Après la couverture, les pages 2 à 5 montrent successivement les périodes exactes, les résultats M1 reproduits, les trois conventions de calcul du portefeuille et les résultats M2 sauvegardés de Pablo. La couverture et la slide de baseline affichent le Sharpe UP −2,5744 ; la colonne UP du tableau de Pablo est mise en évidence. La nouvelle comparaison M2 est terminée : 24 / 24 fits, avec les deltas sur les slides finales. Les 24 fits de l'ancien essai ont leur propre PDF historique.
+Après la couverture, les pages 2 à 5 montrent successivement les périodes exactes, les résultats M1 reproduits, les trois conventions de calcul du portefeuille et les résultats M2 sauvegardés de Pablo. La couverture et la slide de baseline affichent le Sharpe UP −2,5744 ; la colonne UP du tableau de Pablo est mise en évidence. La première vague AG/Kumo est terminée : 24 / 24 fits. Les 24 fits TabPFN / RF supplémentaires sont soumis ; les slides finales distinguent les scores vérifiés des nouvelles cellules en attente. Les 24 fits de l'ancien essai ont leur propre PDF historique.
 
 La configuration locale reprend désormais celle observée sur GPU8, seuls les chemins de fichiers étant adaptés : début 2024-07-01, fin train 2025-08-31, fin validation 2025-12-31, fin des données 2026-08-01. Les 280 CSV TP sont identiques octet par octet à GPU8. Cela ne transforme pas les résultats du précédent run en résultats de ce nouveau protocole.
 

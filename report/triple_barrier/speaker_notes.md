@@ -1,10 +1,25 @@
 # Speaker notes — triple barriers and meta-labeling
 
-Results updated 29 October 2026. The full deck now has 30 pages; pages 28–30 contain
-the completed target matrix and the two delta comparisons. The methodology notes
+Results updated 29 October 2026. The full deck now has 31 pages; page 28 defines
+TP and pages 29–31 contain the four-backend matrix and both delta comparisons.
+AutoGluon/Kumo's 24 scores are reviewed; the 24 added TabPFN/Random Forest fits
+are submitted. Their pending cells are separate from the completed results. The methodology notes
 below retain their original 22 October section numbering.
 
 ## Current result update
+
+TP means **true-positive meta-labeling**. For a Kronos proposal, the original
+label is 1 if its signed day-7 close return exceeds the 0.2% fee, otherwise 0.
+For DOWN, reverse the return sign. TP is the original target baseline, while
+TB ref retains those labels on TB-eligible samples and TB-k changes the target
+using barrier outcomes. A profit-taking barrier is a different concept; all
+reported executions remain fixed at day 7. The definition matches all 18,230
+complete-horizon proposals in the 40 daily source CSVs.
+
+The expansion uses the unchanged GPU8 RF/TabPFN implementations and his saved
+direction-specific HPO_NoCal parameters, frozen across targets without a new
+search. Preparation 3234260 precedes training array 3234261 and report 3234262.
+The complete comparison will have four backends × six targets × two directions.
 
 All 24 AutoGluon/Kumo fits completed on Pablo's configured dates. Realized Test:
 2026-01-08–2026-07-18; M1 UP Sharpe −2.5744, DOWN +1.7423. All UP M2 Sharpes
@@ -320,7 +335,7 @@ The separate LightGBM benchmark's eligible entry ranges are train 2024-07-01–2
 
 Replaying the eight downloaded GPU8 trade streams for both M1 and M2 reproduces all 48 spread-equity return/drawdown/Sharpe metrics within 0.0001; CSV returns have six decimal places. This verifies the backtest calculation on saved decisions, not classifier training. GPU8's observed source revision is 5b61d08 versus 9a272f5 for our earlier completed trial; its AutoGluon fit includes LightGBM learners absent from that earlier Izar fit. The new isolated checkout uses 5b61d08 and pins the observed major package versions, including LightGBM. Full training reproduction remains unverified. The cash-account report also differs from spread equity: M1 UP cash return −43.60% and drawdown −45.35%, versus spread return −54.2478% and Sharpe −2.5744, over the same GPU8 Test dates.
 
-Rerun submitted on 2026-10-27 UTC: `gpu8-targets-20261027-153632`, preparation 3233005, training array 3233006, report 3233007. The 24 fits are AutoGluon/Kumo × TP, matched TB reference, k = 0.5/1/1.5/2 × UP/DOWN, daily with fixed 7-bar execution. The base YAML retains Pablo's model list; explicit CLI overrides select these two backends and 1d. Training and Test backtests run without separate HPO, edge or regime analysis jobs. Preparation checks all 280 input checksums, package versions, learner availability and the saved M1 Test baseline in every target arm before allowing fits. Python patch version and hardware differ, so identical M2 predictions are not promised. The inspected Test remains exploratory. The local one-off watcher `analysis/sync_gpu8_trial.py` downloads artifacts and logs for up to 12 hours while the computer and VPN remain available. It does not replace slide metrics automatically. The current matrix now contains all 24 completed scores; the earlier-date matrix is preserved in earlier_target_trial.pdf.
+Rerun submitted on 2026-10-27 UTC: `gpu8-targets-20261027-153632`, preparation 3233005, training array 3233006, report 3233007. The 24 fits are AutoGluon/Kumo × TP, matched TB reference, k = 0.5/1/1.5/2 × UP/DOWN, daily with fixed 7-bar execution. The base YAML retains Pablo's model list; explicit CLI overrides select these two backends and 1d. Training and Test backtests run without separate HPO, edge or regime analysis jobs. Preparation checks all 280 input checksums, package versions, learner availability and the saved M1 Test baseline in every target arm before allowing fits. Python patch version and hardware differ, so identical M2 predictions are not promised. The inspected Test remains exploratory. The local one-off watcher `analysis/sync_gpu8_trial.py` downloads artifacts and logs for up to 12 hours while the computer and VPN remain available. It does not replace slide metrics automatically. The current matrix contains the 24 completed AutoGluon/Kumo scores and adds 24 pending TabPFN/Random Forest cells; the earlier-date matrix is preserved in earlier_target_trial.pdf.
 
 Checked on 2026-10-28: that preparation failed, so none of its 24 production fits ran. The custom checker omitted the production backtest's NaN-return filter. Fixed only the checker, with UP/DOWN regression comparisons against the untouched `run_feature_backtest`; 77 tests pass. The existing TP-UP cache contains 32 Test rows without realized returns. After the production filter, its 1,045 trades reproduce M1 return −54.247780%, maximum drawdown −57.991160% and Sharpe −2.574429, on 192 daily bars / 27 weekly returns, 2026-01-08–2026-07-18. Replacement run `gpu8-targets-20261028-104504`: preparation 3233490, training array 3233491, report 3233492. The blocked old dependencies were cancelled and the download watcher restarted for the replacement.
 
@@ -328,7 +343,7 @@ Cash-report qualification from the 2026-10-28 replay: the saved GPU8 cash figure
 
 Independent local daily input checks also passed for all six targets × both directions, using the original data preparation and equity functions with only 1d loaded. Every target has the same realized Test trade identities and M1 metrics within its direction. DOWN M1: return +30.440865%, maximum drawdown −17.036193%, Sharpe +1.742319, 2,580 realized trades. TP drops 32 UP and 90 DOWN Test rows lacking realized returns. The replacement cluster preparation subsequently passed for every target and direction before all 24 fits completed. Evidence: `pilot_results/gpu8_target_trial/gpu8-targets-20261028-104504/local_daily_baselines.json`. The loader's actual eligible training entries begin 2024-06-30 despite the configured 2024-07-01 start because of its context-window convention; training ends 2025-08-31. Val-Cal entries are 2025-09-08–2025-10-18 and Val-Opt 2025-10-26–2025-12-31. These original pipeline conventions are preserved.
 
-The earlier three result slides are now preserved in the separate `earlier_target_trial.pdf`, built from `target_trial_slides.typ` and `pilot_results/original_test/slide_data.json`. They use the earlier Test window, 9 October 2025 to 18 January 2026: 20 source assets, AutoGluon and Kumo, six targets, UP/DOWN, fixed day-7 execution. The current decks end with the completed 24-fit matrix and two delta tables for Pablo's 2026-01-08–2026-07-18 Test window, with the verified negative UP baseline −2.5744. Do not read the historical positive-UP matrix as results of the current rerun.
+The earlier three result slides are now preserved in the separate `earlier_target_trial.pdf`, built from `target_trial_slides.typ` and `pilot_results/original_test/slide_data.json`. They use the earlier Test window, 9 October 2025 to 18 January 2026: 20 source assets, AutoGluon and Kumo, six targets, UP/DOWN, fixed day-7 execution. The current decks end with the four-backend matrix (24 reviewed scores, 24 added fits awaiting results) and two delta tables for Pablo's 2026-01-08–2026-07-18 Test window, with the verified negative UP baseline −2.5744. Do not read the historical positive-UP matrix as results of the current rerun.
 
 For the historical trial only, M1 UP Sharpe is 0.5625 and return +1.8003%. Compare TB with the same backend's matched TB-reference result in that window and direction. The generator's 120-day history rule excludes 77 early TON training calls (13 UP, 64 DOWN). TB reference applies that same filter to the original labels, so it isolates label effects; differences from unfiltered TP also include the eligibility change. The generated `original_test/experiment_test.md` contains these historical numbers. The completed GPU8-date results are in `gpu8_target_trial/gpu8-targets-20261028-104504/experiment_test.csv`.
 

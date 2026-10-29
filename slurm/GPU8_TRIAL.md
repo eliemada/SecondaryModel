@@ -104,3 +104,50 @@ Pablo's saved M2 models, although the baseline, data and configured settings mat
 
 The current and historical presentation PDFs are linked from
 [`report/triple_barrier/README.md`](../report/triple_barrier/README.md).
+
+## Added TabPFN / Random Forest comparison
+
+Run `gpu8-targets-20261029-030611` adds 24 fits (TabPFN / RF × six targets × UP/DOWN),
+bringing the comparison to 48. It preserves the completed AutoGluon/Kumo run and
+uses the unchanged GPU8 production code, input CSVs, dates, features, fees and
+threshold method. CLI overrides select these backends; the base YAML remains the
+observed GPU8 configuration.
+
+The four `slurm/gpu8_hpo_reference/*/*/1d/best_params.json` files were fetched
+read-only from GPU8 revision `5b61d08` on 2026-10-29. Their hashes and source paths
+are recorded in `provenance.json`. These TP-tuned settings are fixed across all
+targets, rather than re-optimized separately for each TB target.
+
+| Backend | UP | DOWN |
+|---|---|---|
+| Random Forest | 100 trees, depth 3, minimum leaf 48 | 900 trees, depth 12, minimum leaf 34 |
+| TabPFN | 4 estimators, temperature 0.9 | 32 estimators, temperature 0.75 |
+
+Other saved settings are retained. The original TabPFN factory does not forward
+flat HPO preprocessing keys such as `preprocess_transform`; that original mapping
+is preserved. Preparation records the effective parameters and unused reference
+keys in `backend_reference_checks.json`, after real fit/predict checks.
+
+To reproduce the submission, first create a fresh manifest:
+
+```sh
+.venv/bin/python slurm/gpu8_trial.py submit --models tabpfn rf --dry-run
+.venv/bin/python slurm/gpu8_model_reference.py attach --manifest <printed-manifest-path> --reference-dir slurm/gpu8_hpo_reference --submit
+```
+
+The attachment freezes the reference files, installs identical backend/direction
+parameters in each target's own HPO folder, checks that the production loader
+reads them, and rejects changed parameters before training. It extends the
+generated run scripts without modifying the launcher used by the completed run.
+Five focused tests cover production baseline parity and frozen parameter wiring.
+
+Submitted jobs: preparation **3234260**, training **3234261**, report **3234262**.
+Preparation requests 16 GiB / 30 minutes; each two-direction training task requests
+32 GiB / one hour. All tasks use the same original training/Test pipeline. The
+downloader excludes TabPFN fitted weights and RF serialized models as well as
+the existing model/cache exclusions. Pending scores remain explicit in the slides.
+
+Here **TP means true-positive meta-labeling**, not take profit: for a Kronos
+proposal, its original label is 1 iff the signed day-7 return exceeds the 0.002
+fee. TB ref keeps that label with matched eligibility; TB-k changes the label,
+while execution stays fixed at day 7.

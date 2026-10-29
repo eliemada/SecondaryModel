@@ -1,0 +1,23 @@
+{
+  "source": "GPU8 read-only HPO_NoCal snapshot",
+  "gpu8_revision": "5b61d0880a447dcc81b76169b6dbc59b2fd02276",
+  "observed_date": "2026-10-29",
+  "files": {
+    "rf/UP/1d/best_params.json": {
+      "source": "src/Output/Kronos/HPO_NoCal/rf/UP/1d/best_params.json",
+      "sha256": "06b4156573585722c01827d4633876e6496c0da7abc92c77a49ef56d659464a1"
+    },
+    "rf/DOWN/1d/best_params.json": {
+      "source": "src/Output/Kronos/HPO_NoCal/rf/DOWN/1d/best_params.json",
+      "sha256": "80d4b29f619087564dfc5cdc60213213ac28ab2ac58e0900c2f9792dc81acaab"
+    },
+    "tabpfn/UP/1d/best_params.json": {
+      "source": "src/Output/Kronos/HPO_NoCal/tabpfn/UP/1d/best_params.json",
+      "sha256": "065ff6720436722828c63d3519fb25619cc9b64581eab9d47ecb9819d251049b"
+    },
+    "tabpfn/DOWN/1d/best_params.json": {
+      "source": "src/Output/Kronos/HPO_NoCal/tabpfn/DOWN/1d/best_params.json",
+      "sha256": "4eed6c56305878ea97e7eb9e8f4b2829ba97891bfdd6bd21aef9d50d0013693f"
+    }
+  }
+}

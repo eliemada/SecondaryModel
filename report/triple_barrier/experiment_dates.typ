@@ -8,7 +8,8 @@
 #let reference = json("pilot_results/gpu8_reference_5b61d08/verified_spread_results.json")
 #let verified = json("pilot_results/gpu8_target_trial/gpu8-targets-20261028-104504/local_daily_baselines.json")
 #let cash-replay = json("pilot_results/gpu8_target_trial/gpu8-targets-20261028-104504/cash_reference_diagnostics.json")
-#let trial-results = json("pilot_results/gpu8_target_trial/gpu8-targets-20261028-104504/slide_data.json")
+#let trial-results = json("pilot_results/gpu8_four_backends/slide_data.json")
+#let comparison-status = str(trial-results.completed) + " / " + str(trial-results.expected) + " fits reviewed"
 #let current-up = verified.checks.tp.up
 #let current-down = verified.checks.tp.down
 #let reference-period = reference.rows.first()
@@ -81,7 +82,7 @@
       stat(percentage(reference-period.bh_total_return), [Buy-and-hold return\ on the same Test period]),
     )
     #v(8pt)
-    #note[#text(size: 15.5pt)[Buy-and-hold also lost money in this period. All six targets share M1's Test trades. *AutoGluon / Kumo comparison: 24 / 24 fits complete*, reviewed 2026-10-29.]]
+    #note[#text(size: 15pt)[Buy-and-hold also lost money in this period. All six targets share M1's Test trades. *Four-backend comparison: #comparison-status.* AutoGluon / Kumo are complete; TabPFN / Random Forest extend the same grid.]]
     #src[Independent daily data preparation reproduces saved GPU8 M1 metrics within 0.0001; existing UP multigranularity cache also checked. Spread equity smooths trade returns; Sharpe uses ×√(365.25/7). The inspected Test is exploratory.]
   ]
 }
@@ -137,79 +138,110 @@
 
 #let gpu8-target-matrix-slide() = {
   let fits = (("autogluon", "up", [AutoGluon · UP]), ("autogluon", "down", [AutoGluon · DOWN]),
-              ("kumo", "up", [Kumo · UP]), ("kumo", "down", [Kumo · DOWN]))
+              ("kumo", "up", [Kumo · UP]), ("kumo", "down", [Kumo · DOWN]),
+              ("tabpfn", "up", [TabPFN · UP]), ("tabpfn", "down", [TabPFN · DOWN]),
+              ("rf", "up", [RF · UP]), ("rf", "down", [RF · DOWN]))
   let get(model, direction, mode) = trial-results.rows.find(r => r.model == model and r.direction == direction and r.mode == mode)
   let signed(x) = (if x >= 0 { "+" } else { "" }) + metric(x, digits: 3)
   let delta-cell(x) = text(fill: if x < 0 { accent } else { blue }, weight: "bold", signed(x))
-  slide(kicker: "Completed target experiment · reviewed 29 October 2026", title: [All 24 fits are complete; UP remains negative])[
-    #text(size: 15pt)[Test: #day(current-up.first_test_entry) – #day(current-up.last_test_entry) · AutoGluon / Kumo · fixed day-7 execution.]
+  let pending = text(fill: muted, "Pending")
+
+  slide(kicker: "Reading the comparison", title: [TP means true-positive meta-labeling])[
+    #set par(leading: 0.35em, spacing: 0.5em)
+    #text(size: 16pt)[Original TP asks whether a Kronos proposal made money at day 7, *after the 0.2% fee*.]
     #v(8pt)
-    #grid(columns: (1fr, 1fr), gutter: 24pt,
-      flow-node([UP M1 Sharpe: #metric(current-up.stats.m1_sharpe, digits: 4)], [Verified baseline · return #percentage(current-up.stats.m1_total_return)], tone: accent, fill: soft),
-      flow-node([DOWN M1 Sharpe: #metric(current-down.stats.m1_sharpe, digits: 4)], [Verified baseline · return #percentage(current-down.stats.m1_total_return)]),
+    #grid(columns: (1fr, 1fr), gutter: 20pt,
+      flow-node([Label 1 · true positive], [The proposed UP or DOWN trade was profitable after the fee at day 7.]),
+      flow-node([Label 0 · unsuccessful proposal], [Its signed day-7 return was zero or negative after the fee.]),
     )
-    #v(10pt)
-    #set text(size: 14.5pt)
+    #v(8pt)
+    #set text(size: 15pt)
+    #set table(inset: (x: 8pt, y: 5pt))
+    #table(columns: (0.7fr, 2.5fr, 2.2fr), align: left,
+      [Column], [M2 training target], [Purpose],
+      [*TP*], [Original seven-day true-positive label], [Original target baseline for each backend],
+      [*TB ref*], [Same TP label; TB eligibility filter], [Control with matched training eligibility],
+      [*TB k*], [Profit / stop / time-barrier outcome], [Test the effect of a different target],
+    )
+    #v(8pt)
+    #note[#text(size: 15pt)[*TP is not a take-profit order.* M2 predicts success from the available features; it does not know the future label. All reported backtests still execute at day 7, including models trained on TB targets.]]
+    #src[Original conversion: pred=1 and lab=1 → meta_label=1; pred=1 and lab=0 → 0. The signed day-7 rule agrees with all 18,230 complete-horizon proposals in the 40 daily CSVs. RF = Random Forest; TabPFN is the original GPU8 backend.]
+  ]
+
+  slide(kicker: "Four-backend target experiment · 29 October 2026", title: [Four backends, six targets: #comparison-status])[
+    #set par(leading: 0.35em, spacing: 0.5em)
+    #text(size: 14pt)[Test: #day(current-up.first_test_entry) – #day(current-up.last_test_entry) · TP = true positive · fixed day-7 execution.]
+    #linebreak()
+    #text(size: 14pt)[M1 Sharpe: *UP #metric(current-up.stats.m1_sharpe, digits: 4)* · DOWN #metric(current-down.stats.m1_sharpe, digits: 4). RF = Random Forest.]
+    #v(7pt)
+    #set text(size: 13.5pt)
     #set table(inset: (x: 8pt, y: 5pt))
     #let cells = ()
     #for (model, direction, label) in fits {
       cells += (label,)
       for mode in trial-results.modes {
         let r = get(model, direction, mode)
-        let marker = if r.constraint_satisfied { "" } else { "*" }
-        cells += (text(fill: if r.m2_sharpe < 0 { accent } else { blue }, weight: "bold", metric(r.m2_sharpe, digits: 3) + marker),)
+        if r == none {
+          cells += (pending,)
+        } else {
+          let marker = if r.constraint_satisfied { "" } else { "*" }
+          cells += (text(fill: if r.m2_sharpe < 0 { accent } else { blue }, weight: "bold", metric(r.m2_sharpe, digits: 3) + marker),)
+        }
       }
     }
     #table(columns: (1.6fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr), align: left,
       [M2 fit], [TP], [TB ref], [k = 0.5], [k = 1], [k = 1.5], [k = 2], ..cells,
     )
     #v(8pt)
-    #note[#text(size: 14.5pt)[All UP variants score below their fresh TP fit. On DOWN, AutoGluon reaches *1.822 at k = 0.5*; Kumo's highest tested score is *2.001 with TB ref*.]]
-    #src[Annualized spread-equity Sharpe, 27 weekly observations. 144 reported metrics replayed within 0.0001. #text("*") = utility constraint failed; pipeline fallback threshold 0.5. Thresholds use Val-Cal + Val-Opt. Exploratory Test comparison.]
+    #note[#text(size: 14pt)[AutoGluon / Kumo's 24 scores are verified. TabPFN / RF add 24 fits using GPU8's saved tuning parameters, fixed across targets within each direction. Pending cells have no reviewed score.]]
+    #src[Annualized spread-equity Sharpe, 27 weekly observations. #text("*") = utility constraint failed; pipeline fallback threshold 0.5. New run: gpu8-targets-20261029-030611. Preparation → training → report; no new HPO. Exploratory Test.]
   ]
 
   slide(kicker: "Delta 1 · same backend and direction", title: [How much does Sharpe change versus the fresh TP fit?])[
     #set par(leading: 0.4em, spacing: 0.6em)
     #text(size: 15.5pt)[Δ Sharpe = target Sharpe − TP Sharpe · Test 2026-01-08 – 2026-07-18.]
-    #v(10pt)
-    #set text(size: 16pt)
-    #set table(inset: (x: 8pt, y: 7pt))
+    #v(6pt)
+    #set text(size: 14pt)
+    #set table(inset: (x: 8pt, y: 4pt))
     #let cells = ()
     #for (model, direction, label) in fits {
       cells += (label,)
       for mode in trial-results.modes.filter(m => m != "tp") {
-        cells += (delta-cell(get(model, direction, mode).delta_sharpe_vs_tp),)
+        let r = get(model, direction, mode)
+        cells += (if r == none { pending } else { delta-cell(r.delta_sharpe_vs_tp) },)
       }
     }
     #table(columns: (1.7fr, 1fr, 1fr, 1fr, 1fr, 1fr), align: left,
       [M2 fit], [TB ref], [k = 0.5], [k = 1], [k = 1.5], [k = 2], ..cells,
     )
-    #v(10pt)
-    #note[#text(size: 16pt)[AutoGluon DOWN at k = 0.5 improves by *+1.483* versus TP. Kumo's volatility-barrier variants all score below its TP fit, in both directions.]]
-    #v(10pt)
-    #text(size: 15pt)[This contrast also includes the eligibility change: TB ref and TB-k remove *13 UP / 64 DOWN* early TON training proposals. Use the matched reference on the next slide to assess the label change.]
+    #v(8pt)
+    #note[#text(size: 14pt)[AutoGluon DOWN at k = 0.5: *+1.483* versus TP. Kumo's volatility-barrier variants all score below its TP fit. The additional backend comparisons await reviewed results.]]
+    #v(6pt)
+    #text(size: 13.5pt)[This contrast includes the eligibility change: TB ref and TB-k remove *13 UP / 64 DOWN* early TON training proposals. The matched comparison follows.]
     #src[Same realized Test trades, fees, features and fixed day-7 execution. Fresh TP fits differ from Pablo's saved M2 fits. Deltas are descriptive; this inspected Test does not select an optimal k.]
   ]
 
   slide(kicker: "Delta 2 · matched training eligibility", title: [The label-change gain is smaller against TB reference])[
+    #set par(leading: 0.35em, spacing: 0.5em)
     #text(size: 15.5pt)[Δ Sharpe = TB-k Sharpe − TB-ref Sharpe · TB ref keeps TP labels on the TB-eligible samples.]
-    #v(12pt)
-    #set text(size: 16pt)
-    #set table(inset: (x: 9pt, y: 9pt))
+    #v(6pt)
+    #set text(size: 14pt)
+    #set table(inset: (x: 9pt, y: 4pt))
     #let cells = ()
     #for (model, direction, label) in fits {
       cells += (label,)
       for mode in trial-results.modes.filter(m => m.starts-with("tb_k")) {
-        cells += (delta-cell(get(model, direction, mode).delta_sharpe_vs_tb_ref),)
+        let r = get(model, direction, mode)
+        cells += (if r == none { pending } else { delta-cell(r.delta_sharpe_vs_tb_ref) },)
       }
     }
     #table(columns: (1.7fr, 1fr, 1fr, 1fr, 1fr), align: left,
       [M2 fit], [k = 0.5], [k = 1], [k = 1.5], [k = 2], ..cells,
     )
-    #v(12pt)
+    #v(8pt)
     #grid(columns: (1fr, 1fr), gutter: 18pt,
       flow-node([AutoGluon · DOWN · k = 0.5], [Sharpe *1.822*: +0.370 vs TB ref; +0.079 vs M1.\ Return *+61.59%*; max drawdown *−26.55%*.\ TB-ref drawdown: −13.95%; M1: −17.04%.]),
-      flow-node([No uniform TB improvement], [All four Kumo DOWN variants trail TB ref.\ UP remains loss-making for both backends.\ Gains in this one run need fresh-period confirmation.]),
+      flow-node([No uniform TB improvement], [All four Kumo DOWN variants trail TB ref.\ AutoGluon/Kumo UP remain loss-making.\ Gains in this one run need fresh-period confirmation.]),
     )
     #src[All TB variants share training eligibility and Test trades. This is a label comparison with day-7 execution, not early barrier-exit trading. One fit per cell; 27 horizon returns; no significance or optimal-k claim.]
   ]

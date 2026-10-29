@@ -3,7 +3,7 @@
 // Speaker explanations, conventions and source locations: speaker_notes.md.
 #import "../intro/theme.typ": *
 #import "slides.typ": *
-#import "experiment_dates.typ": experiment-dates-slide, gpu8-baseline-slide, gpu8-cash-slide, gpu8-reference-slide, gpu8-target-matrix-slide, current-up, metric, benchmark-dates, benchmark-test-dates
+#import "experiment_dates.typ": experiment-dates-slide, gpu8-baseline-slide, gpu8-cash-slide, gpu8-reference-slide, gpu8-target-matrix-slide, current-up, metric, comparison-status, benchmark-dates, benchmark-test-dates
 #import "diagrams.typ": ground-truth-schema, historical-schema, live-schema
 
 #show: setup
@@ -15,7 +15,7 @@
   meta: (
     ("Author", [Elie Bruno · NII Tokyo]),
     ("Reading", [López de Prado · Advances in Financial Machine Learning · Chapter 3]),
-    ("Update", [29 October 2026 · UP M1 Sharpe #metric(current-up.stats.m1_sharpe, digits: 4) · 24 / 24 M2 fits complete]),
+    ("Update", [29 October 2026 · UP M1 Sharpe #metric(current-up.stats.m1_sharpe, digits: 4) · #comparison-status]),
   ),
 )
 

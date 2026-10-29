@@ -6,20 +6,40 @@ and DOWN Sharpe **+1.7423**. All **24 AutoGluon/Kumo fits and the report complet
 641 artifact files were downloaded on 2026-10-28 at 17:05 UTC. The results and
 slides were reviewed on **2026-10-29**. Pablo's saved M2 scores remain labeled as
 reference results; the new TP fits are separate models and differ numerically.
+The comparison now includes **TabPFN and Random Forest**, adding 24 fits to make
+**48 in total**. The existing 24 results remain reviewed; the additional run
+`gpu8-targets-20261029-030611` was submitted on 2026-10-29 and is awaiting results.
 
-- [Short presentation](prendinger_brief.pdf): 14 slides.
-- [Full presentation](main.pdf): 30 slides.
+- [Short presentation](prendinger_brief.pdf): 15 slides.
+- [Full presentation](main.pdf): 31 slides.
 - [Historical target trial](earlier_target_trial.pdf): 4 slides, with the completed
   earlier experiment on **2025-10-09–2026-01-18**. Its positive UP scores belong to
   that earlier period.
 
 Pages 3 and 5 of the current decks highlight the negative UP Sharpes. The final
-three slides show all 24 scores, changes versus TP, and changes versus the matched
-TB reference. The cash comparison distinguishes
+three slides show the four-backend grid, changes versus TP, and changes versus the
+matched TB reference. Pending cells belong to the added TabPFN/Random Forest run;
+they do not replace the completed AutoGluon/Kumo results. The cash comparison distinguishes
 positions held at entry cost from positions marked to current closing prices;
 neither is the spread-equity calculation.
 
-## Completed comparison
+## What TP means
+
+**TP means true-positive meta-labeling, not take profit.** On a Kronos proposal
+(`pred=1`), the original dataset has `meta_label=lab`: label 1 if the signed
+seven-day close return exceeds the 0.2% fee, otherwise label 0. The sign is
+reversed for DOWN trades. This equivalence was checked on all 18,230 proposals
+with a complete future horizon across the 40 daily CSVs (5,269 UP / 12,961 DOWN),
+with zero mismatches. These counts cover the full source files, not only Test.
+
+The **TP column** reports M2 trained on that original target. **TB ref** keeps
+the same label but applies TB's eligibility filter. **TB-k** changes the label
+to the profit/stop/time-barrier outcome after fees. The execution policy in this
+comparison remains day 7 for every target. M2 predicts an unknown future outcome;
+the TP baseline does not select known future winners. The definition is on page
+12 of the short deck and page 28 of the full deck.
+
+## Four-backend comparison
 
 | Fresh M2 fit | TP | TB ref | TB k=0.5 | TB k=1 | TB k=1.5 | TB k=2 |
 |---|---:|---:|---:|---:|---:|---:|
@@ -27,6 +47,19 @@ neither is the spread-equity calculation.
 | AutoGluon DOWN | 0.3385 | 1.4521 | 1.8216 | 1.3574 | 1.3829 | 1.0802 |
 | Kumo UP | −1.9834 | −2.2551 | −2.4632 | −2.7139 | −2.0380 | −2.2250 |
 | Kumo DOWN | 1.8839 | 2.0008 | −0.2777 | 1.7312 | 1.8492 | 1.7296 |
+| TabPFN UP | Pending | Pending | Pending | Pending | Pending | Pending |
+| TabPFN DOWN | Pending | Pending | Pending | Pending | Pending | Pending |
+| Random Forest UP | Pending | Pending | Pending | Pending | Pending | Pending |
+| Random Forest DOWN | Pending | Pending | Pending | Pending | Pending | Pending |
+
+Added run: preparation **3234260**, training array **3234261**, report **3234262**.
+It calls the same production `m2_pipeline.py`, retains Pablo's configured dates,
+features, fees and threshold method, and freezes his direction-specific
+`HPO_NoCal` settings across all six targets. No new hyperparameter search runs.
+Random Forest uses 100 trees / depth 3 for UP and 900 / depth 12 for DOWN.
+TabPFN uses 4 ensemble estimators / temperature 0.9 for UP and 32 / 0.75 for DOWN,
+with the other saved parameters retained by the original factory. The exact
+parameter files and their provenance accompany the experiment code.
 
 Values are annualized spread-equity Sharpe, using 27 seven-day return observations.
 \* The utility constraint was not satisfied; the original pipeline used its 0.5
@@ -46,13 +79,15 @@ boundaries match. TB-k versus TB-ref is the comparison with matched eligibility.
 This is one fit per cell on an already inspected Test period, with fixed day-7
 execution: no significance or optimal-k claim, and no early barrier-exit execution.
 
-[Complete metrics and both deltas](pilot_results/gpu8_target_trial/gpu8-targets-20261028-104504/experiment_test.csv),
-[slide evidence](pilot_results/gpu8_target_trial/gpu8-targets-20261028-104504/slide_data.json),
-and [verification](pilot_results/gpu8_target_trial/gpu8-targets-20261028-104504/verification.json)
+[Reviewed metrics and both deltas](pilot_results/gpu8_four_backends/reviewed_results.csv),
+[four-backend slide evidence](pilot_results/gpu8_four_backends/slide_data.json),
+and [completed-run verification](pilot_results/gpu8_target_trial/gpu8-targets-20261028-104504/verification.json)
 record the results. The verification replays all 144 M1/M2 metrics from saved trades
 within 0.0001, checks the frozen source and daily input hashes, verifies generated
 label hashes, and matches the cluster comparison report. It uses `return_pct / 100`
 for the CSV's extra precision, after cross-checking the fractional return column.
+The combined evidence only includes reviewed scores. The added run must pass the
+same review before filling its cells; the downloader alone does not publish scores.
 
 ## Rebuild the PDFs
 

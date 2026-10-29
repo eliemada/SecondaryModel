@@ -1,0 +1,27 @@
+{
+  "model": "tabpfn",
+  "direction": "up",
+  "granularity": "1d",
+  "best_trial": 33,
+  "best_utility": 2.638808513362096,
+  "best_params": {
+    "preprocess_transform": "squashing_scaler_default",
+    "fingerprint_feature": true,
+    "outlier_removal_std": null,
+    "min_unique_for_numerical": 30,
+    "n_estimators": 4,
+    "softmax_temperature": 0.9,
+    "balance_probabilities": false,
+    "average_before_softmax": false
+  },
+  "best_metrics": {
+    "coverage": 0.671875,
+    "n_opt_total": 640,
+    "n_selected": 430,
+    "sel_mean_return": 0.011268905157781051,
+    "sel_precision": 0.5581395348837209,
+    "threshold": 0.59423828125,
+    "threshold_source": "Utility-Opt"
+  },
+  "n_trials": 100
+}
