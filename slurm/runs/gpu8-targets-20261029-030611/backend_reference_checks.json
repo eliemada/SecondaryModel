@@ -1,0 +1,98 @@
+[
+  {
+    "model": "tabpfn",
+    "direction": "up",
+    "status": "fit/predict passed",
+    "effective_parameters": {
+      "device": "cuda",
+      "n_estimators": 4,
+      "softmax_temperature": 0.9,
+      "balance_probabilities": false,
+      "average_before_softmax": false,
+      "fit_mode": "fit_preprocessors",
+      "inference_config": null,
+      "random_state": 42
+    },
+    "reference_keys_not_forwarded_by_original_factory": [
+      "fingerprint_feature",
+      "min_unique_for_numerical",
+      "outlier_removal_std",
+      "preprocess_transform"
+    ]
+  },
+  {
+    "model": "tabpfn",
+    "direction": "down",
+    "status": "fit/predict passed",
+    "effective_parameters": {
+      "device": "cuda",
+      "n_estimators": 32,
+      "softmax_temperature": 0.75,
+      "balance_probabilities": true,
+      "average_before_softmax": true,
+      "fit_mode": "fit_preprocessors",
+      "inference_config": null,
+      "random_state": 42
+    },
+    "reference_keys_not_forwarded_by_original_factory": [
+      "fingerprint_feature",
+      "min_unique_for_numerical",
+      "outlier_removal_std",
+      "preprocess_transform"
+    ]
+  },
+  {
+    "model": "rf",
+    "direction": "up",
+    "status": "fit/predict passed",
+    "effective_parameters": {
+      "random_state": 42,
+      "bootstrap": true,
+      "ccp_alpha": 0.0,
+      "class_weight": "balanced_subsample",
+      "criterion": "gini",
+      "max_depth": 3,
+      "max_features": "sqrt",
+      "max_leaf_nodes": null,
+      "max_samples": null,
+      "min_impurity_decrease": 0.0,
+      "min_samples_leaf": 48,
+      "min_samples_split": 50,
+      "min_weight_fraction_leaf": 0.0,
+      "monotonic_cst": null,
+      "n_estimators": 100,
+      "n_jobs": -1,
+      "oob_score": false,
+      "verbose": 0,
+      "warm_start": false
+    },
+    "reference_keys_not_forwarded_by_original_factory": []
+  },
+  {
+    "model": "rf",
+    "direction": "down",
+    "status": "fit/predict passed",
+    "effective_parameters": {
+      "random_state": 42,
+      "bootstrap": true,
+      "ccp_alpha": 0.0,
+      "class_weight": "balanced_subsample",
+      "criterion": "gini",
+      "max_depth": 12,
+      "max_features": "sqrt",
+      "max_leaf_nodes": null,
+      "max_samples": null,
+      "min_impurity_decrease": 0.0,
+      "min_samples_leaf": 34,
+      "min_samples_split": 42,
+      "min_weight_fraction_leaf": 0.0,
+      "monotonic_cst": null,
+      "n_estimators": 900,
+      "n_jobs": -1,
+      "oob_score": false,
+      "verbose": 0,
+      "warm_start": false
+    },
+    "reference_keys_not_forwarded_by_original_factory": []
+  }
+]

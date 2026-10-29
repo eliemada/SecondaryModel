@@ -1,0 +1,84 @@
+{
+  "run_id": "gpu8-targets-20261029-030611",
+  "synced_at": "2026-10-29T04:20:45.815802+00:00",
+  "files": 617,
+  "bytes": 122779625,
+  "received_fit_summaries": 24,
+  "expected_fits": 24,
+  "jobs": {
+    "prepare": "3234260",
+    "train": "3234261",
+    "report": "3234262"
+  },
+  "job_states": {
+    "3234260": {
+      "state": "COMPLETED",
+      "exit_code": "0:0"
+    },
+    "3234262": {
+      "state": "COMPLETED",
+      "exit_code": "0:0"
+    },
+    "3234261_0": {
+      "state": "COMPLETED",
+      "exit_code": "0:0"
+    },
+    "3234261_1": {
+      "state": "COMPLETED",
+      "exit_code": "0:0"
+    },
+    "3234261_2": {
+      "state": "COMPLETED",
+      "exit_code": "0:0"
+    },
+    "3234261_3": {
+      "state": "COMPLETED",
+      "exit_code": "0:0"
+    },
+    "3234261_4": {
+      "state": "COMPLETED",
+      "exit_code": "0:0"
+    },
+    "3234261_5": {
+      "state": "COMPLETED",
+      "exit_code": "0:0"
+    },
+    "3234261_6": {
+      "state": "COMPLETED",
+      "exit_code": "0:0"
+    },
+    "3234261_7": {
+      "state": "COMPLETED",
+      "exit_code": "0:0"
+    },
+    "3234261_8": {
+      "state": "COMPLETED",
+      "exit_code": "0:0"
+    },
+    "3234261_9": {
+      "state": "COMPLETED",
+      "exit_code": "0:0"
+    },
+    "3234261_10": {
+      "state": "COMPLETED",
+      "exit_code": "0:0"
+    },
+    "3234261_11": {
+      "state": "COMPLETED",
+      "exit_code": "0:0"
+    }
+  },
+  "excluded": [
+    "cache/",
+    "*.pkl",
+    "*.pt",
+    "*.pth",
+    "*.ckpt",
+    "*.safetensors",
+    "*.bin",
+    "*.ubj",
+    "*.joblib",
+    "*.tabpfn_fit",
+    "*.skops"
+  ]
+}

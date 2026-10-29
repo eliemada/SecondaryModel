@@ -82,7 +82,7 @@
       stat(percentage(reference-period.bh_total_return), [Buy-and-hold return\ on the same Test period]),
     )
     #v(8pt)
-    #note[#text(size: 15pt)[Buy-and-hold also lost money in this period. All six targets share M1's Test trades. *Four-backend comparison: #comparison-status.* AutoGluon / Kumo are complete; TabPFN / Random Forest extend the same grid.]]
+    #note[#text(size: 15pt)[Buy-and-hold also lost money in this period. All six targets share M1's Test trades. *Four-backend comparison: #comparison-status.* AutoGluon, Kumo, TabPFN and Random Forest are all complete.]]
     #src[Independent daily data preparation reproduces saved GPU8 M1 metrics within 0.0001; existing UP multigranularity cache also checked. Spread equity smooths trade returns; Sharpe uses ×√(365.25/7). The inspected Test is exploratory.]
   ]
 }
@@ -131,7 +131,7 @@
       [Strategy], [UP return], [UP Sharpe], [DOWN return], [DOWN Sharpe], ..cells,
     )
     #v(12pt)
-    #note[#text(size: 15pt)[These are *Pablo's saved TP results*. Fresh AutoGluon TP scores are *−2.1989 UP / +0.3385 DOWN*. The new matrix uses its own TP fits for deltas; the M1 baseline and dates match.]]
+    #note[#text(size: 15pt)[These are *Pablo's saved TP results*. The completed 48-fit matrix uses *fresh TP controls for each backend*. M1, dates and the backtest match; the new M2 scores differ from these saved classifiers.]]
     #src[Saved GPU8 outputs fetched 2026-10-27; 48 replayed metrics agree within 0.0001. New models are separate fits on Izar, with pinned principal packages; hardware, Python patch release and fitted ensembles can differ. Exact M2 reproduction is not established.]
   ]
 }
@@ -193,8 +193,8 @@
       [M2 fit], [TP], [TB ref], [k = 0.5], [k = 1], [k = 1.5], [k = 2], ..cells,
     )
     #v(8pt)
-    #note[#text(size: 14pt)[AutoGluon / Kumo's 24 scores are verified. TabPFN / RF add 24 fits using GPU8's saved tuning parameters, fixed across targets within each direction. Pending cells have no reviewed score.]]
-    #src[Annualized spread-equity Sharpe, 27 weekly observations. #text("*") = utility constraint failed; pipeline fallback threshold 0.5. New run: gpu8-targets-20261029-030611. Preparation → training → report; no new HPO. Exploratory Test.]
+    #note[#text(size: 14pt)[*All UP scores remain negative.* RF at k = 1.5 has the least-negative UP Sharpe, *−1.388*. The highest observed DOWN score is *Kumo TB ref: 2.001*, retaining TP labels.]]
+    #src[48 fits; 288 return/drawdown/Sharpe metrics replayed within 0.0001. Annualized spread equity, 27 horizon returns. #text("*") = utility constraint failed, fallback threshold 0.5. TabPFN/RF use frozen GPU8 tuning parameters. Exploratory Test.]
   ]
 
   slide(kicker: "Delta 1 · same backend and direction", title: [How much does Sharpe change versus the fresh TP fit?])[
@@ -215,13 +215,13 @@
       [M2 fit], [TB ref], [k = 0.5], [k = 1], [k = 1.5], [k = 2], ..cells,
     )
     #v(8pt)
-    #note[#text(size: 14pt)[AutoGluon DOWN at k = 0.5: *+1.483* versus TP. Kumo's volatility-barrier variants all score below its TP fit. The additional backend comparisons await reviewed results.]]
+    #note[#text(size: 14pt)[At k = 0.5, DOWN gains are *AutoGluon +1.483* and *TabPFN +0.687* versus TP. RF UP at k = 1.5 improves by *+0.412*, but its Sharpe remains negative.]]
     #v(6pt)
     #text(size: 13.5pt)[This contrast includes the eligibility change: TB ref and TB-k remove *13 UP / 64 DOWN* early TON training proposals. The matched comparison follows.]
     #src[Same realized Test trades, fees, features and fixed day-7 execution. Fresh TP fits differ from Pablo's saved M2 fits. Deltas are descriptive; this inspected Test does not select an optimal k.]
   ]
 
-  slide(kicker: "Delta 2 · matched training eligibility", title: [The label-change gain is smaller against TB reference])[
+  slide(kicker: "Delta 2 · matched training eligibility", title: [TB label effects depend on backend and direction])[
     #set par(leading: 0.35em, spacing: 0.5em)
     #text(size: 15.5pt)[Δ Sharpe = TB-k Sharpe − TB-ref Sharpe · TB ref keeps TP labels on the TB-eligible samples.]
     #v(6pt)
@@ -240,8 +240,8 @@
     )
     #v(8pt)
     #grid(columns: (1fr, 1fr), gutter: 18pt,
-      flow-node([AutoGluon · DOWN · k = 0.5], [Sharpe *1.822*: +0.370 vs TB ref; +0.079 vs M1.\ Return *+61.59%*; max drawdown *−26.55%*.\ TB-ref drawdown: −13.95%; M1: −17.04%.]),
-      flow-node([No uniform TB improvement], [All four Kumo DOWN variants trail TB ref.\ AutoGluon/Kumo UP remain loss-making.\ Gains in this one run need fresh-period confirmation.]),
+      flow-node([TabPFN · DOWN · k = 0.5], [Sharpe *1.569*: *+0.580* versus TB ref.\ Return *+34.78%*; max drawdown *−17.51%*.\ Still below M1's DOWN Sharpe of 1.742.]),
+      flow-node([Random Forest · UP · k = 1.5], [Sharpe *−1.388*: *+0.130* versus TB ref.\ Return *−34.61%*: improvement still loses money.\ RF DOWN k = 1.5 trails TB ref by 0.024.]),
     )
     #src[All TB variants share training eligibility and Test trades. This is a label comparison with day-7 execution, not early barrier-exit trading. One fit per cell; 27 horizon returns; no significance or optimal-k claim.]
   ]

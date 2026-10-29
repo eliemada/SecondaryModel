@@ -1,0 +1,14 @@
+{
+  "runs": [
+    "gpu8-targets-20261028-104504",
+    "gpu8-targets-20261029-030611"
+  ],
+  "fits_checked": 48,
+  "m1_trade_hashes": {
+    "down": "973cf3f1be047c02dfcb9417c563f4f51f30b9745e9a24b0211c817c42045b01",
+    "up": "61d03ea496f004348a4be5823b259182ce44c3cf3c6634a22aab397a0a744eb3"
+  },
+  "identical_features": true,
+  "metrics_replayed": 288,
+  "tolerance": 0.0001
+}

@@ -141,11 +141,26 @@ reads them, and rejects changed parameters before training. It extends the
 generated run scripts without modifying the launcher used by the completed run.
 Five focused tests cover production baseline parity and frozen parameter wiring.
 
-Submitted jobs: preparation **3234260**, training **3234261**, report **3234262**.
+Completed jobs: preparation **3234260**, training **3234261**, report **3234262**;
+every task exited successfully. The downloader received all 24 new fit summaries
+and 617 artifact files at 2026-10-29 04:20 UTC. All four learner smoke checks passed.
 Preparation requests 16 GiB / 30 minutes; each two-direction training task requests
 32 GiB / one hour. All tasks use the same original training/Test pipeline. The
 downloader excludes TabPFN fitted weights and RF serialized models as well as
-the existing model/cache exclusions. Pending scores remain explicit in the slides.
+the existing model/cache exclusions. All 48 scores now appear in the slides.
+
+The review replays the added run's 144 M1/M2 metrics within 0.0001 (maximum
+absolute discrepancy 0.0000493). It verifies all 24 mode/backend/direction HPO
+copies against GPU8 hashes and confirms the parameter values in every production
+fit log. Completion, effective parameters, baseline checks and the parameter audit
+are stored in `slurm/runs/gpu8-targets-20261029-030611/`. Across both runs, all 48
+fits have identical realized M1 trades/returns and feature lists within direction.
+
+TabPFN DOWN k=0.5 scores 1.5687: +0.6865 versus TP, +0.5804 versus TB ref. Random
+Forest UP k=1.5 scores −1.3877: +0.4123 versus TP, +0.1296 versus TB ref, while
+still losing money. All UP cells remain negative. TabPFN UP k=0.5 adds a third
+fallback-threshold cell alongside AutoGluon UP TB ref and k=1. This is an
+exploratory comparison with fixed day-7 execution and one fit per cell.
 
 Here **TP means true-positive meta-labeling**, not take profit: for a Kronos
 proposal, its original label is 1 iff the signed day-7 return exceeds the 0.002

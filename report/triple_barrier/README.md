@@ -6,9 +6,11 @@ and DOWN Sharpe **+1.7423**. All **24 AutoGluon/Kumo fits and the report complet
 641 artifact files were downloaded on 2026-10-28 at 17:05 UTC. The results and
 slides were reviewed on **2026-10-29**. Pablo's saved M2 scores remain labeled as
 reference results; the new TP fits are separate models and differ numerically.
-The comparison now includes **TabPFN and Random Forest**, adding 24 fits to make
-**48 in total**. The existing 24 results remain reviewed; the additional run
-`gpu8-targets-20261029-030611` was submitted on 2026-10-29 and is awaiting results.
+The comparison now includes **TabPFN and Random Forest: all 48 fits are complete
+and reviewed**. The added run `gpu8-targets-20261029-030611` completed successfully;
+617 artifact files were downloaded on 2026-10-29 at 04:20 UTC. Its 144 M1/M2
+metrics passed replay, and all 24 fits' tuning files and production logs match
+the frozen GPU8 parameters. Both runs share identical realized M1 trades and features.
 
 - [Short presentation](prendinger_brief.pdf): 15 slides.
 - [Full presentation](main.pdf): 31 slides.
@@ -18,8 +20,8 @@ The comparison now includes **TabPFN and Random Forest**, adding 24 fits to make
 
 Pages 3 and 5 of the current decks highlight the negative UP Sharpes. The final
 three slides show the four-backend grid, changes versus TP, and changes versus the
-matched TB reference. Pending cells belong to the added TabPFN/Random Forest run;
-they do not replace the completed AutoGluon/Kumo results. The cash comparison distinguishes
+matched TB reference. Every cell now contains a reviewed result; the original
+AutoGluon/Kumo scores are unchanged. The cash comparison distinguishes
 positions held at entry cost from positions marked to current closing prices;
 neither is the spread-equity calculation.
 
@@ -47,12 +49,13 @@ the TP baseline does not select known future winners. The definition is on page
 | AutoGluon DOWN | 0.3385 | 1.4521 | 1.8216 | 1.3574 | 1.3829 | 1.0802 |
 | Kumo UP | −1.9834 | −2.2551 | −2.4632 | −2.7139 | −2.0380 | −2.2250 |
 | Kumo DOWN | 1.8839 | 2.0008 | −0.2777 | 1.7312 | 1.8492 | 1.7296 |
-| TabPFN UP | Pending | Pending | Pending | Pending | Pending | Pending |
-| TabPFN DOWN | Pending | Pending | Pending | Pending | Pending | Pending |
-| Random Forest UP | Pending | Pending | Pending | Pending | Pending | Pending |
-| Random Forest DOWN | Pending | Pending | Pending | Pending | Pending | Pending |
+| TabPFN UP | −2.5266 | −2.5698 | −2.3531* | −2.5939 | −2.4448 | −2.5187 |
+| TabPFN DOWN | 0.8822 | 0.9883 | 1.5687 | 1.0459 | 0.8287 | 0.7971 |
+| Random Forest UP | −1.8000 | −1.5173 | −2.2215 | −1.7786 | −1.3877 | −1.8103 |
+| Random Forest DOWN | 1.2014 | 1.2459 | −0.4732 | −0.2561 | 1.2215 | 0.8245 |
 
-Added run: preparation **3234260**, training array **3234261**, report **3234262**.
+Added run: preparation **3234260**, training array **3234261**, report **3234262**;
+all completed with exit code 0.
 It calls the same production `m2_pipeline.py`, retains Pablo's configured dates,
 features, fees and threshold method, and freezes his direction-specific
 `HPO_NoCal` settings across all six targets. No new hyperparameter search runs.
@@ -67,9 +70,20 @@ fallback threshold. These cells remain in the comparison and are flagged in the 
 
 AutoGluon DOWN k=0.5 improves by **+1.4831 versus fresh TP**, **+0.3695 versus
 matched TB ref**, and **+0.0793 versus M1**. Its return is +61.5904%, with worse
-drawdown (−26.5509%) than TB ref (−13.9467%) and M1 (−17.0362%). All volatility-barrier
-variants have lower UP Sharpe than their TP fit; Kumo's volatility-barrier variants
-also have lower DOWN Sharpe than its TP fit. There is no uniform TB gain.
+drawdown (−26.5509%) than TB ref (−13.9467%) and M1 (−17.0362%). For AutoGluon and
+Kumo, all volatility-barrier UP scores are below TP. Kumo's volatility-barrier
+variants also have lower DOWN Sharpe than its TP fit. There is no uniform TB gain.
+
+TabPFN DOWN k=0.5 improves by **+0.6865 versus TP** and **+0.5804 versus TB ref**,
+reaching Sharpe 1.5687, return +34.7808% and drawdown −17.5132%. It remains below
+M1's DOWN Sharpe 1.7423. Random Forest UP k=1.5 improves by **+0.4123 versus TP**
+and **+0.1296 versus TB ref**, but still has Sharpe −1.3877 and return −34.6094%.
+RF DOWN k=1.5 has only +0.0201 versus TP and −0.0244 versus TB ref. All UP cells
+remain negative; the highest observed DOWN Sharpe is Kumo TB ref at 2.0008.
+
+There are three fallback-threshold cells: AutoGluon UP TB ref, AutoGluon UP k=1,
+and TabPFN UP k=0.5. Their 0.5 threshold was used because the utility constraint
+was not satisfied; the asterisks make those cases explicit.
 
 The TB eligibility rule removes 13 UP and 64 DOWN early TON training proposals.
 It also excludes 32 UP / 90 DOWN tail rows whose returns are unavailable; the
@@ -81,13 +95,15 @@ execution: no significance or optimal-k claim, and no early barrier-exit executi
 
 [Reviewed metrics and both deltas](pilot_results/gpu8_four_backends/reviewed_results.csv),
 [four-backend slide evidence](pilot_results/gpu8_four_backends/slide_data.json),
-and [completed-run verification](pilot_results/gpu8_target_trial/gpu8-targets-20261028-104504/verification.json)
-record the results. The verification replays all 144 M1/M2 metrics from saved trades
-within 0.0001, checks the frozen source and daily input hashes, verifies generated
-label hashes, and matches the cluster comparison report. It uses `return_pct / 100`
+the [AutoGluon/Kumo verification](pilot_results/gpu8_target_trial/gpu8-targets-20261028-104504/verification.json),
+the [TabPFN/RF verification](pilot_results/gpu8_target_trial/gpu8-targets-20261029-030611/verification.json),
+and the [cross-run comparison](pilot_results/gpu8_four_backends/cross_run_verification.json)
+record the results. The two verifications replay all 288 M1/M2 metrics from saved trades
+within 0.0001, check the frozen source and daily input hashes, verify generated
+label hashes, and match the cluster comparison reports. The replay uses `return_pct / 100`
 for the CSV's extra precision, after cross-checking the fractional return column.
-The combined evidence only includes reviewed scores. The added run must pass the
-same review before filling its cells; the downloader alone does not publish scores.
+The combined evidence includes 48 reviewed scores. Downloading and reviewing are
+separate steps; the downloader alone does not publish scores.
 
 ## Rebuild the PDFs
 
