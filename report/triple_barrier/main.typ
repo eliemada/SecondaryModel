@@ -15,7 +15,7 @@
   meta: (
     ("Author", [Elie Bruno · NII Tokyo]),
     ("Reading", [López de Prado · AFML · Chapter 3]),
-    ("Baseline", [M1 UP Sharpe: #metric(current-up.stats.m1_sharpe, digits: 4)]),
+    ("Baseline", [Cash-MTM · M1 UP Sharpe: #metric(current-up.sharpe, digits: 4)]),
     ("Updated", [29 October 2026 · #comparison-status]),
   ),
 )
@@ -258,7 +258,7 @@
   )
   #v(16pt)
   #note[#text(size: 16pt)[This earlier benchmark did not establish a gain.]]
-  #src[Separate LightGBM study; 3 seeds; 20% validation cutoff. #benchmark-dates]
+  #src[Separate LightGBM study; daily equal-weight portfolio; 3 seeds; 20% validation cutoff. #benchmark-dates]
 ]
 
 #slide(kicker: "14 · For our synthetic-data work", title: [Synthetic Training Labels])[
@@ -346,7 +346,7 @@
   )
   #v(18pt)
   #note[#text(size: 16pt)[All intervals include zero. No confirmed improvement in this benchmark.]]
-  #src[#benchmark-test-dates LightGBM, 3 seeds; top-20% validation cutoff fixed on Test; paired 10-day block bootstrap.]
+  #src[Separate LightGBM study; daily equal-weight portfolio; 3 seeds; 20% validation cutoff; 10-day block bootstrap. #benchmark-test-dates]
 ]
 
 #slide(kicker: "Appendix · Other exits", title: [Exit-Policy Benchmark])[
@@ -360,7 +360,7 @@
   )
   #v(19pt)
   #note[#text(size: 17pt)[Exit changes and label changes must be evaluated separately.]]
-  #src[#benchmark-test-dates benchmark_ci.json; 10-day block bootstrap. M2 uses one seed.]
+  #src[Separate daily equal-weight portfolio; 10-day block bootstrap; M2 uses one seed. #benchmark-test-dates]
 ]
 
 #slide(kicker: "Appendix · Honest evaluation", title: [Evaluation Assumptions])[

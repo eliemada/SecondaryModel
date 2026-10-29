@@ -1,137 +1,116 @@
 # Triple-barrier target experiment: slides and evidence
 
-The current decks use Pablo's GPU8 Test window, **2026-01-08–2026-07-18**.
-The independently reproduced M1 spread-equity baseline has UP Sharpe **−2.5744**
-and DOWN Sharpe **+1.7423**. All **24 AutoGluon/Kumo fits and the report completed**;
-641 artifact files were downloaded on 2026-10-28 at 17:05 UTC. The results and
-slides were reviewed on **2026-10-29**. Pablo's saved M2 scores remain labeled as
-reference results; the new TP fits are separate models and differ numerically.
-The comparison now includes **TabPFN and Random Forest: all 48 fits are complete
-and reviewed**. The added run `gpu8-targets-20261029-030611` completed successfully;
-617 artifact files were downloaded on 2026-10-29 at 04:20 UTC. Its 144 M1/M2
-metrics passed replay, and all 24 fits' tuning files and production logs match
-the frozen GPU8 parameters. Both runs share identical realized M1 trades and features.
+The current decks use **the paper's cash-MTM engine and extended exit calendar**.
+All 48 pilot cells reproduce Pablo's M1: **UP −43.3134%, Sharpe −2.0372**;
+**DOWN +12.8333%, Sharpe +0.7622**. Test entries are **2026-01-08–2026-07-18**;
+all day-7 exits finish on **2026-07-25**. The equity calendar has 199 bars and
+**28 weekly return observations**.
 
 - [Short presentation](prendinger_brief.pdf): 15 slides.
 - [Full presentation](main.pdf): 31 slides.
-- [Historical target trial](earlier_target_trial.pdf): 4 slides, with the completed
-  earlier experiment on **2025-10-09–2026-01-18**. Its positive UP scores belong to
-  that earlier period.
+- [Historical trial](earlier_target_trial.pdf): 4 slides; the earlier
+  2025-10-09–2026-01-18 experiment retains its original spread-equity method.
 
-Pages 3 and 5 of the current decks highlight the negative UP Sharpes. The final
-three slides show the four-backend grid, changes versus TP, and changes versus the
-matched TB reference. Every cell now contains a reviewed result; the original
-AutoGluon/Kumo scores are unchanged. The cash comparison distinguishes
-positions held at entry cost from positions marked to current closing prices;
-neither is the spread-equity calculation.
+The baseline, paper reference, 48-cell matrix and both delta tables now use MTM.
+The separate LightGBM study in the full deck retains its own explicitly labelled
+method and dates. The new M2 fits differ from Pablo's saved fitted classifiers;
+M1, input trades and the financial calculation are what have been reproduced exactly.
 
-## What TP means
+## TP and TB
 
-**TP means true-positive meta-labeling, not take profit.** On a Kronos proposal
-(`pred=1`), the original dataset has `meta_label=lab`: label 1 if the signed
-seven-day close return exceeds the 0.2% fee, otherwise label 0. The sign is
-reversed for DOWN trades. This equivalence was checked on all 18,230 proposals
-with a complete future horizon across the 40 daily CSVs (5,269 UP / 12,961 DOWN),
-with zero mismatches. These counts cover the full source files, not only Test.
-
-The **TP column** reports M2 trained on that original target. **TB ref** keeps
-the same label but applies TB's eligibility filter. **TB-k** changes the label
-to the profit/stop/time-barrier outcome after fees. The execution policy in this
-comparison remains day 7 for every target. M2 predicts an unknown future outcome;
-the TP baseline does not select known future winners. The definition is on page
-12 of the short deck and page 28 of the full deck.
+**TP means true-positive meta-labeling, not take profit.** For a frozen Kronos
+proposal, label 1 means its signed day-7 return exceeds the 0.2% fee; otherwise 0.
+This was checked on 18,230 complete proposals in the 40 daily source CSVs.
+**TB ref** retains TP labels on TB-eligible samples. **TB-k** uses the outcome at
+profit, stop or expiry to label M1's proposals and train M2. Kronos stays frozen.
+All actual backtests keep day-7 exits: this tests targets, not early barrier execution.
 
 ## Four-backend comparison
 
-| Fresh M2 fit | TP | TB ref | TB k=0.5 | TB k=1 | TB k=1.5 | TB k=2 |
+Cash-MTM Sharpe, annualized from 28 seven-day returns:
+
+| Fresh M2 fit | TP | TB ref | k=0.5 | k=1 | k=1.5 | k=2 |
 |---|---:|---:|---:|---:|---:|---:|
-| AutoGluon UP | −2.1989 | −2.3745* | −2.2462 | −2.3764* | −2.3053 | −2.2801 |
-| AutoGluon DOWN | 0.3385 | 1.4521 | 1.8216 | 1.3574 | 1.3829 | 1.0802 |
-| Kumo UP | −1.9834 | −2.2551 | −2.4632 | −2.7139 | −2.0380 | −2.2250 |
-| Kumo DOWN | 1.8839 | 2.0008 | −0.2777 | 1.7312 | 1.8492 | 1.7296 |
-| TabPFN UP | −2.5266 | −2.5698 | −2.3531* | −2.5939 | −2.4448 | −2.5187 |
-| TabPFN DOWN | 0.8822 | 0.9883 | 1.5687 | 1.0459 | 0.8287 | 0.7971 |
-| Random Forest UP | −1.8000 | −1.5173 | −2.2215 | −1.7786 | −1.3877 | −1.8103 |
-| Random Forest DOWN | 1.2014 | 1.2459 | −0.4732 | −0.2561 | 1.2215 | 0.8245 |
+| AutoGluon UP | −1.3294 | −1.5814* | −1.1307 | −1.6379* | −1.4391 | −1.3788 |
+| AutoGluon DOWN | −0.1261 | 0.6953 | −0.2169 | 0.3721 | 0.7348 | 0.4143 |
+| Kumo UP | −1.4235 | −1.5327 | −1.6664 | −1.8809 | −1.4661 | −1.5579 |
+| Kumo DOWN | 0.5165 | 0.4035 | −1.1224 | 0.5105 | 0.7100 | 0.3976 |
+| TabPFN UP | −1.6506 | −1.6820 | −1.6470* | −1.8335 | −1.6046 | −1.7174 |
+| TabPFN DOWN | 0.7892 | 0.7427 | 0.8247 | 1.1614 | 0.6787 | 0.6348 |
+| Random Forest UP | −1.1054 | −0.9290 | −1.3210 | −0.9911 | −0.8393 | −0.9749 |
+| Random Forest DOWN | 0.6241 | 0.7796 | 0.0263 | 0.2788 | 0.7886 | 0.5585 |
 
-Added run: preparation **3234260**, training array **3234261**, report **3234262**;
-all completed with exit code 0.
-It calls the same production `m2_pipeline.py`, retains Pablo's configured dates,
-features, fees and threshold method, and freezes his direction-specific
-`HPO_NoCal` settings across all six targets. No new hyperparameter search runs.
-Random Forest uses 100 trees / depth 3 for UP and 900 / depth 12 for DOWN.
-TabPFN uses 4 ensemble estimators / temperature 0.9 for UP and 32 / 0.75 for DOWN,
-with the other saved parameters retained by the original factory. The exact
-parameter files and their provenance accompany the experiment code.
+\* Original utility search used its fallback threshold of 0.5. All three cells
+remain flagged; the MTM replay does not alter thresholds or approval decisions.
 
-Values are annualized spread-equity Sharpe, using 27 seven-day return observations.
-\* The utility constraint was not satisfied; the original pipeline used its 0.5
-fallback threshold. These cells remain in the comparison and are flagged in the PDF.
+All UP scores remain negative. The highest observed DOWN Sharpe is **TabPFN k=1,
+1.1614**: **+0.3722 versus TP**, **+0.4188 versus TB ref**; return **+14.0486%** and
+drawdown **−13.0613%**. RF UP k=1.5 reaches **−0.8393**, gains **+0.2661 versus TP**
+and **+0.0897 versus TB ref**, but still loses **18.1501%**. AutoGluon DOWN k=1.5
+gains +0.8609 versus TP and only +0.0395 versus TB ref. Gains depend on the backend
+and direction; these observations do not select an optimal k or establish significance.
 
-AutoGluon DOWN k=0.5 improves by **+1.4831 versus fresh TP**, **+0.3695 versus
-matched TB ref**, and **+0.0793 versus M1**. Its return is +61.5904%, with worse
-drawdown (−26.5509%) than TB ref (−13.9467%) and M1 (−17.0362%). For AutoGluon and
-Kumo, all volatility-barrier UP scores are below TP. Kumo's volatility-barrier
-variants also have lower DOWN Sharpe than its TP fit. There is no uniform TB gain.
+The cash engine uses available capital and probability-based M2 sizing; spread
+equity used average-concentration normalization. Consequently the earlier spread
+rankings cannot be carried over. Both MTM and book valuation give identical final
+returns after every position closes; MTM changes the equity path, drawdown and Sharpe.
 
-TabPFN DOWN k=0.5 improves by **+0.6865 versus TP** and **+0.5804 versus TB ref**,
-reaching Sharpe 1.5687, return +34.7808% and drawdown −17.5132%. It remains below
-M1's DOWN Sharpe 1.7423. Random Forest UP k=1.5 improves by **+0.4123 versus TP**
-and **+0.1296 versus TB ref**, but still has Sharpe −1.3877 and return −34.6094%.
-RF DOWN k=1.5 has only +0.0201 versus TP and −0.0244 versus TB ref. All UP cells
-remain negative; the highest observed DOWN Sharpe is Kumo TB ref at 2.0008.
+## Controls and limits
 
-There are three fallback-threshold cells: AutoGluon UP TB ref, AutoGluon UP k=1,
-and TabPFN UP k=0.5. Their 0.5 threshold was used because the utility constraint
-was not satisfied; the asterisks make those cases explicit.
+Both completed runs use the frozen GPU8 production source and configuration:
+`gpu8-targets-20261028-104504` (AutoGluon/Kumo) and
+`gpu8-targets-20261029-030611` (TabPFN/RF). The latter's preparation 3234260, training
+3234261 and report 3234262 completed successfully. RF/TabPFN use Pablo's saved
+HPO_NoCal parameters, fixed by direction across targets. No new fitting, tuning or
+threshold selection accompanied the MTM replay.
 
-A [validation replay](pilot_results/gpu8_four_backends/threshold_fallback_audit.json)
-identified a mismatch in the original pipeline: those searches use 640 proposals,
-but their M1 precision reference uses 722 before embargo. Using the same 640 rows
-for the reference makes all three selections feasible, without retraining or using
-Test outcomes. The correction is on branch `fix/threshold-validation-cohort`;
-the matrix above still records Pablo's original rule. The 27 weekly observations
-and one fit per cell are separate limitations, unaffected by this correction.
+TB eligibility removes 13 UP / 64 DOWN early TON training proposals. It also
+excludes 32 UP / 90 DOWN tail rows with unavailable returns; the production TP
+backtest drops the same rows. Realized Test trades and features match across all
+48 cells. TB-k versus TB ref controls eligibility; versus TP includes that change.
 
-The TB eligibility rule removes 13 UP and 64 DOWN early TON training proposals.
-It also excludes 32 UP / 90 DOWN tail rows whose returns are unavailable; the
-production TP backtest drops those same rows. Realized Test trades, fees and
-features match across all targets and backends; Val-Cal/Val-Opt counts and date
-boundaries match. TB-k versus TB-ref is the comparison with matched eligibility.
-This is one fit per cell on an already inspected Test period, with fixed day-7
-execution: no significance or optimal-k claim, and no early barrier-exit execution.
+Three original fallback cases remain: AutoGluon UP TB ref and k=1, TabPFN UP k=0.5.
+The [threshold audit](pilot_results/gpu8_four_backends/threshold_fallback_audit.json)
+found that the validation precision reference included 722 proposals while the
+search used 640 after embargo. Aligning those rows removes the three validation
+fallbacks. The code correction is separate on `fix/threshold-validation-cohort`;
+it has **not** been applied to this matrix. One fit per cell, 28 returns and an
+already inspected Test period remain limitations.
 
-[Reviewed metrics and both deltas](pilot_results/gpu8_four_backends/reviewed_results.csv),
-[four-backend slide evidence](pilot_results/gpu8_four_backends/slide_data.json),
-the [AutoGluon/Kumo verification](pilot_results/gpu8_target_trial/gpu8-targets-20261028-104504/verification.json),
-the [TabPFN/RF verification](pilot_results/gpu8_target_trial/gpu8-targets-20261029-030611/verification.json),
-and the [cross-run comparison](pilot_results/gpu8_four_backends/cross_run_verification.json)
-record the results. The two verifications replay all 288 M1/M2 metrics from saved trades
-within 0.0001, check the frozen source and daily input hashes, verify generated
-label hashes, and match the cluster comparison reports. The replay uses `return_pct / 100`
-for the CSV's extra precision, after cross-checking the fractional return column.
-The combined evidence includes 48 reviewed scores. Downloading and reviewing are
-separate steps; the downloader alone does not publish scores.
+## Evidence
 
-## Rebuild the PDFs
+The [paper reconciliation](pilot_results/paper_mtm_20261029/RECONCILIATION.md)
+records the source files and checks. All 40 daily inputs are byte-identical to
+GPU8. The audit checks all 280 paper summary rows, replays 150 metrics from its
+10 Kronos daily cells, and matches M1 in all 48 pilot cells within 1e-9.
+Every position closes; book and MTM final returns agree.
 
-Keep slide H1 titles descriptive and short (2–5 words). Use one takeaway per slide;
-keep detailed methods and audit explanations in the speaker notes and evidence files.
+- [Current slide data](pilot_results/paper_mtm_20261029/slide_data.json).
+- [Current metrics and both deltas](pilot_results/paper_mtm_20261029/reviewed_results.csv).
+- [48 replayed cells](pilot_results/paper_mtm_20261029/our_48_cells_extended_mtm.csv).
+- [Engine/calendar bridge](pilot_results/paper_mtm_20261029/m1_engine_bridge.csv).
+- [Original spread results, archived](pilot_results/gpu8_four_backends/slide_data.json).
 
-From the repository root, with Typst installed:
+The original [AutoGluon/Kumo verification](pilot_results/gpu8_target_trial/gpu8-targets-20261028-104504/verification.json),
+[TabPFN/RF verification](pilot_results/gpu8_target_trial/gpu8-targets-20261029-030611/verification.json)
+and [cross-run checks](pilot_results/gpu8_four_backends/cross_run_verification.json)
+retain source, parameter and input parity evidence. They describe the original
+pipeline outputs, not the subsequent MTM valuation.
+
+## Rebuild
+
+Keep descriptive H1 titles short (2–5 words), one takeaway per slide, and methods
+in the notes. From the thesis workspace:
 
 ```sh
+code/SecondaryModel/.venv/bin/python report/triple_barrier/analysis/reconcile_paper_mtm.py
+code/SecondaryModel/.venv/bin/python report/triple_barrier/analysis/prepare_mtm_slides.py
 typst compile --root report report/triple_barrier/prendinger_brief.typ report/triple_barrier/prendinger_brief.pdf
 typst compile --root report report/triple_barrier/main.typ report/triple_barrier/main.pdf
-typst compile --root report report/triple_barrier/earlier_target_trial.typ report/triple_barrier/earlier_target_trial.pdf
+code/SecondaryModel/.venv/bin/python report/triple_barrier/analysis/verify_mtm_decks.py
 ```
 
-The required figures, JSON/YAML inputs, shared theme and logos accompany the
-sources. Inter and New Computer Modern are the intended fonts; font availability
-can affect layout on another machine.
-
-The GitHub copy is a presentation build snapshot. Dataset caches, model weights,
-private administrative files and temporary previews are excluded. Python analysis
-and download helpers in the original thesis workspace are separate from this
-standalone Typst build. Speaker notes retain their original research provenance
-and workspace references.
+The GitHub copy is a standalone Typst build snapshot with its figures, slide data,
+shared theme and logos. Financial replay helpers require the original thesis
+workspace's inputs and trained-run artifacts; PDF verification uses the supplied
+slide data. Intended fonts: Inter and New Computer Modern.

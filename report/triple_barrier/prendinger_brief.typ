@@ -1,4 +1,4 @@
-// Thesis discussion with training diagnostics and original-pipeline Test results for SecondaryModel's
+// Thesis discussion with training diagnostics and paper-aligned cash-MTM Test results for SecondaryModel's
 // own 20-asset Kronos-forecast universe (not the Synthetic-Generation `fit20` cohort --
 // that's an unrelated regime-model calibration set; only 13/20 overlap).
 // rtk proxy typst compile --root report report/triple_barrier/prendinger_brief.typ report/triple_barrier/prendinger_brief.pdf
@@ -17,8 +17,8 @@
   subtitle: [Triple-barrier labels · four backends · 20 crypto assets],
   meta: (
     ("Author", [Elie Bruno · NII Tokyo]),
-    ("Setup", [Daily candles · frozen Kronos · day-7 backtests]),
-    ("Baseline", [M1 UP Sharpe: #metric(current-up.stats.m1_sharpe, digits: 4)]),
+    ("Setup", [Daily candles · frozen Kronos · cash-MTM · day-7 exits]),
+    ("Baseline", [M1 UP Sharpe: #metric(current-up.sharpe, digits: 4)]),
     ("Updated", [29 October 2026 · #comparison-status]),
   ),
 )

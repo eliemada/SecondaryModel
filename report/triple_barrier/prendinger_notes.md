@@ -4,27 +4,29 @@ Préparation : 22 octobre 2026 ; résultats mis à jour le 29 octobre. Présenta
 
 ## La proposition
 
-Présenter le diagnostic des labels, le baseline GPU8 reproduit, puis les **48 résultats M2 terminés et vérifiés** : AutoGluon, Kumo, TabPFN et Random Forest. La slide 12 définit TP ; les slides 13–15 montrent tous les Sharpes et les deux deltas. Le baseline UP reste négatif : −2,5744. L'ancienne matrice positive en UP est conservée dans `earlier_target_trial.pdf`, sur son Test 2025-10-09–2026-01-18.
+Les deux PDF utilisent désormais le **moteur cash-MTM du papier**, avec les mêmes 48 fits AutoGluon, Kumo, TabPFN et Random Forest. Entrées Test : **2026-01-08–2026-07-18** ; dernières sorties et valorisation : **2026-07-25**. Cela donne 199 barres et **28 rendements hebdomadaires**.
 
-**TP signifie true positive, pas take profit.** Parmi les propositions Kronos, label 1 signifie que le rendement signé au jour 7 dépasse les frais de 0,2 % ; sinon label 0. Le signe est inversé pour DOWN. La colonne TP correspond à un M2 entraîné sur ce label initial. TB ref garde ce label avec le filtre d'éligibilité TB ; TB-k change la cible selon l'issue des barrières. L'exécution du backtest reste à J+7 pour toutes les colonnes.
+**M1 est reproduit dans les 48 cellules** : UP, rendement −43,3134 %, Sharpe −2,0372 ; DOWN, rendement +12,8333 %, Sharpe +0,7622. Les 40 CSV journaliers sont identiques à GPU8. L'écart précédent provenait du moteur spread et du calendrier tronqué à la dernière entrée, pas des propositions de M1. Les lignes de `roi_ext_mtm.csv` et leurs fichiers sources sont dans `pilot_results/paper_mtm_20261029/`.
 
-TabPFN et RF utilisent les paramètres HPO_NoCal sauvegardés chez Pablo, figés par direction et conservés entre targets. RF : 100 arbres / profondeur 3 UP, 900 / profondeur 12 DOWN. TabPFN : 4 estimateurs UP et 32 DOWN. Jobs : préparation 3234260, entraînement 3234261, rapport 3234262. Il s'agit de 24 fits supplémentaires, sans relancer les 24 AG/Kumo déjà terminés.
+**Le TBM étiquette les propositions de M1 pour entraîner M2.** Kronos et ses prévisions restent figés. TP signifie true-positive meta-labeling, pas take profit : label 1 si le rendement signé au jour 7 dépasse les frais de 0,2 %. TB ref garde ce label sur les mêmes exemples éligibles que TB-k ; TB-k utilise l'issue profit/stop/expiration. Les backtests financiers de toutes les colonnes gardent des sorties à J+7.
 
-Résultat principal sur le Test **2026-01-08–2026-07-18** : AutoGluon DOWN à k=0,5 atteint 1,8216 de Sharpe, soit +1,4831 contre son nouveau TP, mais seulement +0,3695 contre TB ref à éligibilité identique. Le drawdown est plus profond : −26,55 %, contre −13,95 % pour TB ref. Pour AutoGluon et Kumo, aucun TB-k ne dépasse le TP en UP ; les quatre TB-k de Kumo sont également sous son TP en DOWN. Kumo DOWN TB ref obtient 2,0008 ; ce contrôle conserve les labels TP.
+Les slides 13–15 montrent les 48 Sharpes MTM et les deux deltas recalculés. **Tous les Sharpes UP restent négatifs.** Le plus haut DOWN observé est TabPFN k=1 : **1,1614**, soit **+0,3722 contre TP** et **+0,4188 contre TB ref**. Rendement +14,0486 %, drawdown −13,0613 %. Son Sharpe dépasse M1 DOWN (0,7622), sans constituer une preuve statistique de supériorité.
 
-Les 24 nouveaux fits ont terminé avec succès, ainsi que leur rapport. TabPFN DOWN à k=0,5 passe de 0,8822 (TP) à **1,5687** : +0,6865 contre TP, **+0,5804 contre TB ref**. Il reste sous le Sharpe M1 DOWN de 1,7423. Random Forest UP à k=1,5 passe de −1,8000 à **−1,3877** : +0,4123 contre TP, **+0,1296 contre TB ref**, mais le rendement reste négatif (−34,6094 %). RF DOWN à k=1,5 gagne seulement +0,0201 contre TP et perd −0,0244 contre TB ref. Tous les Sharpes UP de la matrice restent négatifs.
+RF UP k=1,5 : Sharpe **−0,8393**, gain **+0,2661 contre TP**, **+0,0897 contre TB ref** ; rendement toujours négatif, **−18,1501 %**. AutoGluon DOWN k=1,5 gagne +0,8609 contre TP mais seulement +0,0395 contre TB ref. Les conclusions du précédent calcul spread ne doivent pas être réutilisées.
 
-Les 77 observations TON retirées de l'entraînement (13 UP, 64 DOWN) expliquent pourquoi le delta contre TP ne mesure pas uniquement le changement de label. Les trades Test réalisés et les features sont identiques entre les 48 fits. Trois cellules utilisent le seuil de repli 0,5 : AutoGluon UP TB ref et k=1, ainsi que TabPFN UP k=0,5. La contrainte d'utilité n'a pas été satisfaite dans ces cas. Les nouvelles performances TP ne reproduisent pas exactement les anciens modèles de Pablo ; comparer les targets aux nouveaux TP de ce même run.
+Les M2 sont de nouveaux fits : leurs probabilités et leurs décisions diffèrent des modèles sauvegardés du papier, même dans TP. Chaque delta compare le nouveau fit à son propre TP ou TB ref. Le moteur cash utilise aussi les probabilités de M2 pour la taille des positions ; le delta reflète donc le modèle complet avec cette règle de taille fixe.
 
-Les 288 métriques M1/M2 ont été rejouées depuis les CSV, avec un écart inférieur à 0,0001. Les 24 nouveaux fits ont bien chargé les paramètres GPU8 : contrôle des fichiers et des logs de production. Une exécution par cellule, 27 observations hebdomadaires, Test déjà inspecté : résultat exploratoire, pas de sélection d'un k optimal ni de preuve de significativité. L'exécution reste fixée au jour 7. Les notes méthodologiques ci-dessous conservent le contexte des diagnostics initiaux.
+Les 77 propositions TON retirées de l'entraînement (13 UP, 64 DOWN) expliquent pourquoi le delta contre TP inclut aussi un effet d'éligibilité. Trois cellules conservent le seuil de secours 0,5 : AutoGluon UP TB ref et k=1, TabPFN UP k=0,5. La correction séparée de la référence de précision sur validation n'a pas été appliquée ici : aucun seuil ni modèle n'a été modifié par le replay MTM.
 
-Conserver pour ce premier test les bougies OHLC journalières actuelles, les sorties de Kronos déjà calculées, les mêmes features et un horizon maximum de 7 bougies. Changer le label n'impose ni une nouvelle représentation des bougies ni un réentraînement de M1.
+TabPFN et RF conservent les paramètres HPO_NoCal de Pablo, figés par direction entre targets. RF : 100 arbres / profondeur 3 UP, 900 / profondeur 12 DOWN. TabPFN : 4 estimateurs UP, 32 DOWN. Les deux vagues de 24 fits sont terminées ; la mise à jour des slides ne les réentraîne pas.
+
+Les contrôles vérifient 280 lignes du tableau du papier, rejouent 150 métriques pour ses 10 cellules Kronos 1d, puis les 48 cellules de notre expérience. Toutes les positions sont clôturées. Les rendements finaux cash au coût d'entrée et MTM concordent. Une exécution par cellule et un Test déjà inspecté : comparaison exploratoire, sans sélection d'un k optimal ni preuve de significativité.
 
 ## Périmètre exact et reproductibilité
 
 Cette présentation utilise les lignes du fichier real/1d.parquet correspondant aux 20 actifs déjà couverts par les prévisions Kronos de SecondaryModel (et non la colonne fit20, qui est la cohorte de calibration du modèle de régime de Synthetic-Generation, sans rapport avec la couverture Kronos — seuls 13 des 20 actifs se recoupent), avec period = train, embargo = False, pred_class dans UP/DOWN et kronos_valid = True.
 
-- 20 actifs.
+- 19 des 20 actifs sources ; TON est absent du parquet de ces diagnostics.
 - 7 593 propositions éligibles : 1 921 UP et 5 672 DOWN.
 - Aucune ligne perdue au filtre de 120 observations d'historique pour la volatilité.
 - Période d'entraînement définie par le projet : juillet 2024 à août 2025 ; les événements traversant la frontière de période sont exclus.
@@ -45,7 +47,7 @@ Les rendements à J+7 recalculés depuis les bougies sont vérifiés contre ret_
 
 C'est une vérification de la définition de succès de M2, et non une promesse que TBM améliore les performances.
 
-## Slide 2 — Faut-il réentraîner M2 ?
+## Slide 6 — Faut-il réentraîner M2 ?
 
 Trois opérations différentes :
 
@@ -61,7 +63,7 @@ Avec le recipe actuel, les modèles long et short sont séparés. Deux versions 
 
 Pour une recherche complète de k, chaque candidat change le target : il faut donc aussi ajuster M2 pour ce target sur l'entraînement. Les prédictions de M1 sont réutilisables si les événements et features restent inchangés.
 
-## Slide 3 — Bougies habituelles et application aux deux directions
+## Slide 7 — Bougies habituelles et application aux deux directions
 
 Exemple réel BTC, entrée au close du 3 juillet 2024, signal Kronos UP. L'exemple a été sélectionné dans l'entraînement parce qu'il illustre clairement un stop avant l'expiration, sans ambiguïté de double touche.
 
@@ -76,7 +78,7 @@ Une même date et un même actif donnent la même volatilité pour les deux côt
 
 Les bougies futures créent le label. Elles ne deviennent pas des inputs de M2.
 
-## Slide 4 — Volatilité par actif et dans le temps
+## Slide 8 — Volatilité par actif et dans le temps
 
 Le paramètre recommandé pour commencer est un k global, mais la largeur est w(a,t) = k·σ(a,t)·√7.
 
@@ -94,7 +96,7 @@ Un k global ne signifie donc pas des barrières identiques pour les 20 actifs. L
 
 La règle √7 est une approximation de mise à l'échelle de variance, pas un résultat exact ni une obligation de TBM. Normaliser par σ ne garantit pas des risques de queue identiques.
 
-## Slide 5 — Différences UP/DOWN
+## Slide 9 — Différences UP/DOWN
 
 Mesures à k = 1 sur les propositions réelles, pondérées par événement à l'intérieur de chaque direction :
 
@@ -124,7 +126,7 @@ Les proportions de labels positifs ne sont pas l'accuracy de M2 : M2 n'intervien
 
 Le fichier brief_fit20_asset_direction.csv fournit aussi la ventilation par actif, direction et k. Examiner les effectifs avant d'interpréter une petite sous-population. On ne compte qu'une double touche à k = 1 dans ce périmètre.
 
-## Slide 6 — Ce que montre la grille de k
+## Slide 10 — Ce que montre la grille de k
 
 Chaque actif a le même poids dans ces deux courbes :
 
@@ -143,7 +145,7 @@ Le point à faire passer : « A similar binary label can hide a different trade.
 
 Ces courbes caractérisent le target. Elles ne mesurent pas la performance d'un M2 et ne permettent pas, seules, de choisir le meilleur k.
 
-## Slide 7 — Comment choisir k ?
+## Slide 11 — Comment choisir k ?
 
 Recommandation : un k partagé entre actifs et directions pour le premier test. La volatilité réalise déjà une adaptation par actif et par date. Vingt k individuels, puis deux directions, ajoutent beaucoup de choix à estimer avec peu de données par sous-groupe.
 
@@ -162,21 +164,17 @@ Un k par direction, par groupe d'actifs ou par actif ne vient qu'après une amé
 
 Références : AFML §§3.3–3.7, ch. 7 et ch. 11 ; [travaux de López de Prado sur le backtest overfitting](https://www.quantresearch.org/Publications.htm).
 
-## Quatre slides d'ouverture — Dates, baseline vérifié, valorisation et référence GPU8
+## Slides 2–5 — Dates, M1 et méthode du papier
 
-Après la couverture, les pages 2 à 5 montrent successivement les périodes exactes, les résultats M1 reproduits, les trois conventions de calcul du portefeuille et les résultats M2 sauvegardés de Pablo. La couverture et la slide de baseline affichent le Sharpe UP −2,5744 ; la colonne UP du tableau de Pablo est mise en évidence. Les deux vagues AG/Kumo et TabPFN/RF sont terminées : 48 / 48 fits vérifiés et affichés sur les slides finales. Les 24 fits de l'ancien essai ont leur propre PDF historique.
+La slide 2 garde trois lignes : train, validation, Test. Le Test désigne les entrées ; une ligne de bas de page précise les dernières sorties au 25 juillet. Les dates effectives train et validation restent celles du loader original de Pablo.
 
-La configuration locale reprend désormais celle observée sur GPU8, seuls les chemins de fichiers étant adaptés : début 2024-07-01, fin train 2025-08-31, fin validation 2025-12-31, fin des données 2026-08-01. Les 280 CSV TP sont identiques octet par octet à GPU8. Cela ne transforme pas les résultats du précédent run en résultats de ce nouveau protocole.
+La slide 3 affiche le M1 cash-MTM reproduit : −2,0372 UP, +0,7622 DOWN. La slide 4 distingue la perte finale du drawdown : après liquidation complète, le rendement UP est −43,31 % avec ou sans MTM ; le drawdown est −45,35 % au coût d'entrée et −48,75 % en MTM. MTM change la trajectoire de valorisation, donc le risque mesuré.
 
-Les dates d'entrée réellement utilisées sont affichées séparément : diagnostics de labels 2024-07-01–2025-08-24 ; matrice AG/Kumo terminée, Test 2025-10-09–2026-01-18 ; résultats enregistrés de Pablo, Test 2026-01-08–2026-07-18. Le benchmark LightGBM distinct utilise les entrées train 2024-07-01–2025-08-24, validation 2025-09-01–2025-12-24 et Test 2026-01-01–2026-09-23. Ce sont des dates d'entrée, pas nécessairement les dates finales de liquidation ou de P&L.
+La slide 5 reprend les valeurs cash-MTM du papier pour RF, AutoGluon, CTTS, TabPFN et TabICL. Le M1 est commun ; les M2 du papier et nos M2 réentraînés sont distincts. La matrice finale utilise exclusivement nos nouveaux fits, avec le même moteur et le même calendrier de sortie que le papier.
 
-Les huit résultats 1d TP de Pablo (AutoGluon, CTTS, TabPFN, TabICL, UP/DOWN) ont été téléchargés puis rejoués avec le moteur spread-equity local : les 48 métriques M1/M2 de rendement, drawdown et Sharpe concordent à moins de 0,0001. Les CSV arrondissent les rendements à six décimales. Ce contrôle réutilise les décisions enregistrées de Pablo ; il ne réentraîne aucun classifieur. Le Test comporte 192 barres et 27 rendements hebdomadaires.
+Reconstruction : `analysis/reconcile_paper_mtm.py`, puis `analysis/prepare_mtm_slides.py`. Les nombres affichés et les deltas proviennent de `pilot_results/paper_mtm_20261029/slide_data.json`. Le script de reconstruction des slides n'applique pas la correction de seuil isolée sur `fix/threshold-validation-cohort`.
 
-Le « −45 % » correspond notamment au drawdown M1 UP du rapport cash-account : rendement −43,60 %, drawdown −45,35 %. Le rapport spread-equity, sur les mêmes dates, donne rendement −54,2478 % et Sharpe −2,5744. Nommer le moteur et la métrique à chaque comparaison.
-
-La reproduction de l'entraînement reste à vérifier. L'ancien essai Izar utilisait `9a272f5` et ignorait LightGBM faute de dépendance. La nouvelle copie isolée utilise le commit GPU8 `5b61d08` et les versions principales observées chez Pablo, avec LightGBM disponible. La préparation corrigée, les 24 fits et le rapport sont terminés. Les nouveaux TP diffèrent numériquement des anciens M2 de Pablo ; les deltas utilisent les contrôles du nouveau run. Les sorties de référence sont dans `pilot_results/gpu8_reference_5b61d08/`, et leur replay spread est reproductible avec `analysis/replay_gpu8_reference.py`.
-
-## Slides finales — Le test réellement lancé
+## Archive — ancien essai 2025-10-09–2026-01-18
 
 La matrice exécutée croise **deux backends** (AutoGluon, Kumo), **six targets** (TP original, TB ref, k = 0,5 / 1 / 1,5 / 2) et **deux directions** : 24 fits. Chaque backend possède sa propre baseline TP. L'exécution reste à J+7 dans toutes les cellules ; nous ne testons pas encore des sorties TB ni l'augmentation synthétique.
 
@@ -195,7 +193,7 @@ La matrice montre le Sharpe Test de chaque cellule et sa différence par rapport
 
 **Résultats complets au 27 octobre 2026 : 24/24 fits et rapport terminés avec succès.** Avec Kumo, k = 1 passe de 1,291 à 2,182 en UP et de 4,129 à 4,956 en DOWN par rapport à TB ref. En DOWN, il reste sous le TP original (5,353) et son rendement baisse de 104,21 % à 77,77 % par rapport à TB ref. Avec AutoGluon, k = 2 passe de 0,712 à 1,184 en UP et de 5,507 à 6,353 en DOWN ; ce dernier gain de Sharpe s'accompagne lui aussi d'un rendement inférieur au contrôle (131,98 % à 113,04 %). k = 0,5 dégrade fortement le DOWN pour les deux backends. La conclusion présentable est donc une amélioration du Sharpe pour certains couples backend/k sur cette fenêtre, pas une amélioration universelle du TB ni un k optimal confirmé.
 
-## Lecture prudente du Sharpe
+## Archive — Sharpe de cet ancien essai
 
 Le moteur original est conservé : il étale les rendements des trades sur sept barres, normalise par la concentration moyenne, puis compose la courbe. Le Test couvre 102 barres et **14 rendements non chevauchants de sept jours** ; le Sharpe est annualisé par √(365,25/7). Ce sont des statistiques de ce backtest sur une fenêtre courte, pas des performances annuelles réalisées ni un audit validant le moteur d'exécution.
 
@@ -227,7 +225,7 @@ Depuis la racine du dépôt :
 
 Cette commande récupère les résultats disponibles, vérifie leur parité, régénère les tableaux et la figure, puis compile les deux PDF. Elle ne réentraîne aucun modèle et ne remplace jamais un résultat manquant par celui d'une ancienne expérience.
 
-## Relance aux dates de Pablo — soumise le 27 octobre 2026 UTC
+## Archive — relance et vérifications du moteur spread
 
 Run `gpu8-targets-20261027-153632` : préparation 3233005, matrice 3233006, rapport 3233007. Checkout isolé `code/SecondaryModel-gpu8`, révision GPU8 5b61d08. Cutoffs : début 2024-07-01, fin train 2025-08-31, fin validation 2025-12-31, fin données 2026-08-01. La référence Test à reproduire contient les entrées 2026-01-08–2026-07-18.
 

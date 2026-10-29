@@ -8,57 +8,56 @@ below retain their original 22 October section numbering.
 
 ## Current result update
 
-TP means **true-positive meta-labeling**. For a Kronos proposal, the original
-label is 1 if its signed day-7 close return exceeds the 0.2% fee, otherwise 0.
-For DOWN, reverse the return sign. TP is the original target baseline, while
-TB ref retains those labels on TB-eligible samples and TB-k changes the target
-using barrier outcomes. A profit-taking barrier is a different concept; all
-reported executions remain fixed at day 7. The definition matches all 18,230
-complete-horizon proposals in the 40 daily source CSVs.
+Both current decks use **the paper's cash-MTM calculation**. Test entries are
+2026-01-08–2026-07-18; final day-7 exits are on **2026-07-25**. The equity calendar
+has **199 bars and 28 non-overlapping weekly returns**. The separate LightGBM
+appendix and historical PDF retain their own explicitly labelled methods and dates.
 
-The expansion uses the unchanged GPU8 RF/TabPFN implementations and his saved
-direction-specific HPO_NoCal parameters, frozen across targets without a new
-search. Preparation 3234260, training array 3234261 and report 3234262 all completed
-successfully. The comparison has four backends × six targets × two directions.
+All 48 cells reproduce the paper's M1: UP return **−43.3134%**, Sharpe **−2.0372**;
+DOWN return **+12.8333%**, Sharpe **+0.7622**. All 40 daily source CSVs match GPU8
+byte for byte. The former discrepancy came from the spread-equity calculation
+and ending the equity calendar at the last entry, not from different M1 trades.
 
-All 48 fits use Pablo's configured dates. Realized Test: 2026-01-08–2026-07-18;
-M1 UP Sharpe −2.5744, DOWN +1.7423. All UP M2 Sharpes remain negative. AutoGluon
-and Kumo's TB-k UP scores are all below their fresh TP scores; some TabPFN/RF
-targets improve the UP Sharpe while still losing money.
+MTM values open positions at each close. Once every position is closed, final
+return is identical with or without MTM, while drawdown and Sharpe can differ.
+M1 requests 10% of free cash per proposal, filled pro rata when oversubscribed.
+M2 uses the same cash engine with probability-dependent position sizes. The rule
+is fixed across targets; a model's probabilities can change both selection and sizing.
 
-AutoGluon DOWN k=0.5: Sharpe 1.8216, delta +1.4831 versus fresh TP, +0.3695
-versus matched TB ref, +0.0793 versus M1. Return +61.5904%; drawdown −26.5509%,
-worse than TB ref's −13.9467%. Kumo's four volatility-barrier targets trail its
-TP in both directions. Kumo DOWN TB ref scores 2.0008 and retains TP labels.
+**TB labels M1's proposals to train M2.** Kronos stays frozen. TP means true-positive
+meta-labeling: a signed day-7 close return above the 0.2% fee gives label 1; otherwise
+0. TB ref retains this target on TB-eligible samples, and TB-k changes the target
+using profit/stop/expiry outcomes. The actual backtest still exits at day 7 for
+all targets. This is not a test of early barrier execution.
 
-TabPFN DOWN k=0.5: TP 0.8822 → 1.5687, delta +0.6865 versus TP and +0.5804
-versus matched TB ref; return +34.7808%, drawdown −17.5132%. It still trails M1's
-DOWN Sharpe. Random Forest UP k=1.5: TP −1.8000 → −1.3877, delta +0.4123 versus
-TP and +0.1296 versus TB ref; return remains −34.6094%. RF DOWN k=1.5 is only
-+0.0201 versus TP and −0.0244 versus TB ref. These are observed contrasts, not
-confirmed optimal choices of k.
+All UP scores remain negative. The highest observed DOWN Sharpe is **TabPFN k=1:
+1.1614**, delta **+0.3722 versus TP** and **+0.4188 versus TB ref**; return +14.0486%,
+drawdown −13.0613%. It exceeds the M1 DOWN Sharpe of 0.7622 in this sample.
+RF UP k=1.5 scores **−0.8393**, delta **+0.2661 versus TP** and **+0.0897 versus TB ref**;
+return remains **−18.1501%**. AutoGluon DOWN k=1.5 gains +0.8609 versus TP but only
++0.0395 versus TB ref. These are descriptive comparisons, not confirmed choices of k.
 
-TB ref controls for 77 early TON training proposals removed by the eligibility
-rule (13 UP, 64 DOWN); realized Test trades and features match across all 48 fits.
-AutoGluon UP TB ref and k=1, plus TabPFN UP k=0.5, failed the utility constraint
-and used the pipeline's 0.5 fallback threshold. New TP fits differ from Pablo's saved M2 scores; all deltas
-use the newly fitted model's own controls.
+The 48 M2 models are fresh fits. Even TP probabilities and approval decisions
+differ from the paper's saved models. The paper table is a reference, not an exact
+reproduction of its fitted M2 classifiers. All target deltas use our own TP/TB ref.
+The saved direction-specific RF/TabPFN HPO parameters remain fixed across targets;
+no new training, hyperparameter search or threshold selection accompanied this replay.
 
-We replayed all 288 M1/M2 metrics within 0.0001 from the saved trade CSVs. The
-24 added fits' parameter files and production logs match the frozen GPU8 settings. This is
-an exploratory comparison with 27 horizon returns and one fit per cell, not a
-significance test or an optimal-k selection. Trade execution remains fixed at
-day 7. See README.md and the linked CSV for all scores and both delta definitions.
+TB ref controls for the 77 early TON training proposals removed by eligibility
+(13 UP, 64 DOWN). AutoGluon UP TB ref and k=1, plus TabPFN UP k=0.5, retain the
+original 0.5 fallback threshold and remain marked with an asterisk. The separate
+validation-cohort correction is not applied to these results. That correction aligns
+a 722-row precision reference with the 640 rows actually searched; its validation
+replay removes these three fallbacks, but it is a distinct threshold-policy change.
 
-Threshold audit (29 October): the original validation precision floor includes
-722 UP proposals, while the optimizer uses only 640 after embargo. Aligning the
-reference to those same rows removes all three flagged validation fallbacks:
-AutoGluon TB ref → 0.549748744, AutoGluon TB k=1 → 0.609913588, and TabPFN TB k=0.5
-→ 0.509765625. These are revised validation thresholds, not revised Test scores.
-The original matrix remains the Pablo-matched result; the code correction is
-isolated on `fix/threshold-validation-cohort`. See `threshold_fallback_audit.json`.
+Verification: all 280 paper summary rows agree with their full-precision source;
+150 metrics from the 10 Kronos daily paper cells were replayed; all 48 pilot M1
+baselines match and all positions close. The displayed matrix and both sets of
+deltas come from `pilot_results/paper_mtm_20261029/slide_data.json`, produced by
+`analysis/prepare_mtm_slides.py` after `analysis/reconcile_paper_mtm.py`.
 
-Reviewed source: the supplied López de Prado (2018), *Advances in Financial Machine Learning*, especially §§3.2–3.7, with §7.4 for validation and §10.3 for sizing. Page numbers refer to the printed book.
+One fit per cell and an already inspected Test period remain limitations. This
+is an exploratory comparison, not a significance test or an optimal-k selection.
 
 ## The explanation in one minute
 
@@ -344,7 +343,9 @@ To redraw only the two illustrative SVGs, using the existing environment with Ma
 
 Existing empirical outputs and charts are unchanged. The included teaching SVGs allow compilation without rerunning Python.
 
-## Run history — GPU8 checks and the earlier target trial
+## Archived run history — original spread calculations and earlier trial
+
+The following records describe earlier checks and are not the cash-MTM figures in the current PDFs. Use the current result update above for the presentation.
 
 Four opening evidence slides now separate dates, show the newly verified M1 baseline, explain the spread/cash valuation difference and present Pablo's saved M2 reference. The current config cutoffs are start 2024-07-01, train end 2025-08-31, validation end 2025-12-31 and data end 2026-08-01. All 280 TP input CSVs match GPU8 byte for byte. Pablo's actual saved 1d Test entries are 2026-01-08–2026-07-18. The historical AG/Kumo matrix retains its earlier 2025-10-09–2026-01-18 Test period; the new matrix uses the GPU8 Test dates.
 
@@ -360,7 +361,7 @@ Cash-report qualification from the 2026-10-28 replay: the saved GPU8 cash figure
 
 Independent local daily input checks also passed for all six targets × both directions, using the original data preparation and equity functions with only 1d loaded. Every target has the same realized Test trade identities and M1 metrics within its direction. DOWN M1: return +30.440865%, maximum drawdown −17.036193%, Sharpe +1.742319, 2,580 realized trades. TP drops 32 UP and 90 DOWN Test rows lacking realized returns. The replacement cluster preparation subsequently passed for every target and direction before all 24 fits completed. Evidence: `pilot_results/gpu8_target_trial/gpu8-targets-20261028-104504/local_daily_baselines.json`. The loader's actual eligible training entries begin 2024-06-30 despite the configured 2024-07-01 start because of its context-window convention; training ends 2025-08-31. Val-Cal entries are 2025-09-08–2025-10-18 and Val-Opt 2025-10-26–2025-12-31. These original pipeline conventions are preserved.
 
-The earlier three result slides are now preserved in the separate `earlier_target_trial.pdf`, built from `target_trial_slides.typ` and `pilot_results/original_test/slide_data.json`. They use the earlier Test window, 9 October 2025 to 18 January 2026: 20 source assets, AutoGluon and Kumo, six targets, UP/DOWN, fixed day-7 execution. The current decks end with the completed four-backend matrix (48 reviewed scores) and two delta tables for Pablo's 2026-01-08–2026-07-18 Test window, with the verified negative UP baseline −2.5744. Do not read the historical positive-UP matrix as results of the current rerun.
+The earlier three result slides are now preserved in the separate `earlier_target_trial.pdf`, built from `target_trial_slides.typ` and `pilot_results/original_test/slide_data.json`. They use the earlier Test window, 9 October 2025 to 18 January 2026: 20 source assets, AutoGluon and Kumo, six targets, UP/DOWN, fixed day-7 execution. The current decks end with the completed four-backend matrix (48 reviewed scores) and two delta tables for Pablo's 2026-01-08–2026-07-18 Test window, with the paper-aligned cash-MTM UP baseline −2.0372 after the 29 October reconciliation. Do not read the historical positive-UP matrix as current results.
 
 For the historical trial only, M1 UP Sharpe is 0.5625 and return +1.8003%. Compare TB with the same backend's matched TB-reference result in that window and direction. The generator's 120-day history rule excludes 77 early TON training calls (13 UP, 64 DOWN). TB reference applies that same filter to the original labels, so it isolates label effects; differences from unfiltered TP also include the eligibility change. The generated `original_test/experiment_test.md` contains these historical numbers. The completed GPU8-date results are in `gpu8_target_trial/gpu8-targets-20261028-104504/experiment_test.csv`.
 

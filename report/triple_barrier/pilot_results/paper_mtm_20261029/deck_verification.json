@@ -1,0 +1,24 @@
+{
+  "method": "Independent PDF text and coordinate extraction; compare every current table cell with audited MTM data.",
+  "slide_data_sha256": "ec179d44b20f7efd070cfec4cdd7562ea7d9984e338a5186de1a0561773e1fdc",
+  "decks": [
+    {
+      "pdf": "prendinger_brief.pdf",
+      "sha256": "baf8cdc8262e08d72de315747c9653ace27ea01b2b0337fb6e75d4b27e9674ce",
+      "pages": 15,
+      "numeric_table_cells_checked": 152,
+      "fallback_markers": 3,
+      "words_within_page": 1418,
+      "stale_current_metrics_absent": true
+    },
+    {
+      "pdf": "main.pdf",
+      "sha256": "a9dc6ee4a929fe26cee2f5df4fbbf5062b7315de7d32f33e066078157d869979",
+      "pages": 31,
+      "numeric_table_cells_checked": 152,
+      "fallback_markers": 3,
+      "words_within_page": 2970,
+      "stale_current_metrics_absent": true
+    }
+  ]
+}

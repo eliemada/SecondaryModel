@@ -1,0 +1,97 @@
+{
+  "source_host": "gpu8-pablo",
+  "downloaded_utc": "2026-10-29T07:48:48.898044+00:00",
+  "checkout_head": "5b61d0880a447dcc81b76169b6dbc59b2fd02276",
+  "files": [
+    {
+      "remote": "/home/pablo/M2_DS/SecondaryModel/src/Output/Analysis/Backtest_ExtendedTail/MTM/roi_ext_mtm.csv",
+      "local": "Output/Analysis/Backtest_ExtendedTail/MTM/roi_ext_mtm.csv",
+      "bytes": 29097,
+      "sha256": "ec70bf26808dc47b1886d79b3a9a95ac001aacdab2fb4fb21e609e7761821fb8"
+    },
+    {
+      "remote": "/home/pablo/M2_DS/SecondaryModel/src/Output/Analysis/Backtest_ExtendedTail/MTM/mtm_before_after_all.csv",
+      "local": "Output/Analysis/Backtest_ExtendedTail/MTM/mtm_before_after_all.csv",
+      "bytes": 89973,
+      "sha256": "ef73919738b912c1577f095b85235e5192e390ea67ae1891118e9ffebeadb8da"
+    },
+    {
+      "remote": "/home/pablo/M2_DS/SecondaryModel/src/Output/Analysis/Backtest_ExtendedTail/MTM/run_backtest_mtm_all.py",
+      "local": "Output/Analysis/Backtest_ExtendedTail/MTM/run_backtest_mtm_all.py",
+      "bytes": 3656,
+      "sha256": "4c804764c75c92d6b35cb44a8995ca63d2c62e3ed734ffc4bb808a46a2111e7f"
+    },
+    {
+      "remote": "/home/pablo/M2_DS/SecondaryModel/src/Utils/backtest/engine.py",
+      "local": "Utils/backtest/engine.py",
+      "bytes": 62024,
+      "sha256": "4d1470bace93d7cc9f36c3fd37fa49d84a2eb491cb9290801a061c968d098baf"
+    },
+    {
+      "remote": "/home/pablo/M2_DS/SecondaryModel/src/config.yaml",
+      "local": "config.yaml",
+      "bytes": 5853,
+      "sha256": "6fb4869198d67f20f54d218a11c71f9e4d5638805ae71e0840f93873b27c893d"
+    },
+    {
+      "remote": "/home/pablo/M2_DS/SecondaryModel/src/Output/Kronos/rf/UP/Utility_Score_NoCal/1d_tp/10_backtest_cash_trades.csv",
+      "local": "Output/Kronos/rf/UP/Utility_Score_NoCal/1d_tp/10_backtest_cash_trades.csv",
+      "bytes": 77257,
+      "sha256": "56f624f13f80dcf623541f696a994c5ec915dac5a62f36f504d881117049bf6b"
+    },
+    {
+      "remote": "/home/pablo/M2_DS/SecondaryModel/src/Output/Kronos/rf/DOWN/Utility_Score_NoCal/1d_tp/10_backtest_cash_trades.csv",
+      "local": "Output/Kronos/rf/DOWN/Utility_Score_NoCal/1d_tp/10_backtest_cash_trades.csv",
+      "bytes": 186997,
+      "sha256": "ecc7475d70df2796327efbb187b795a8cafa8dff0ddac5df81e13fb59fec0016"
+    },
+    {
+      "remote": "/home/pablo/M2_DS/SecondaryModel/src/Output/Kronos/tabpfn/UP/Utility_Score_NoCal/1d_tp/10_backtest_cash_trades.csv",
+      "local": "Output/Kronos/tabpfn/UP/Utility_Score_NoCal/1d_tp/10_backtest_cash_trades.csv",
+      "bytes": 73946,
+      "sha256": "17df7dc8171421620ae1b8e63771f919d9753fa86bc73b7e53bf4ea5140aaf7d"
+    },
+    {
+      "remote": "/home/pablo/M2_DS/SecondaryModel/src/Output/Kronos/tabpfn/DOWN/Utility_Score_NoCal/1d_tp/10_backtest_cash_trades.csv",
+      "local": "Output/Kronos/tabpfn/DOWN/Utility_Score_NoCal/1d_tp/10_backtest_cash_trades.csv",
+      "bytes": 187347,
+      "sha256": "24c4f5c699b52071c8915899cda21e020e36209bda2752dea348b76076b2e17b"
+    },
+    {
+      "remote": "/home/pablo/M2_DS/SecondaryModel/src/Output/Kronos/autogluon/UP/Utility_Score_NoCal/1d_tp/10_backtest_cash_trades.csv",
+      "local": "Output/Kronos/autogluon/UP/Utility_Score_NoCal/1d_tp/10_backtest_cash_trades.csv",
+      "bytes": 77481,
+      "sha256": "0eea3ce7dff7eb2087103dc973db501a391a89d0a1b9d9a2eef1bd3afdbfe0db"
+    },
+    {
+      "remote": "/home/pablo/M2_DS/SecondaryModel/src/Output/Kronos/autogluon/DOWN/Utility_Score_NoCal/1d_tp/10_backtest_cash_trades.csv",
+      "local": "Output/Kronos/autogluon/DOWN/Utility_Score_NoCal/1d_tp/10_backtest_cash_trades.csv",
+      "bytes": 188131,
+      "sha256": "52a5d7c4d8f2b028b11802f39514b34dd29b1d5c7a7cbadf2ac4585b9623e351"
+    },
+    {
+      "remote": "/home/pablo/M2_DS/SecondaryModel/src/Output/Kronos/tabicl/UP/Utility_Score_NoCal/1d_tp/10_backtest_cash_trades.csv",
+      "local": "Output/Kronos/tabicl/UP/Utility_Score_NoCal/1d_tp/10_backtest_cash_trades.csv",
+      "bytes": 75955,
+      "sha256": "8162f866212f5162c42cdad7c376676f179091a17fead15c9f6c23857c363f16"
+    },
+    {
+      "remote": "/home/pablo/M2_DS/SecondaryModel/src/Output/Kronos/tabicl/DOWN/Utility_Score_NoCal/1d_tp/10_backtest_cash_trades.csv",
+      "local": "Output/Kronos/tabicl/DOWN/Utility_Score_NoCal/1d_tp/10_backtest_cash_trades.csv",
+      "bytes": 187473,
+      "sha256": "b5de06c1d897e49869feebdfbc48adeca33fc1dd21ef67d22b45ee928d2ebf91"
+    },
+    {
+      "remote": "/home/pablo/M2_DS/SecondaryModel/src/Output/Kronos/ctts/UP/Utility_Score_NoCal/1d_tp/10_backtest_cash_trades.csv",
+      "local": "Output/Kronos/ctts/UP/Utility_Score_NoCal/1d_tp/10_backtest_cash_trades.csv",
+      "bytes": 76256,
+      "sha256": "59c7a8899df3ea3553bf305ba1b6d05d81e05149d9024b084d9510a0b1969472"
+    },
+    {
+      "remote": "/home/pablo/M2_DS/SecondaryModel/src/Output/Kronos/ctts/DOWN/Utility_Score_NoCal/1d_tp/10_backtest_cash_trades.csv",
+      "local": "Output/Kronos/ctts/DOWN/Utility_Score_NoCal/1d_tp/10_backtest_cash_trades.csv",
+      "bytes": 195796,
+      "sha256": "b7156d64ab9f2038ec97a08b688577241979288f961a6e8a02febf34e69118c7"
+    }
+  ]
+}
