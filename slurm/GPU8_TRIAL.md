@@ -75,14 +75,32 @@ The replacement is `gpu8-targets-20261028-104504`:
 - Training array: 3233491.
 - Report: 3233492.
 
-At the publication snapshot, this replacement is queued and has no completed M2
-fits. The earlier-date 24-fit experiment is complete and includes Kumo; it is
-documented separately in the historical presentation. Submission records are
-under `slurm/runs/`; live logs, caches and outputs are excluded from Git.
+The replacement's preparation, all 12 array tasks (two directions each), and report
+completed successfully. All **24 fits** and 641 artifact files were downloaded on
+2026-10-28 at 17:05 UTC. Results were reviewed on **2026-10-29**. The earlier-date
+24-fit experiment is documented separately in the historical presentation.
+Submission and completion records are under `slurm/runs/`; live logs, caches and
+raw outputs are excluded from Git.
 
 Validation before publication: **89 local tests passed**, Ruff passed for the
 added experiment code, and the earlier preparation's GPU learner smoke checks
-passed. No new M2 performance is inferred from those checks.
+passed. A separate review of completed results replays all 144 M1/M2 return,
+drawdown and Sharpe values within 0.0001; checks frozen source, daily input and
+generated-label hashes; checks realized trade and feature parity; and verifies
+the cluster comparison table. The saved CSV's `return_pct / 100` preserves more
+precision than its six-decimal fractional-return column; both are cross-checked.
+
+To reproduce that review with the local dataset and downloaded run present:
+
+```sh
+.venv/bin/python slurm/review_gpu8_results.py --output report/triple_barrier/pilot_results/gpu8_target_trial/gpu8-targets-20261028-104504
+```
+
+AutoGluon DOWN k=0.5 scores 1.8216: +1.4831 versus its fresh TP fit, +0.3695 versus
+the matched TB reference. All UP scores remain negative; Kumo's volatility-barrier
+targets do not beat its TP in either direction. Full results, fallback-threshold
+flags and both delta definitions accompany the slides. New TP fits differ from
+Pablo's saved M2 models, although the baseline, data and configured settings match.
 
 The current and historical presentation PDFs are linked from
 [`report/triple_barrier/README.md`](../report/triple_barrier/README.md).

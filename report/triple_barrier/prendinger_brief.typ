@@ -19,7 +19,7 @@
     ("Scope", [SecondaryModel's own 20 assets · daily candles · 7-day maximum holding period]),
     ("Evidence", [Training diagnostics · verified M1 baseline · Pablo's saved M2 reference]),
     ("Prepared", [22 October 2026 · short discussion for next week]),
-    ("Update", [28 October 2026 · UP M1 Sharpe #metric(current-up.stats.m1_sharpe, digits: 4) · new M2 comparison pending]),
+    ("Update", [29 October 2026 · UP M1 Sharpe #metric(current-up.stats.m1_sharpe, digits: 4) · 24 / 24 M2 fits complete]),
   ),
 )
 

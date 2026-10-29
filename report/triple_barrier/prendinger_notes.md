@@ -1,10 +1,16 @@
 # Discussion avec le professeur Prendinger — notes et résultats du test original
 
-Préparation : 22 octobre 2026. Présentation en anglais, notes de préparation en français. Durée cible : 8 à 10 minutes.
+Préparation : 22 octobre 2026 ; résultats mis à jour le 29 octobre. Présentation en anglais, notes de préparation en français.
 
 ## La proposition
 
-Présenter un diagnostic concret de la définition des labels, le baseline GPU8 reproduit et le prochain test de M2. Les diagnostics initiaux ne nécessitent aucun entraînement. La slide finale montre la matrice AutoGluon / Kumo × target × direction en attente, avec le baseline UP négatif −2,5744. L'ancienne matrice positive en UP est conservée séparément dans `earlier_target_trial.pdf`, sur son Test 2025-10-09–2026-01-18.
+Présenter le diagnostic des labels, le baseline GPU8 reproduit, puis les **24 résultats M2 terminés**. Les slides 12–14 montrent les Sharpes, les deltas contre TP et les deltas contre TB ref. Le baseline UP reste négatif : −2,5744. L'ancienne matrice positive en UP est conservée dans `earlier_target_trial.pdf`, sur son Test 2025-10-09–2026-01-18.
+
+Résultat principal sur le Test **2026-01-08–2026-07-18** : AutoGluon DOWN à k=0,5 atteint 1,8216 de Sharpe, soit +1,4831 contre son nouveau TP, mais seulement +0,3695 contre TB ref à éligibilité identique. Le drawdown est plus profond : −26,55 %, contre −13,95 % pour TB ref. Aucun TB-k ne dépasse le TP en UP ; les quatre TB-k de Kumo sont également sous son TP en DOWN. Kumo DOWN TB ref obtient 2,0008 ; ce contrôle conserve les labels TP.
+
+Les 77 observations TON retirées de l'entraînement (13 UP, 64 DOWN) expliquent pourquoi le delta contre TP ne mesure pas uniquement le changement de label. Les trades Test réalisés sont identiques. Deux cellules AutoGluon UP (TB ref et k=1) utilisent le seuil de repli 0,5 : la contrainte d'utilité n'a pas été satisfaite. Les nouvelles performances TP ne reproduisent pas exactement les anciens modèles de Pablo ; comparer les targets aux nouveaux TP de ce même run.
+
+Les 144 métriques M1/M2 ont été rejouées depuis les CSV, avec un écart inférieur à 0,0001. Une exécution par cellule, 27 observations hebdomadaires, Test déjà inspecté : résultat exploratoire, pas de sélection d'un k optimal ni de preuve de significativité. L'exécution reste fixée au jour 7. Les notes méthodologiques ci-dessous conservent le contexte des diagnostics initiaux.
 
 Conserver pour ce premier test les bougies OHLC journalières actuelles, les sorties de Kronos déjà calculées, les mêmes features et un horizon maximum de 7 bougies. Changer le label n'impose ni une nouvelle représentation des bougies ni un réentraînement de M1.
 
@@ -137,7 +143,7 @@ Références : AFML §§3.3–3.7, ch. 7 et ch. 11 ; [travaux de López de Prado
 
 ## Quatre slides d'ouverture — Dates, baseline vérifié, valorisation et référence GPU8
 
-Après la couverture, les pages 2 à 5 montrent successivement les périodes exactes, les résultats M1 reproduits, les trois conventions de calcul du portefeuille et les résultats M2 sauvegardés de Pablo. La couverture et la slide de baseline affichent le Sharpe UP −2,5744 ; la colonne UP du tableau de Pablo est mise en évidence. La nouvelle comparaison M2 reste en attente. Les 24 fits de l'ancien essai ont leur propre PDF historique.
+Après la couverture, les pages 2 à 5 montrent successivement les périodes exactes, les résultats M1 reproduits, les trois conventions de calcul du portefeuille et les résultats M2 sauvegardés de Pablo. La couverture et la slide de baseline affichent le Sharpe UP −2,5744 ; la colonne UP du tableau de Pablo est mise en évidence. La nouvelle comparaison M2 est terminée : 24 / 24 fits, avec les deltas sur les slides finales. Les 24 fits de l'ancien essai ont leur propre PDF historique.
 
 La configuration locale reprend désormais celle observée sur GPU8, seuls les chemins de fichiers étant adaptés : début 2024-07-01, fin train 2025-08-31, fin validation 2025-12-31, fin des données 2026-08-01. Les 280 CSV TP sont identiques octet par octet à GPU8. Cela ne transforme pas les résultats du précédent run en résultats de ce nouveau protocole.
 
@@ -147,7 +153,7 @@ Les huit résultats 1d TP de Pablo (AutoGluon, CTTS, TabPFN, TabICL, UP/DOWN) on
 
 Le « −45 % » correspond notamment au drawdown M1 UP du rapport cash-account : rendement −43,60 %, drawdown −45,35 %. Le rapport spread-equity, sur les mêmes dates, donne rendement −54,2478 % et Sharpe −2,5744. Nommer le moteur et la métrique à chaque comparaison.
 
-La reproduction de l'entraînement reste à vérifier. L'ancien essai Izar utilisait `9a272f5` et ignorait LightGBM faute de dépendance. La nouvelle copie isolée utilise le commit GPU8 `5b61d08` et les versions principales observées chez Pablo, avec LightGBM disponible. La préparation corrigée puis les fits sont soumis ; les nouveaux résultats M2 sont en attente. Les sorties de référence sont dans `pilot_results/gpu8_reference_5b61d08/`, et leur replay spread est reproductible avec `analysis/replay_gpu8_reference.py`.
+La reproduction de l'entraînement reste à vérifier. L'ancien essai Izar utilisait `9a272f5` et ignorait LightGBM faute de dépendance. La nouvelle copie isolée utilise le commit GPU8 `5b61d08` et les versions principales observées chez Pablo, avec LightGBM disponible. La préparation corrigée, les 24 fits et le rapport sont terminés. Les nouveaux TP diffèrent numériquement des anciens M2 de Pablo ; les deltas utilisent les contrôles du nouveau run. Les sorties de référence sont dans `pilot_results/gpu8_reference_5b61d08/`, et leur replay spread est reproductible avec `analysis/replay_gpu8_reference.py`.
 
 ## Slides finales — Le test réellement lancé
 
@@ -180,16 +186,16 @@ Le premier essai choisissait le seuil et mesurait sa performance sur Val-Cal + V
 
 Le graphique ancien fondé sur `pilot_results/selection.csv`, avec M1 UP = 4,03, est conservé comme archive et n'est plus présenté. Ses conclusions « aucun mode ne bat M1 » et « k = 0,5 est le pire » ne sont pas transférées au Test original. Le Test a été inspecté ; on ne le présente plus comme scellé.
 
-## État, provenance et reconstruction
+## Essai historique : état, provenance et reconstruction
 
 Les quatre fits TP ont terminé dans le job `3232534` (tâches 10 et 11). Les dix tâches TB ont échoué avant entraînement parce que leur chemin ne contenait pas `Kronos`, exigé par le chargeur original. Un alias du même dossier généré corrige le chemin ; les caches déjà préparés sont réutilisés explicitement. Aucune modification des données, des targets ou de la pipeline ne découle de cette correction.
 
-Relance TB : job `3232691` (20 fits), rapport : `3232692` ; les deux ont terminé avec succès. Les chiffres à citer sont ceux des fichiers générés :
+Relance TB : job `3232691` (20 fits), rapport : `3232692` ; les deux ont terminé avec succès. Pour cet ancien Test uniquement, les chiffres sont dans les fichiers suivants :
 
 - `pilot_results/original_test/slide_data.json` : effectifs reçus, cellules manquantes, dates, baseline et résultats.
 - `pilot_results/original_test/experiment_test.csv` et `.md` : tous les résultats reçus et différences par rapport à TB ref et au TP original, avec les comptes d’entraînement.
 - `pilot_results/original_test/provenance.json` : manifeste, configuration, empreintes des résultats.
-- `figures/target_trial_sharpe_matrix.svg` : matrice ; « pending » n'est pas zéro.
+- `figures/target_trial_sharpe_matrix.svg` : matrice historique complète.
 - `target_trial_slides.typ` : trois slides historiques, désormais utilisées dans `earlier_target_trial.pdf` et retirées des deux présentations courantes.
 
 Les figures initiales de labels restent dans `analysis/out/brief_fit20_*`. Leur nom historique ne signifie plus que le filtre `fit20` a été utilisé : l'univers est celui de SecondaryModel, avec TON absent du parquet diagnostique.

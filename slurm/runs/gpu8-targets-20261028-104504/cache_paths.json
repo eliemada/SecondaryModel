@@ -1,0 +1,62 @@
+{
+  "tp": {
+    "up": {
+      "path": "Output_gpu8match/gpu8-targets-20261028-104504/tp/Kronos/cache/multi_kronos_7_fee_up_d77d6ac723.pt",
+      "sha256": "e4eb432eff4e55de9164b35cf48c546f2d2d3adabc45adb367418e66433af59a"
+    },
+    "down": {
+      "path": "Output_gpu8match/gpu8-targets-20261028-104504/tp/Kronos/cache/multi_kronos_7_fee_down_6b37972f5c.pt",
+      "sha256": "98c7f7776f785c11547cc44d3cc8ec67e8aa8821e6a07c1a2359ad3508d695dc"
+    }
+  },
+  "tb_ref": {
+    "up": {
+      "path": "Output_gpu8match/gpu8-targets-20261028-104504/tb_ref/Kronos/cache/multi_kronos_7_fee_up_3c3ac627cc.pt",
+      "sha256": "6c48bc0d14a100580fc3192da1dc731f76fb7d95e61c2ecd854110f69c774a42"
+    },
+    "down": {
+      "path": "Output_gpu8match/gpu8-targets-20261028-104504/tb_ref/Kronos/cache/multi_kronos_7_fee_down_4e02994e09.pt",
+      "sha256": "5793e9ecbae28773d2df2888fe5c795e383ed81f91244e319177b382f647f32b"
+    }
+  },
+  "tb_k050": {
+    "up": {
+      "path": "Output_gpu8match/gpu8-targets-20261028-104504/tb_k050/Kronos/cache/multi_kronos_7_fee_up_264bdb56b0.pt",
+      "sha256": "c975e82d3920905102b91fd00d4613793579389e4896086dbdf90b8862c8b9e6"
+    },
+    "down": {
+      "path": "Output_gpu8match/gpu8-targets-20261028-104504/tb_k050/Kronos/cache/multi_kronos_7_fee_down_d484cd97b9.pt",
+      "sha256": "293101ec9b12b525aefa65c184b9e1cffc5354615e36dad8aad11bf3a8125f0e"
+    }
+  },
+  "tb_k100": {
+    "up": {
+      "path": "Output_gpu8match/gpu8-targets-20261028-104504/tb_k100/Kronos/cache/multi_kronos_7_fee_up_a11b8f5938.pt",
+      "sha256": "f1270d6fd368524839c34cd277b909d37df874afd2e01c51c23342e89a06d794"
+    },
+    "down": {
+      "path": "Output_gpu8match/gpu8-targets-20261028-104504/tb_k100/Kronos/cache/multi_kronos_7_fee_down_cbe750f3b7.pt",
+      "sha256": "fdecc6f42f4321a384304bc011eb3b256374e0ad37e984f6902531cc7a92adce"
+    }
+  },
+  "tb_k150": {
+    "up": {
+      "path": "Output_gpu8match/gpu8-targets-20261028-104504/tb_k150/Kronos/cache/multi_kronos_7_fee_up_9c578b55ad.pt",
+      "sha256": "35e13b92de19f11dec9e5f824acc32cc4578af6ff75aa5e49d991f2e87323bbb"
+    },
+    "down": {
+      "path": "Output_gpu8match/gpu8-targets-20261028-104504/tb_k150/Kronos/cache/multi_kronos_7_fee_down_4700447daa.pt",
+      "sha256": "091cce9bc0bd7e344a6a248d84e395898fabee9ddfecb15f24aceac2455d0143"
+    }
+  },
+  "tb_k200": {
+    "up": {
+      "path": "Output_gpu8match/gpu8-targets-20261028-104504/tb_k200/Kronos/cache/multi_kronos_7_fee_up_20e18b9ec2.pt",
+      "sha256": "854a3de062c273c5cff334c2bf8929fe3fcd8997752372b5315f8ad416bc3ee4"
+    },
+    "down": {
+      "path": "Output_gpu8match/gpu8-targets-20261028-104504/tb_k200/Kronos/cache/multi_kronos_7_fee_down_4569ca0835.pt",
+      "sha256": "10c0a8131f6f9cad8d9c5a39cd47becb8087119ba3180bb1fda1da9d4921d1be"
+    }
+  }
+}

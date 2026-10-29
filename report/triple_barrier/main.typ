@@ -15,7 +15,7 @@
   meta: (
     ("Author", [Elie Bruno · NII Tokyo]),
     ("Reading", [López de Prado · Advances in Financial Machine Learning · Chapter 3]),
-    ("Update", [28 October 2026 · UP M1 Sharpe #metric(current-up.stats.m1_sharpe, digits: 4) · new M2 comparison pending]),
+    ("Update", [29 October 2026 · UP M1 Sharpe #metric(current-up.stats.m1_sharpe, digits: 4) · 24 / 24 M2 fits complete]),
   ),
 )
 
